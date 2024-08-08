@@ -1,0 +1,42 @@
+name: ML CI/CD Pipeline
+
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install tensorflow mlflow
+
+      - name: Run Unit Tests
+        run: |
+          python -m unittest discover
+
+      - name: Train Model and Log Metrics
+        run: |
+          python train.py
+          # Beispielbefehl: MLflow zum Loggen verwenden
+          mlflow run . -P epochs=5
+
+      - name: Save Model Artifacts
+        run: |
+          mkdir -p ./models
+          mv model.h5 ./models/
+        # Beispiel: GitHub-Artefakte verwenden
+        with:
+          path: ./models/model.h5
