@@ -1,12 +1,7 @@
-name: Train and Save Model
+name: Model training and evaluation
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  workflow_dispatch:
 
 jobs:
   train-model:
