@@ -1,7 +1,7 @@
-import tensorflow as tf
-print("TensorFlow version:", tf.__version__)
-import certifi
 import os
+import tensorflow as tf
+import certifi
+print("TensorFlow version:", tf.__version__)
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
