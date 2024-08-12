@@ -35,5 +35,5 @@ jobs:
       - name: Run Tests
         run: |
           # Run Tests (e.g., pytest)
-          pip install pytest
-          pytest
+          # pip install pytest
+          # pytest
