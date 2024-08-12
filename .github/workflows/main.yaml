@@ -1,42 +1,42 @@
-name: ML CI/CD Pipeline
+name: Train and Save Model
 
 on:
   push:
-    branches: 
+    branches:
+      - main
+  pull_request:
+    branches:
       - main
 
 jobs:
-  build:
+  train-model:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.9
 
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Python environment
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      # Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install tensorflow mlflow
 
-      - name: Run Unit Tests
+      # Run the Python script to train the model
+      - name: Train the model
         run: |
-          python -m unittest discover
+          python src/train_model.py
 
-      - name: Train Model and Log Metrics
-        run: |
-          python train.py
-          # Beispielbefehl: MLflow zum Loggen verwenden
-          mlflow run . -P epochs=5
-
-      - name: Save Model Artifacts
-        run: |
-          mkdir -p ./models
-          mv model.h5 ./models/
-        # Beispiel: GitHub-Artefakte verwenden
+      # Upload the trained model as an artifact
+      - name: Upload Model Artifact
+        uses: actions/upload-artifact@v3
         with:
-          path: ./models/model.h5
+          name: trained-model
+          path: model.h5
