@@ -2,9 +2,13 @@ import mlflow
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import load_diabetes
 from sklearn.ensemble import RandomForestRegressor
+from datetime import datetime
+
+timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+experiment_name = f"experiment_{timestamp}"
 
 # set the experiment id
-mlflow.set_experiment(experiment_id="0")
+mlflow.set_experiment(experiment_name)
 
 mlflow.autolog()
 db = load_diabetes()
