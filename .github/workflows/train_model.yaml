@@ -42,5 +42,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           pip install awscli
-          s3_bucket="s3://mlops-research/mlflow"
+          s3_bucket="s3://mlops-research/mlflow/mlruns"
           aws s3 sync ./mlruns $s3_bucket
