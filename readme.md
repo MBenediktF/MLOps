@@ -1,4 +1,4 @@
-# How to start the mlfluw ui
+# How to start the mlflow ui
 
 - Create a classic personal access token in your github developer settings (it only needs the read packages permission) and paste it to .env
 - Run 'make setiup_mlflow_ui' to setup the docker container
