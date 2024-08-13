@@ -28,6 +28,9 @@ start_mlflow_ui:
 	fi
 	@echo "MLflow UI is running at http://localhost:4444"
 
+refresh_mlflow_ui:
+	@docker restart mlflow_ui
+
 stop_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
 	@docker stop mlflow_ui
