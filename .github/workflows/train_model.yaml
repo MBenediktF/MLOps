@@ -27,7 +27,7 @@ jobs:
       # Run the Python script to train the model
       - name: Train the model
         run: |
-          python src/train_model.py
+          python src/mlflow_test.py
 
       # Upload the trained model as an artifact
       - name: Upload Model Artifact
@@ -35,3 +35,12 @@ jobs:
         with:
           name: trained-model
           path: model.h5
+
+      - name: Upload MLflow data to S3
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          pip install awscli
+          s3_bucket="s3://mlops-research/mlflow"
+          aws s3 sync ./mlruns $s3_bucket
