@@ -1,0 +1,36 @@
+name: Build and Publish Docker Image
+
+on:
+  push:
+    branches:
+      - main  # Der Workflow wird bei einem Push auf den main-Branch ausgelöst
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}  # Token wird automatisch bereitgestellt
+
+      - name: Install Make
+        run: sudo apt-get install -y make
+
+      - name: Build Docker image
+        run: make build_mlflow_ui_container
+
+      - name: Tag Docker image
+        run: |
+          docker tag my-image:latest ghcr.io/${{ github.repository }}/my-image:latest
+
+      - name: Push Docker image
+        run: docker push ghcr.io/${{ github.repository }}/my-image:latest
