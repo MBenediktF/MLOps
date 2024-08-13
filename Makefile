@@ -24,7 +24,7 @@ start_mlflow_ui:
 		fi \
 	else \
 		echo "Creating and starting a new container ..."; \
-		docker run -e AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) -e AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) -e BUCKET_NAME=$(NUCKET_NAME)  -d -p 4444:5000 --name mlflow_ui mlflow_ui_s3; \
+		docker run -e AWS_ACCESS_KEY_ID=$(AWS_ACCESS_KEY_ID) -e AWS_SECRET_ACCESS_KEY=$(AWS_SECRET_ACCESS_KEY) -e BUCKET_NAME=$(BUCKET_NAME)  -d -p 4444:5000 --name mlflow_ui ghcr.io/bosch-devopsuplift/mlflow_ui_s3:main; \
 	fi
 	@echo "MLflow UI is running at http://localhost:4444"
 
