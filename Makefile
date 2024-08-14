@@ -22,15 +22,23 @@ start_mlflow_ui:
 	fi
 	@echo "MLflow UI is running at http://localhost:4444"
 
-refresh_mlflow_ui:
-	@docker restart mlflow_ui
+sync_mlflow_ui:
+	@docker exec mlflow_ui ./sync.sh
 
 stop_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
+	@echo "Syncing the data to S3..."
+	@docker exec mlflow_ui ./sync.sh
+	@echo "Stopping container mlflow_ui..."
 	@docker stop mlflow_ui
+	@echo "Container mlflow_ui stopped."
 
 remove_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
+	@echo "Stopping container if running..."
 	@docker stop mlflow_ui || true
+	@echo "Removing container..."
 	@docker rm mlflow_ui || true
+	@echo "Removing image..."
 	@docker rmi mlflow_ui_s3 || true
+	@echo "Container and image removed."
