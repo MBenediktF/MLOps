@@ -12,6 +12,7 @@ start_mlflow_ui:
 	@if docker ps -a --format '{{.Names}}' | grep -w mlflow_ui > /dev/null; then \
 		if docker ps --format '{{.Names}}' | grep -w mlflow_ui > /dev/null; then \
 			echo "Container mlflow_ui is already running."; \
+			exit 1; \
 		else \
 			echo "Starting existing container mlflow_ui..."; \
 			docker start mlflow_ui; \
@@ -23,20 +24,22 @@ start_mlflow_ui:
 	@echo "MLflow UI is running at http://localhost:4444"
 
 sync_mlflow_ui:
-	@docker exec mlflow_ui ./sync.sh
+	@docker exec mlflow_ui /sync.sh
 
 stop_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
 	@echo "Syncing the data to S3..."
-	@docker exec mlflow_ui ./sync.sh
+	@docker exec mlflow_ui /sync.sh
 	@echo "Stopping container mlflow_ui..."
 	@docker stop mlflow_ui
 	@echo "Container mlflow_ui stopped."
 
 remove_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
-	@echo "Stopping container if running..."
-	@docker stop mlflow_ui || true
+	@if docker ps --format '{{.Names}}' | grep -w mlflow_ui > /dev/null; then \
+		echo "Container mlflow_ui is still running. Please stop the container before removing it."; \
+		exit 1; \
+	fi
 	@echo "Removing container..."
 	@docker rm mlflow_ui || true
 	@echo "Removing image..."
