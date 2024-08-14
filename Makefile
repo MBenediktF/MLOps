@@ -1,18 +1,15 @@
 include .env
 
-setup_mlflow_ui:
+start_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
 	@echo "Logging in to GitHub Container Registry..."
 	@echo $(GHCR_PERSONAL_ACCESS_TOKEN) | docker login ghcr.io -u USERNAME --password-stdin
-	@echo "Grabbing the container package..."
-	@docker pull ghcr.io/bosch-devopsuplift/mlflow_ui_s3:main
-
-start_mlflow_ui:
-	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
+	@echo "Downloading/Checking image..."
+	@docker pull --quiet ghcr.io/bosch-devopsuplift/mlflow_ui_s3:main
 	@if docker ps -a --format '{{.Names}}' | grep -w mlflow_ui > /dev/null; then \
 		if docker ps --format '{{.Names}}' | grep -w mlflow_ui > /dev/null; then \
 			echo "Container mlflow_ui is already running."; \
-			exit 1; \
+			exit 0; \
 		else \
 			echo "Starting existing container mlflow_ui..."; \
 			docker start mlflow_ui; \
@@ -28,6 +25,10 @@ sync_mlflow_ui:
 
 stop_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
+	@if ! docker ps --format '{{.Names}}' | grep -w mlflow_ui > /dev/null; then \
+		echo "Container mlflow_ui is not running."; \
+		exit 1; \
+	fi
 	@echo "Syncing the data to S3..."
 	@docker exec mlflow_ui /sync.sh
 	@echo "Stopping container mlflow_ui..."
