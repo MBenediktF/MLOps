@@ -1,11 +1,5 @@
 include .env
 
-build_mlflow_ui_container:
-	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
-	@docker build -t mlflow_s3_sync_image -f mlflow/Dockerfile mlflow
-	@docker save -o mlflow/mlflow_s3_sync_image.tar mlflow_s3_sync_image
-	@docker rmi mlflow_s3_sync_image
-
 setup_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
 	@echo "Logging in to GitHub Container Registry..."
