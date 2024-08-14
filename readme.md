@@ -4,7 +4,7 @@
 - Run 'make setiup_mlflow_ui' to setup the docker container
 - Add the aws key id and secrret and the bucket name to the .env file
 - Run 'make start_mlflow_ui' to start the docker container
-- Reun 'refresh_mlflow_ui' to sync your local files with the database
+- Run 'refresh_mlflow_ui' to sync your local files with the database
 - Access the mlflow ui at localhost:4444
 - Run 'make stop_mlflow_ui' to stop the docker container
 - Run 'make 'remove_mlflow_ui' to delete the docker container and the image
