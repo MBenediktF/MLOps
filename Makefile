@@ -4,7 +4,7 @@ export $(shell sed 's/=.*//' .env)
 start_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
 	@echo "Logging in to GitHub Container Registry..."
-	@echo $(GHCR_PERSONAL_ACCESS_TOKEN) | docker login ghcr.io -u USERNAME --password-stdin
+	@echo $(GH_PERSONAL_ACCESS_TOKEN) | docker login ghcr.io -u USERNAME --password-stdin
 	@echo "Downloading/Checking image..."
 	@docker pull --quiet ghcr.io/bosch-devopsuplift/mlflow_ui_s3:main
 	@if docker ps -a --format '{{.Names}}' | grep -w mlflow_ui > /dev/null; then \
@@ -68,7 +68,7 @@ upload_datasets:
 start_model_deployment:
 	@curl -X POST \
 		-H "Accept: application/vnd.github+json" \
-		-H "Authorization: token ${GHCR_PERSONAL_ACCESS_TOKEN}" \
+		-H "Authorization: token ${GH_PERSONAL_ACCESS_TOKEN}" \
 		https://api.github.com/repos/bosch-devopsuplift/sb.mlops_research/actions/workflows/deploy_model.yaml/dispatches \
   		-d '{"ref":"main"}'
 	@echo "Model deployment started. Please check the Actions tab in the repository for status and approval."
