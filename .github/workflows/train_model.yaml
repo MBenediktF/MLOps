@@ -32,8 +32,6 @@ jobs:
           AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
           BUCKET_NAME: ${{ vars.BUCKET_NAME }}
         run: |
-          printenv
-          echo "BUCKET_NAME=${{ secrets.BUCKET_NAME }}"
           python src/read_from_s3_file.py
 
       # Run the Python script to train the model
