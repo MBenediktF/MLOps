@@ -24,13 +24,23 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      # Check the dataset download
+      - name: Download dataset
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
+          BUCKET_NAME: ${{ vars.BUCKET_NAME }}
+        run: |
+          python src/read_from_s3_file.py
+
       # Run the Python script to train the model
       - name: Train the model
         run: |
-          python src/mlflow_test.py
+          python src/train_model_mlflow.py
 
-      # Upload the trained model as an artifact
-      - name: Upload Model Artifact
+      # Upload the trained model as an artifact to github
+      - name: Upload Model Artifact to Github
         uses: actions/upload-artifact@v3
         with:
           name: trained-model

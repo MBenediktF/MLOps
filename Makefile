@@ -1,4 +1,5 @@
 include .env
+export $(shell sed 's/=.*//' .env)
 
 start_mlflow_ui:
 	@docker info > /dev/null 2>&1 || (echo "Docker is not running. Please start Docker." && exit 1)
@@ -46,3 +47,20 @@ remove_mlflow_ui:
 	@echo "Removing image..."
 	@docker rmi mlflow_ui_s3 || true
 	@echo "Container and image removed."
+
+download_datasets:
+	@aws s3 sync s3://${BUCKET_NAME}/datasets datasets --exact-timestamps
+
+download_dataset:
+	@if [ -z "$(NAME)" ]; then \
+		echo "Error: Please specify the dataset name or use download_datasets."; \
+		exit 1; \
+	fi
+	@aws s3 ls s3://${BUCKET_NAME}/datasets/$(NAME)/ > /dev/null 2>&1 || { \
+		echo "Error: The dataset '$(NAME)' does not exist in s3://${BUCKET_NAME}/datasets/"; \
+		exit 1; \
+	}
+	@aws s3 sync s3://${BUCKET_NAME}/datasets/$(NAME) datasets/$(NAME) --exact-timestamps
+
+upload_datasets:
+	@aws s3 sync datasets s3://${BUCKET_NAME}/datasets --exact-timestamps
