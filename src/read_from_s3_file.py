@@ -18,7 +18,7 @@ def get_file_content_from_s3(bucket_name, path):
 
 if __name__ == "__main__":
     # Name des Buckets aus der Umgebungsvariable abrufen
-    bucket_name = os.environ.get('BUCKET_NAME')
+    bucket_name = os.getenv('BUCKET_NAME')
     print(f"BUCKET_NAME is set to: {bucket_name}")
 
     if not bucket_name:
