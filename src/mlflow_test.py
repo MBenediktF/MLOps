@@ -21,3 +21,11 @@ rf.fit(X_train, y_train)
 
 # Use the model to make predictions on the test dataset.
 predictions = rf.predict(X_test)
+
+# Modell als Artefakt loggen
+model_path = 'model.h5'
+rf.save(model_path)
+mlflow.log_artifact(model_path)
+
+# TensorFlow-Modell als MLflow-Artifact loggen (kann besser von MLFlow gelesen und angezeigt werden)
+mlflow.tensorflow.log_model(rf, "model")
