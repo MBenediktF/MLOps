@@ -21,6 +21,7 @@ jobs:
 
   deploy-model:
     environment: production
+    needs: test-model
     runs-on: ubuntu-latest
 
     steps:
