@@ -1,3 +1,4 @@
 mlruns
-mlflow/*.tar
 .env
+datasets
+.vscode
