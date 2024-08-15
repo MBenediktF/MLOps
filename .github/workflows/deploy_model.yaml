@@ -4,6 +4,8 @@ on:
   repository_dispatch:
     types: [deplay_model]
 
+  workflow_dispatch:
+
 jobs:
   train-model:
     environment: production
