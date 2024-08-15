@@ -1,4 +1,4 @@
-name: Model training and evaluation
+name: Model deployment
 
 on:
   repository_dispatch:
