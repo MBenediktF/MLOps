@@ -21,7 +21,16 @@
 
 ## How to deploy a model
 
-- This is not finished yet!
 - Your github token must be configured to allow repo and workflow access
-- Run `make start_mnodel_deployment`to start the workflow
-- Check the workflow status in github action for approval
+- Run `make deploy_to_development`to start the workflow (no protection rules)
+- Run `make deploy_to_production`to start the workflow (approval required, deployment is only allowed from `main`)
+- Check the workflow status in github actions
+
+### How to configure a new environment
+
+- Open the environment configuration
+- Click `New Environment`
+- Enter a name (lower key preferred)
+- Configure potection rules
+- Set the environment secrets `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
+- Set the environment variables `ÀWS_DEFAULT_REGION` and `BUCKET_NAME` to configure the S3 connection
