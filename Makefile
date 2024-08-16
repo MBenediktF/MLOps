@@ -80,3 +80,19 @@ deploy_to_production:
 		https://api.github.com/repos/bosch-devopsuplift/sb.mlops_research/actions/workflows/deploy_to_production.yaml/dispatches \
   		-d "{\"ref\":\"main\", \"inputs\":{\"name\":\"${NAME}\",\"version\":\"$$VERSION\"}}"; \
 	echo "Model deployment started. Please check the Actions tab in the repository for status and approval."
+
+	deploy_to_development:
+	@if [ -z "$(NAME)" ]; then \
+		echo "Error: Please specify the model name."; \
+		exit 1; \
+	fi
+	@if [ -z "$(VERSION)" ]; then \
+		echo "No version specified, using the newest one."; \
+		VERSION="latest"; \
+	fi; \
+	curl -X POST \
+		-H "Accept: application/vnd.github+json" \
+		-H "Authorization: token ${GH_PERSONAL_ACCESS_TOKEN}" \
+		https://api.github.com/repos/bosch-devopsuplift/sb.mlops_research/actions/workflows/deploy_to_development.yaml/dispatches \
+  		-d "{\"ref\":\"main\", \"inputs\":{\"name\":\"${NAME}\",\"version\":\"$$VERSION\"}}"; \
+	echo "Model deployment started. Please check the Actions tab in the repository for status and approval."
