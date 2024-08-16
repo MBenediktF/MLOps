@@ -1,10 +1,17 @@
 name: Model deployment
 
 on:
-  repository_dispatch:
-    types: [deplay_model]
-
   workflow_dispatch:
+    inputs:
+        name:
+          description: 'The name of the model to deploy'
+          required: true
+        version:
+          description: 'The version of the model to deploy'
+          required: true
+        environment:
+          description: 'The environment to deploy to'
+          required: true
 
 jobs:
   test-model:
