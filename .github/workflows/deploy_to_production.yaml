@@ -1,0 +1,74 @@
+name: Model deployment to production
+
+on:
+  workflow_dispatch:
+    inputs:
+        name:
+          description: 'The name of the model to deploy'
+          required: true
+        version:
+          description: 'The version of the model to deploy'
+          required: true
+
+jobs:
+  test-model:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Print a message
+      - name: Print a message
+        run: |
+          echo "Testing the model: ${{ github.event.inputs.name }}"
+          echo "Model version: ${{ github.event.inputs.version }}"
+
+  deploy-to-staging:
+    environment: staging
+    needs: test-model
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Print a message
+      - name: Print a message
+        run: |
+          echo "Deploying the model to staging: ${{ github.event.inputs.name }}"
+          echo "Model version: ${{ github.event.inputs.version }}"
+
+  test-staged-model:
+    environment: staging
+    needs: deploy-to-staging
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Print a message
+      - name: Print a message
+        run: |
+          echo "Testing staged model: ${{ github.event.inputs.name }}"
+          echo "Model version: ${{ github.event.inputs.version }}"
+
+  deploy-to-production:
+    environment: production
+    needs: test-staged-model
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Print a message
+      - name: Print a message
+        run: |
+          echo "Deploying the model to production: ${{ github.event.inputs.name }}"
+          echo "Model version: ${{ github.event.inputs.version }}"
