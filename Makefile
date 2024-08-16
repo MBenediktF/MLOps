@@ -81,7 +81,7 @@ deploy_to_production:
   		-d "{\"ref\":\"main\", \"inputs\":{\"name\":\"${NAME}\",\"version\":\"$$VERSION\"}}"; \
 	echo "Model deployment started. Please check the Actions tab in the repository for status and approval."
 
-	deploy_to_development:
+deploy_to_development:
 	@if [ -z "$(NAME)" ]; then \
 		echo "Error: Please specify the model name."; \
 		exit 1; \
