@@ -37,7 +37,7 @@ jobs:
       # Run the Python script to train the model
       - name: Train the model
         run: |
-          python src/train_model_mlflow.py
+          python src/train_model_mlflow_multiple_parameters.py
 
       # Upload the trained model as an artifact to github
       - name: Upload Model Artifact to Github
