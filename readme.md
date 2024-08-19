@@ -33,3 +33,12 @@
 - Configure potection rules
 - Set the environment secrets `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 - Set the environment variables `ÀWS_DEFAULT_REGION` and `BUCKET_NAME` to configure the S3 connection
+
+## Next development steps
+
+- Save more artifacts
+- Advanced model training code with multiple parameters
+- Deploy to an automated testing environment and run tests there
+- Deploy to target system
+- Export the model 
+- Run tests with the compiles model and the implementation code
