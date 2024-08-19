@@ -66,7 +66,7 @@ param_grid = {
 }
 
 # Start MLflow
-mlflow.set_experiment("MNIST Hyperparameter Tuning")
+mlflow.set_experiment("MNIST Hyperparameter Tuning 2")
 
 # Iterate over all combinations of hyperparameters
 for lr in param_grid['learning_rate']:
