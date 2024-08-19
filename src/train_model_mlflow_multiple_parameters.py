@@ -45,6 +45,8 @@ def start_mlflow_run(lr, dr, epochs):
         model.save(model_path)
         mlflow.log_artifact(model_path)
 
+        mlflow.tensorflow.log_model(model, "model")
+
         mlflow.end_run()
 
 
