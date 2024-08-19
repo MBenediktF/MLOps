@@ -5,11 +5,10 @@
 - Create a classic personal access token in your github developer settings (it only needs the read packages permission) and paste it to .env
 - Add the aws key id and secrret and the bucket name to the .env file
 - Run `make start_mlflow_ui` to init and start the docker container
-- Run `sync_mlflow_ui` to sync your local changes with the database. Deletions of any kind are disabled.
+- Run `sync_mlflow_ui` to sync your local changes with the database, deletions of any kind are disabled
 - Access the mlflow ui at [port 4444](http://localhost:4444)
-
 - Run `make stop_mlflow_ui` to stop the docker container
-- Run 'make `remove_mlflow_ui` to delete the docker container and the image
+- Run make `remove_mlflow_ui` to delete the docker container and the image
 
 ## How to manage raw datasets
 
@@ -34,3 +33,12 @@
 - Configure potection rules
 - Set the environment secrets `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY`
 - Set the environment variables `ÀWS_DEFAULT_REGION` and `BUCKET_NAME` to configure the S3 connection
+
+## Next development steps
+
+- Save more artifacts
+- Advanced model training code with multiple parameters
+- Deploy to an automated testing environment and run tests there
+- Deploy to target system
+- Export the model 
+- Run tests with the compiles model and the implementation code
