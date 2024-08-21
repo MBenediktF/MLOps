@@ -21,6 +21,7 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
+          chmod +x automation/training/install_dependencies.sh
           automation/training/install_dependencies.sh
 
       # Check the dataset download
