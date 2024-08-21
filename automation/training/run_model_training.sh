@@ -1,1 +1,1 @@
-python ../../src/train_model_mlflow.py
+python src/train_model_mlflow.py
