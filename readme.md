@@ -6,10 +6,11 @@
 
 - Create a classic personal access token in your github developer settings (it only needs the read packages permission) and paste it to .env
 - Add the aws key id and secrret and the bucket name to the .env file
-- Run `make start_mlflow_ui` to init and start the docker container
+- Run `make setup_mlflow_ui` to init and start the docker container
 - Run `sync_mlflow_ui` to sync your local changes with the database, deletions of any kind are disabled
 - Access the mlflow ui at [port 4444](http://localhost:4444)
 - Run `make stop_mlflow_ui` to stop the docker container
+- Run `make start_mlflow_ui` to start the container again
 - Run make `remove_mlflow_ui` to delete the docker container and the image
 
 ## How to manage raw datasets
@@ -23,8 +24,8 @@
 ## How to deploy a model
 
 - Your github token must be configured to allow repo and workflow access
-- Run `make deploy_to_development`to start the workflow (no protection rules)
-- Run `make deploy_to_production`to start the workflow (approval required, deployment is only allowed from `main`)
+- Run `make start_dev_deployment_workflow`to start the workflow (no protection rules)
+- Run `make start_prod_deployment_workflow`to start the workflow (approval required, deployment is only allowed from `main`)
 - Check the workflow status in github actions
 
 ### How to configure a new environment
