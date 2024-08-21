@@ -1,5 +1,7 @@
 # Sandbox to implement MLOps practices
 
+![Systemarchitektur](src/system-architecture.jpeg)
+
 ## How to start the mlflow ui
 
 - Create a classic personal access token in your github developer settings (it only needs the read packages permission) and paste it to .env
