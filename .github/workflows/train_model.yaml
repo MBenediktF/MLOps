@@ -21,7 +21,7 @@ jobs:
       # Install dependencies
       - name: Install dependencies
         run: |
-          bash automation/training/install_dependencies.sh
+          bash automation/train_model/install_dependencies.sh
 
       # Check the dataset download
       - name: Download dataset
@@ -31,16 +31,16 @@ jobs:
           AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
           BUCKET_NAME: ${{ vars.BUCKET_NAME }}
         run: |
-          bash automation/training/download_dataset.sh
+          bash automation/train_model/download_dataset.sh
 
       # Run the Python script to train the model
       - name: Train the model
         run: |
-          bash automation/training/run_model_training.sh
+          bash automation/train_model/run_model_training.sh
 
       - name: Upload MLflow data to S3
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          bash automation/training/upload_results_to_s3.sh
+          bash automation/train_model/upload_results_to_s3.sh
