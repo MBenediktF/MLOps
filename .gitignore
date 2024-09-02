@@ -3,3 +3,4 @@ mlruns
 datasets
 .vscode
 __pycache__
+.dvc
