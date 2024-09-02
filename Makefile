@@ -55,3 +55,6 @@ dvc_config_s3_access:
 dvc_push_s3: dvc_config_s3_access
 	@dvc push -r s3	
 
+dvc_pull_s3: dvc_config_s3_access
+	@dvc pull -r s3
+
