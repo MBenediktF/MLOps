@@ -4,3 +4,5 @@ matplotlib
 mlflow
 datetime
 boto3
+dvc
+dvc-s3

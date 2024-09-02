@@ -13,13 +13,11 @@
 - Run `make start_mlflow_ui` to start the container again
 - Run make `remove_mlflow_ui` to delete the docker container and the image
 
-## How to manage raw datasets
+## How to manage datasets
 
-- Datasets are stored in the folder `datasets`, which is not synced with github, but stored in s3 instead
-- To download all existing datasets, use `make download_datasets`
-- To download a specific dataset use `make download_dataset NAME=<dataset_name>`
-- To upload a new dataset to s3, add it to the `datasets`folder and use `make upload_datasets`
-- This feature is only for storing raw data. Procecced datasets are stored as artifacts and can be accessed using the mlflow ui
+- Datasets are stored in the folder datasets. THe version control is handled by dvc. The datasets will be synced to github, but stored at another remote (default: s3)
+- To download the dataset files, run `make dvc_pull_s3`
+- To upload a new dataset, run `dvc add datasets/<filename>.zip` and `make dvc_push_s3`
 
 ## How to deploy a model
 
@@ -43,5 +41,5 @@
 - Advanced model training code with multiple parameters
 - Deploy to an automated testing environment and run tests there
 - Deploy to target system
-- Export the model 
+- Export the model
 - Run tests with the compiles model and the implementation code

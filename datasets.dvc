@@ -1,0 +1,5 @@
+outs:
+- md5: 7265c0d9ec6b7c6b3c8323ee81aa3970.dir
+  nfiles: 1
+  hash: md5
+  path: datasets
