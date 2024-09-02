@@ -10,4 +10,4 @@ def fit_model(model, x_train, y_train):
     # Trainiere das Modell
     history = model.fit(x_train, y_train, epochs=5)
 
-    return history.history
+    return history
