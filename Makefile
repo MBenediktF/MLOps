@@ -41,9 +41,17 @@ start_dev_deployment_workflow:
 		https://api.github.com/repos/bosch-devopsuplift/sb.mlops_research/actions/workflows/deploy_to_development.yaml/dispatches \
   		-d "{\"ref\":\"main\", \"inputs\":{\"name\":\"${NAME}\",\"version\":\"$$VERSION\"}}"; \
 
-list_dvc_remotes:
+dvc_list_remotes:
 	@dvc remote list
 
-add_dvc_remote_s3:
+dvc_add_remote_s3:
 	@dvc remote add -d s3 s3://$(BUCKET_NAME)/datasets
+	@dvc remote default s3
+
+dvc_config_s3_access:
+	@dvc remote modify --local s3 access_key_id $(AWS_ACCESS_KEY_ID)
+	@dvc remote modify --local s3 secret_access_key $(AWS_SECRET_ACCESS_KEY)
+
+dvc_push_s3: dvc_config_s3_access
+	@dvc push -r s3	
 
