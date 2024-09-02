@@ -18,15 +18,6 @@ remove_mlflow_ui:
 	@docker rm mlflow_ui || true
 	@docker rmi mlflow_ui_s3 || true
 
-download_datasets:
-	@aws s3 sync s3://${BUCKET_NAME}/datasets datasets --exact-timestamps
-
-download_dataset:
-	@aws s3 sync s3://${BUCKET_NAME}/datasets/$(NAME) datasets/$(NAME) --exact-timestamps
-
-upload_datasets:
-	@aws s3 sync datasets s3://${BUCKET_NAME}/datasets --exact-timestamps
-
 start_prod_deployment_workflow:
 	curl -X POST \
 		-H "Accept: application/vnd.github+json" \
