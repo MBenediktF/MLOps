@@ -2,4 +2,4 @@ mlruns
 .env
 datasets
 .vscode
-*.pyc
+__pycache__
