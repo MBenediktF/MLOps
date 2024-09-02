@@ -1,2 +1,1 @@
-ls
 python src/train_model_subclasses.py
