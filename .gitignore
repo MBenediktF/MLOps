@@ -2,3 +2,4 @@ mlruns
 .env
 datasets
 .vscode
+*.pyc
