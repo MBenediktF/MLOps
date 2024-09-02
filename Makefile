@@ -40,3 +40,10 @@ start_dev_deployment_workflow:
 		-H "Authorization: token ${GH_PERSONAL_ACCESS_TOKEN}" \
 		https://api.github.com/repos/bosch-devopsuplift/sb.mlops_research/actions/workflows/deploy_to_development.yaml/dispatches \
   		-d "{\"ref\":\"main\", \"inputs\":{\"name\":\"${NAME}\",\"version\":\"$$VERSION\"}}"; \
+
+list_dvc_remotes:
+	@dvc remote list
+
+add_dvc_remote_s3:
+	@dvc remote add -d s3 s3://$(BUCKET_NAME)/datasets
+
