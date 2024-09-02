@@ -17,7 +17,7 @@
 
 - Datasets are stored in the folder datasets. THe version control is handled by dvc. The datasets will be synced to github, but stored at another remote (default: s3)
 - To download the dataset files, run `make dvc_pull_s3`
-- To upload a new dataset, commit to git and run `make dvc_push_s3`
+- To upload a new dataset, run `dvc add datasets/<filename>.zip` and `make dvc_push_s3`
 
 ## How to deploy a model
 
