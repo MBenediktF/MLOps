@@ -2,5 +2,4 @@ mlruns
 .env
 .vscode
 __pycache__
-.dvc
 /datasets
