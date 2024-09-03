@@ -2,14 +2,13 @@ import os
 import tensorflow as tf
 import certifi
 import mlflow
+import mlflow.tensorflow
 
 from model.import_data import import_data
 from model.preprocess_data import preprocess_data
 from model.create_model import create_model
 from model.fit_model import fit_model
 from model.evaluate_model import evaluate_model
-
-mlflow.autolog()
 
 print("TensorFlow version:", tf.__version__)
 
@@ -26,18 +25,29 @@ def main():
     # Modell erstellen
     model = create_model()
 
-    # Modell trainieren
-    fit_model(model, x_train, y_train,
-              optimizer='adam',
-              loss='sparse_categorical_crossentropy',
-              metrics=['accuracy'],
-              epochs=5)
+    # Experiment erstellen
+    mlflow.set_experiment("MNIST Single Run")
 
-    # Modell evaluieren
-    evaluate_model(model, x_test, y_test)
+    with mlflow.start_run():
+        mlflow.tensorflow.autolog()
 
-    # Modell speichern
-    model.save('model.h5')
+        # Modell trainieren
+        fit_model(model, x_train, y_train,
+                  optimizer='adam',
+                  loss='sparse_categorical_crossentropy',
+                  metrics=['accuracy'],
+                  epochs=5)
+
+        # Modell evaluieren
+        eval = evaluate_model(model, x_test, y_test)
+
+        # Metriken loggen
+        mlflow.tensorflow.mlflow.log_metric("evaluation_accuracy", eval[1])
+
+        # Modell speichern
+        model.save('model.h5')
+
+    mlflow.end_run()
 
 
 if __name__ == "__main__":
