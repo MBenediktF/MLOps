@@ -8,4 +8,6 @@ def fit_model(model, x_train, y_train):
                   metrics=['accuracy'])
 
     # Trainiere das Modell
-    model.fit(x_train, y_train, epochs=5)
+    history = model.fit(x_train, y_train, epochs=5)
+
+    return history

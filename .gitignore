@@ -1,4 +1,5 @@
 mlruns
 .env
-datasets
 .vscode
+__pycache__
+/datasets
