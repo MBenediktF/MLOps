@@ -27,7 +27,11 @@ def main():
     model = create_model()
 
     # Modell trainieren
-    fit_model(model, x_train, y_train)
+    fit_model(model, x_train, y_train,
+              optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'],
+              epochs=5)
 
     # Modell evaluieren
     evaluate_model(model, x_test, y_test)
