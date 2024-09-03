@@ -1,1 +1,1 @@
-python src/train_model_subclasses.py
+python src/experiment_single_run.py
