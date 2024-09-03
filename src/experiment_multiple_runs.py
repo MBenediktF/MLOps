@@ -53,7 +53,7 @@ def main():
     # Define hyperparameter grid
     parameters = {
         'dropout': [0.2, 0.3],
-        'epochs': [5, 10]
+        'epochs': [3, 6]
     }
 
     # Set experiment
