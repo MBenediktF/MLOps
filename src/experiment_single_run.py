@@ -22,14 +22,14 @@ def main():
     # Daten vorverarbeiten
     x_train, x_test = preprocess_data(x_train, x_test)
 
-    # Modell erstellen
-    model = create_model(dropout=0.2)
-
     # Experiment erstellen
     mlflow.set_experiment("MNIST Single Run")
 
     with mlflow.start_run():
         mlflow.tensorflow.autolog()
+
+        # Modell erstellen
+        model = create_model(dropout=0.2)
 
         # Modell trainieren
         fit_model(model, x_train, y_train,
