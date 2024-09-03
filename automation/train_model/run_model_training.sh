@@ -1,1 +1,1 @@
-python src/experiment_single_run.py
+python src/experiment_multiple_runs.py
