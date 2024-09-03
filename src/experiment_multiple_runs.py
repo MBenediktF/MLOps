@@ -21,8 +21,8 @@ def mlflow_run(x_train, y_train, x_test, y_test, dropout, epochs):
         mlflow.tensorflow.autolog()
 
         # Log the hyperparameters
-        mlflow.log_param("dropout", dropout)
-        mlflow.log_param("epochs", epochs)
+        mlflow.log_param("selected_dropout", dropout)
+        mlflow.log_param("selected_epochs", epochs)
 
         # Modell erstellen
         model = create_model(dropout=0.2)
