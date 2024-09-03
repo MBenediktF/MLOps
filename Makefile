@@ -43,9 +43,10 @@ dvc_config_s3_access:
 	@dvc remote modify --local s3 access_key_id $(AWS_ACCESS_KEY_ID)
 	@dvc remote modify --local s3 secret_access_key $(AWS_SECRET_ACCESS_KEY)
 
-dvc_push_s3: dvc_config_s3_access
-	@dvc push -r s3	
-
-dvc_pull_s3: dvc_config_s3_access
+dvc_pull_s3: 
 	@dvc pull -r s3
+
+dvc_commit_push_s3: dvc_config_s3_access
+	@dvc commit datasets
+	@dvc push -r s3	
 
