@@ -23,7 +23,7 @@ def main():
     x_train, x_test = preprocess_data(x_train, x_test)
 
     # Modell erstellen
-    model = create_model()
+    model = create_model(dropout=0.2)
 
     # Experiment erstellen
     mlflow.set_experiment("MNIST Single Run")
