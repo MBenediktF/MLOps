@@ -44,9 +44,6 @@ def main():
         # Metriken loggen
         mlflow.tensorflow.mlflow.log_metric("evaluation_accuracy", eval[1])
 
-        # Modell speichern
-        model.save('model.h5')
-
     mlflow.end_run()
 
 
