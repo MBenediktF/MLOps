@@ -1,12 +1,12 @@
 from src.model.create_model import create_model
 import tensorflow as tf
 import pytest
+import numpy as np
 
 
 @pytest.mark.parametrize("dropout", [0.2, 0.8])
 def test_create_model_valid(dropout):
-    # check if the function returns a valid Keras model
-    model = create_model(dropout=0.2)
+    model = create_model(dropout=dropout)
     assert isinstance(model, tf.keras.Model), \
         "The returned model is not a Keras model"
     assert len(model.layers) > 0, \
@@ -14,7 +14,12 @@ def test_create_model_valid(dropout):
 
 
 @pytest.mark.parametrize("dropout", [-0.5, 1.2])
-def test_create_model_invalid(dropout):
-    # check how the funtion handles wrong dropout parameter
+def test_create_model_valueerr(dropout):
     with pytest.raises(ValueError):
+        create_model(dropout=dropout)
+
+
+@pytest.mark.parametrize("dropout", ["", np.array([])])
+def test_create_model_typeerr(dropout):
+    with pytest.raises(TypeError):
         create_model(dropout=dropout)
