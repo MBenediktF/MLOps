@@ -1,7 +1,6 @@
 from src.model.create_model import create_model
 import tensorflow as tf
 import pytest
-import numpy as np
 
 
 @pytest.mark.parametrize("dropout", [0.2, 0.8])
