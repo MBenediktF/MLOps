@@ -22,9 +22,9 @@ def test_import_data(mocked_data):
         "The returned x_train values outsample the range of 0 to 255"
     assert np.min(x_test) >= 0 and np.max(x_test) <= 255, \
         "The returned x_test values outsample the range of 0 to 255"
-    
+
     assert np.min(y_train) >= 0 and np.max(y_train) <= 9, \
         "The returned y_train values outsample the range of 0 to 9"
     assert np.min(y_test) >= 0 and np.max(y_test) <= 9, \
         "The returned y_test values outsample the range of 0 to 9"
-    
+
