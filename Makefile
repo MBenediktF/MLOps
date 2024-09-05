@@ -50,3 +50,5 @@ dvc_commit_push_s3: dvc_config_s3_access
 	@dvc commit datasets
 	@dvc push -r s3	
 
+pytest_run:
+	@python -m pytest -v
