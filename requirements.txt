@@ -7,4 +7,3 @@ boto3
 dvc
 dvc-s3
 pandas
-pytest
