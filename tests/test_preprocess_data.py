@@ -1,5 +1,4 @@
 from src.model.preprocess_data import preprocess_data
-import tensorflow as tf
 import pytest
 
 
@@ -22,7 +21,7 @@ def test_preprocess_data_valueerr(x_train, x_test):
         x_train, x_test = preprocess_data(x_train, x_test)
 
 
-@pytest.mark.parametrize("x_train, x_test", [("", 0), (0, ""), ("", "")])
+@pytest.mark.parametrize("x_train, x_test", [("", 0), (0, ()), (None, 0)])
 def test_preprocess_data_typeerr(x_train, x_test):
     with pytest.raises(TypeError):
         x_train, x_test = preprocess_data(x_train, x_test)

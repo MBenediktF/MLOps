@@ -19,7 +19,7 @@ def test_create_model_valueerr(dropout):
         create_model(dropout=dropout)
 
 
-@pytest.mark.parametrize("dropout", ["", np.array([])])
+@pytest.mark.parametrize("dropout", ["", (), None])
 def test_create_model_typeerr(dropout):
     with pytest.raises(TypeError):
         create_model(dropout=dropout)
