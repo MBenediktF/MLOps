@@ -16,7 +16,7 @@ y_train = tf.random.uniform((10,), maxval=10, dtype=tf.int32)
 def test_fit_model_valid():
     fit_model(model, x_train, y_train,
               optimizer='adam',
-              loss="sparse_categorical_crossentropy",
+              loss="mse",
               metrics=['accuracy'],
               epochs=1)
 
