@@ -7,7 +7,7 @@ boto3
 dvc
 dvc-s3
 pandas
-Flask
+flask
 csv
 os
 logging
