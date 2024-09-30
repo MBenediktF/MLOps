@@ -1,7 +1,7 @@
-from .log_message import log_message, INFO, WARNING, ERROR
-from .log_features_prediction import log_features_prediction
-from .load_model_tensorflow import load_model_with_best_accuracy
-from .send_report_email import send_report_email
+from log_message import log_message, INFO, WARNING, ERROR
+from log_features_prediction import log_features_prediction
+from load_model_tensorflow import load_model_with_best_accuracy
+from send_report_email import send_report_email
 import numpy as np
 
 
