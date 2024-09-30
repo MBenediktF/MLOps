@@ -1,11 +1,11 @@
-from log_message import log_message, INFO, WARNING, ERROR
-from log_features_prediction import log_features_prediction
-from load_model_tensorflow import load_model_with_best_accuracy
-from send_report_email import send_report_email
+from .log_message import log_message, INFO, WARNING, ERROR
+from .log_features_prediction import log_features_prediction
+from .load_model_tensorflow import load_model_with_best_accuracy
+from .send_report_email import send_report_email
 import numpy as np
 
 
-def run_inference_pipeline():
+def run_inference_pipeline(features):
     send_report_email("Pipeline Started", "The inference pipeline has started")
 
     features = np.array([1, 2, 3, 4, 5])
