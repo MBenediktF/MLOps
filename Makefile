@@ -52,3 +52,6 @@ dvc_commit_push_s3: dvc_config_s3_access
 
 pytest_run:
 	@python -m pytest -v
+
+launch_inference_api:
+	@bash bash/launch_inference_api.sh

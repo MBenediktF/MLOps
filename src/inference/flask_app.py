@@ -1,8 +1,13 @@
-from .run_inference_pipeline import run_inference_pipeline
+from run_inference_pipeline import run_inference_pipeline
 from flask import Flask, request, jsonify
 import pandas as pd
 
 app = Flask(__name__)
+
+
+@app.route('/')
+def index():
+    return "Inference API is running"
 
 
 @app.route('/predict', methods=['POST'])
