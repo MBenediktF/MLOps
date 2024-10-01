@@ -55,3 +55,6 @@ pytest_run:
 
 launch_inference_api:
 	@bash bash/launch_inference_api.sh
+
+build_inference_api_docker:
+	@docker build -f src/inference/Dockerfile -t inference_api .	
