@@ -61,3 +61,6 @@ build_inference_api_docker:
 
 run_inference_api_docker:
 	@docker run -p 5001:5000 inference_api
+
+build_mlflow_ui_docker:
+	@docker build -f src/mlflow/Dockerfile -t mlflow_ui .
