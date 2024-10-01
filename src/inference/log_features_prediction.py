@@ -3,7 +3,7 @@ import os
 import datetime
 
 
-log_file_csv = "features_prediction_log.csv"
+log_file_csv = "logs/features_prediction.csv"
 
 
 # Initialize csv if not already existing
