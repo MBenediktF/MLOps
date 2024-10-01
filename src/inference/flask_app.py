@@ -11,8 +11,11 @@ def index():
     return '''
         <h1>Inference API is running</h1>
         <ul>
-            <li><a href="/show_logs">Logs</a></li>
-            <li><a href="/show_data_logs">Data Logs</a></li>
+            <li><a href="/show_logs">Show Logs</a></li>
+            <li><a href="/show_data_logs">Show Data Logs</a></li>
+            <br>
+            <li><a href="/get_logs">Download Logs</a></li>
+            <li><a href="/get_data_logs">Download Data Logs</a></li>
         </ul>
     '''
 
@@ -28,10 +31,27 @@ def show_logs():
         return jsonify({'error': 'Could not read log file'}), 500
 
 
+@app.route('/get_logs')
+def get_logs():
+    try:
+        shutil.copy('inference_pipeline.log', 'export_inference_pipeline.log')
+        return send_file('export_inference_pipeline.log', as_attachment=True)
+    except Exception:
+        return jsonify({'error': 'Could not read log file'}), 500
+
+
 @app.route('/show_data_logs')
 def show_data_logs():
     try:
         return send_file('features_prediction_log.csv', as_attachment=False)
+    except Exception:
+        return jsonify({'error': 'Could not read log file'}), 500
+
+
+@app.route('/get_data_logs')
+def get_data_logs():
+    try:
+        return send_file('features_prediction_log.csv', as_attachment=True)
     except Exception:
         return jsonify({'error': 'Could not read log file'}), 500
 
