@@ -1,6 +1,13 @@
 version: '3.8'
 
 services:
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+
   inference:
     build:
       context: .
@@ -12,3 +19,4 @@ services:
 
 volumes:
   log_data:
+  grafana_data:
