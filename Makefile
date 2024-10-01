@@ -57,4 +57,7 @@ launch_inference_api:
 	@bash bash/launch_inference_api.sh
 
 build_inference_api_docker:
-	@docker build -f src/inference/Dockerfile -t inference_api .	
+	@docker build -f src/inference/Dockerfile -t inference_api .
+
+run_inference_api_docker:
+	@docker run -p 5001:5000 inference_api
