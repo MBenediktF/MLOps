@@ -14,6 +14,8 @@ print("TensorFlow version:", tf.__version__)
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
+mlflow.set_tracking_uri("http://localhost:5003")
+
 
 def main():
     # Daten importieren

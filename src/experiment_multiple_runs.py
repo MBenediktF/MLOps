@@ -14,6 +14,8 @@ print("TensorFlow version:", tf.__version__)
 
 os.environ['SSL_CERT_FILE'] = certifi.where()
 
+mlflow.set_tracking_uri("http://localhost:5003")
+
 
 def mlflow_run(x_train, y_train, x_test, y_test, dropout, epochs):
     with mlflow.start_run():
