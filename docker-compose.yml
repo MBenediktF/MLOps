@@ -76,7 +76,7 @@ services:
     volumes:
       - influxdb_data:/var/lib/influxdb2
       - influxdb_config:/etc/influxdb2
-    
+
 
 volumes:
   log_data:
