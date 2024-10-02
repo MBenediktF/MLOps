@@ -2,16 +2,31 @@
 
 ![Systemarchitektur](src/system-architecture.jpeg)
 
-## How to start the mlflow ui
+## Service overview
 
-- Create a classic personal access token in your github developer settings (it only needs the read packages permission) and paste it to .env
-- Add the aws key id and secrret and the bucket name to the .env file
-- Run `make setup_mlflow_ui` to init and start the docker container
-- Run `sync_mlflow_ui` to sync your local changes with the database, deletions of any kind are disabled
-- Access the mlflow ui at [port 4444](http://localhost:4444)
-- Run `make stop_mlflow_ui` to stop the docker container
-- Run `make start_mlflow_ui` to start the container again
-- Run make `remove_mlflow_ui` to delete the docker container and the image
+The environment consists of the following services:
+
+- Mlflow, port 5003, manage experiments and models
+- Grafana, port 3000, visualize inference data
+- Minio, port 9000/9001, s3 object storage used by mlflow and dvc
+- Mysql, port 3306, sql db used by mlflow
+- Inference, port 5001, inference api to run model
+
+## How to setup, start and stop the services
+
+The services are hosted as docker containers using docker-compose.
+
+- Make sure docker is up and running on your system
+- Setup and start the services using `make setup_and_start_services`
+- Stop the services using `make stop_services`
+- Start the services using `make start_services
+
+## How to backup and restore the docker volumes`
+
+The service data is stored in volumes.
+
+- Run `make backup_docker_volumes` to create a local backup in the folder `backup`
+- Run `make restore_docker_volumes` to restore the volume from the backups
 
 ## How to manage datasets
 
