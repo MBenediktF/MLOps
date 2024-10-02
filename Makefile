@@ -64,3 +64,9 @@ run_inference_api_docker:
 
 build_mlflow_ui_docker:
 	@docker build -f src/mlflow/Dockerfile -t mlflow_ui .
+
+backup_docker_volumes:
+	@bash bash/backup_docker_volumes.sh
+
+restore_docker_volumes:
+	@bash bash/restore_docker_volumes.sh
