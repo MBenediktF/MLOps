@@ -3,3 +3,4 @@
     autostage = true
 ['remote "s3"']
     url = s3://mlops-research/datasets
+    endpointurl = http://localhost:9000
