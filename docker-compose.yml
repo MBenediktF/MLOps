@@ -9,6 +9,9 @@ services:
       - grafana_data:/var/lib/grafana
       - log_data:/var/lib/grafana/logs
       - ./grafana.ini:/etc/grafana/grafana.ini
+    environment:
+      GF_SECURITY_ADMIN_USER: grafanaadmin
+      GF_SECURITY_ADMIN_PASSWORD: grafanaadminpassword
 
   inference:
     build:
