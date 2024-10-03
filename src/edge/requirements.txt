@@ -1,0 +1,3 @@
+picamera2
+libcamera
+cv2
