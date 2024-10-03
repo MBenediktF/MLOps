@@ -78,7 +78,7 @@ def upload_image():
     if 'image' not in request.files:
         return {'message': 'No file part'}, 400
 
-    file = request.files['file']
+    file = request.files['image']
 
     if file.filename == '':
         return {'message': 'No selected file'}, 400
