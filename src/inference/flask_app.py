@@ -71,3 +71,19 @@ def predict():
     prediction = run_inference_pipeline(features)
 
     return jsonify({"prediction": prediction})
+
+
+@app.route('/upload', methods=['POST'])
+def upload_image():
+    if 'image' not in request.files:
+        return {'message': 'No file part'}, 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return {'message': 'No selected file'}, 400
+
+    if file:
+        file_path = os.path.join('images', file.filename)
+        file.save(file_path)
+        return {'message': 'File uploaded successfully'}, 200
