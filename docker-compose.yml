@@ -32,7 +32,7 @@ services:
       MLFLOW_TRACKING_URI: mysql+pymysql://mlflow:mlflow@mysql:3306/mlflow
       MLFLOW_S3_ENDPOINT_URL: http://minio:9000
       AWS_ACCESS_KEY_ID: minioadmin
-      AWS_SECRET_ACCESS_KEY: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadminpassword
     depends_on:
       - mysql
       - minio
