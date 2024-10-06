@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, send_file
 import pandas as pd
 import shutil
 import os
+from log_features_prediction import save_image_to_s3, file_is_jpg
 
 app = Flask(__name__)
 
@@ -83,7 +84,10 @@ def upload_image():
     if file.filename == '':
         return {'message': 'No selected file'}, 400
 
-    if file:
-        file_path = os.path.join('images', file.filename)
-        file.save(file_path)
-        return {'message': 'File uploaded successfully'}, 200
+    if not file_is_jpg(file):
+        return {'message': 'Filetype not supported.'}, 400
+
+    if not save_image_to_s3(file, "single_upload"):
+        return {'message': 'Could not store image.'}, 500
+
+    return {'message': 'File uploaded successfully'}, 200
