@@ -1,9 +1,8 @@
-from run_inference_pipeline import run_inference_pipeline
+# from run_inference_pipeline import run_inference_pipeline
 from flask import Flask, request, jsonify, send_file
-import pandas as pd
 import shutil
 import os
-from log_features_prediction import save_image_to_s3, file_is_jpg
+from log_features_prediction import log_features_prediction, file_is_jpg
 
 app = Flask(__name__)
 
@@ -66,10 +65,27 @@ def get_data_logs():
 
 @app.route("/predict", methods=["POST"])
 def predict():
-    input = request.get_json()
-    features = pd.DataFrame.from_dict(input)
+    # get image file
+    if 'image' not in request.files:
+        return {'message': 'No file part'}, 400
+    file = request.files['image']
+    if file.filename == '':
+        return {'message': 'No selected file'}, 400
+    if not file_is_jpg(file):
+        return {'message': 'Filetype not supported.'}, 400
 
-    prediction = run_inference_pipeline(features)
+    # get sensor value
+    sensor_value = request.form.get("sensor_value")
+    if sensor_value is None:
+        return {'message': 'No sensor value provided.'}, 400
+
+    # prediction = run_inference_pipeline(features)
+    prediction = 44
+
+    try:
+        log_features_prediction(file, prediction, sensor_value)
+    except Exception:
+        return {'message': 'Could not store data'}, 500
 
     return jsonify({"prediction": prediction})
 
