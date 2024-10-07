@@ -87,23 +87,5 @@ def predict():
     except Exception:
         return {'message': 'Could not store data'}, 500
 
-    return jsonify({"prediction": prediction})
+    return {'prediction': prediction}, 200
 
-
-@app.route('/upload', methods=['POST'])
-def upload_image():
-    if 'image' not in request.files:
-        return {'message': 'No file part'}, 400
-
-    file = request.files['image']
-
-    if file.filename == '':
-        return {'message': 'No selected file'}, 400
-
-    if not file_is_jpg(file):
-        return {'message': 'Filetype not supported.'}, 400
-
-    if not save_image_to_s3(file, "single_upload"):
-        return {'message': 'Could not store image.'}, 500
-
-    return {'message': 'File uploaded successfully'}, 200
