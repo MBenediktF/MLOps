@@ -4,4 +4,4 @@ mlruns
 __pycache__
 /datasets
 backup
-*/venv
+src/edge/venv
