@@ -3,3 +3,4 @@ pandas
 mlflow
 flask
 boto3
+influxdb-client

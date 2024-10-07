@@ -1,14 +1,19 @@
-import csv
-import os
-import datetime
 import boto3
 from uuid import uuid4
+from influxdb_client import InfluxDBClient, Point
+from influxdb_client.client.write_api import SYNCHRONOUS
 
 
 S3_ENDPOINT = "http://minio:9000"
 S3_ACCESS_KEY_ID = "minioadmin"
 S3_SECRET_ACCESS_KEY = "minioadminpassword"
 BUCKET_NAME = "mlops-research"
+
+INFLUX_ENDPOINT = "http://influxdb:8086"
+INFLUX_ORG = "beg"
+INFLUX_DATABASE = "inference_data_logs"
+INFLUX_TOKEN = "influxadmintoken"
+
 
 s3_client = boto3.client(
     's3',
@@ -17,21 +22,24 @@ s3_client = boto3.client(
     aws_secret_access_key=S3_SECRET_ACCESS_KEY
 )
 
-log_file_csv = "logs/features_prediction.csv"
-
-
-# Initialize csv if not already existing
-if not os.path.exists(log_file_csv):
-    with open(log_file_csv, mode='w') as file:
-        writer = csv.writer(file)
-        writer.writerow(['Timestamp', 'Endpoint', 'Feature', 'Prediction'])
+influx_api = InfluxDBClient(
+    url=INFLUX_ENDPOINT,
+    org=INFLUX_ORG,
+    token=INFLUX_TOKEN,
+).write_api(write_options=SYNCHRONOUS)
 
 
 def log_features_prediction(endpoint, features, prediction):
-    current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    with open(log_file_csv, mode='a') as file:
-        writer = csv.writer(file)
-        writer.writerow([current_time, endpoint, features, prediction])
+    return
+
+
+def save_to_influx(image_url, prediction, collection):
+    record = Point("Measurement_Name") \
+        .tag("collection", collection) \
+        .field("image_url", image_url)
+    influx_api.write(bucket=INFLUX_DATABASE,
+                     org=INFLUX_ORG,
+                     record=record)
 
 
 def save_image_to_s3(image_file, collection):
@@ -43,6 +51,7 @@ def save_image_to_s3(image_file, collection):
         BUCKET_NAME,
         filename,
     )
+    save_to_influx(filename, "4", collection)
     return True
 
 
