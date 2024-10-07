@@ -88,4 +88,3 @@ def predict():
         return {'message': 'Could not store data'}, 500
 
     return {'prediction': prediction}, 200
-
