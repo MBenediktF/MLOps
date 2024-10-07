@@ -62,3 +62,6 @@ start_services:
 
 stop_services:
 	@docker-compose stop
+
+edge_setup_venv:
+	@source src/edge/venv/bin/activate
