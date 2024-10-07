@@ -1,4 +1,4 @@
-# from run_inference_pipeline import run_inference_pipeline
+from run_inference_pipeline import run_inference_pipeline
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
@@ -84,7 +84,7 @@ def predict():
 
     try:
         log_features_prediction(file, prediction, sensor_value)
-    except Exception:
-        return {'message': 'Could not store data'}, 500
+    except Exception as e:
+        return {'message': f'Could not store data: {e}'}, 500
 
-    return {'prediction': prediction}, 200
+    return {'prediction': prediction}, 200#
