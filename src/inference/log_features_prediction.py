@@ -31,19 +31,18 @@ influx_api = InfluxDBClient(
 
 
 def log_features_prediction(
-        feature_file, prediction, sensor_value, collection="dev"):
-    feature_file_name = save_image_to_s3(feature_file)
+        feature_file, prediction, sensor_value, measurement="dev"):
+    feature_file_name = save_image_to_s3(feature_file, measurement)
     if not feature_file_name:
         raise ValueError("Invalid file type: Only .jpg files are allowed")
     write_inference_data_to_influx(
-        feature_file_name, prediction, sensor_value, collection)
+        feature_file_name, prediction, sensor_value, measurement)
     return
 
 
 def write_inference_data_to_influx(
-        image_url, prediction, sensor_value, collection):
-    record = Point("Measurement_Name") \
-        .tag("collection", collection) \
+        image_url, prediction, sensor_value, measurement):
+    record = Point(measurement) \
         .field("feature_file_url", image_url) \
         .field("prediction", prediction) \
         .field("sensor_value", sensor_value)
@@ -57,10 +56,10 @@ def influx_write_record(record):
         record=record)
 
 
-def save_image_to_s3(image_file, collection):
+def save_image_to_s3(image_file, measurement):
     if not file_is_jpg(image_file):
         return False
-    filename = f'features/{collection}/{uuid4()}.jpg'
+    filename = f'features/{measurement}/{uuid4()}.jpg'
     s3_client.upload_fileobj(
         image_file, BUCKET_NAME, filename,)
     return filename
