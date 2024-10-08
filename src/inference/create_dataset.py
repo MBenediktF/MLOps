@@ -21,9 +21,8 @@ INFLUX_TOKEN = "influxadmintoken"
 
 def create_dataset_from_measurement(measurement):
     # fetch datapoints from influx
-    measurement = fetch_measurement(measurement,
-                                    columns=["feature_file_url",
-                                             "sensor_value"])
+    columns = ["feature_file_url", "sensor_value"]
+    measurement = fetch_measurement(measurement, columns)
 
     # read images from s3
     for record in measurement:
@@ -34,13 +33,7 @@ def create_dataset_from_measurement(measurement):
             continue
         cv2.imwrite("error.jpg", image)
 
-        # extract features
-        # features = extract_features(image)
-
-        # create label
-        # label = create_label(record["sensor_value"])
-
-    # create iage metadata string
+    # create image metadata string
 
     # save images
     return
