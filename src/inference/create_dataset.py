@@ -6,6 +6,8 @@ from influxdb_client import InfluxDBClient
 from log_message import log_message
 import numpy as np
 import cv2
+from uuid import uuid4
+import os
 
 
 S3_ENDPOINT = "http://minio:9000"
@@ -24,19 +26,24 @@ def create_dataset_from_measurement(measurement):
     columns = ["feature_file_url", "sensor_value"]
     measurement = fetch_measurement(measurement, columns)
 
+    # create dataset at s3 bucket
+    dataset_uid = str(uuid4())
+
     # read images from s3
     for record in measurement:
         image_file_url = record["feature_file_url"]
+        sensor_value = record["sensor_value"]
         image = fetch_image(image_file_url)
         if image is None:
             log_message(f"Could not read image from {image_file_url}")
             continue
-        cv2.imwrite("error.jpg", image)
 
-    # create image metadata string
+        # create image metadata string
+        image_uid = os.path.basename(image_file_url).split(".")[0]
+        filename = f"{image_uid}_{sensor_value}.jpg"
 
-    # save images
-    return
+        # upload images 
+        return
 
 
 def fetch_measurement(measurement,
