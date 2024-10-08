@@ -4,6 +4,8 @@
 import boto3
 from influxdb_client import InfluxDBClient
 from log_message import log_message
+import numpy as np
+import cv2
 
 
 S3_ENDPOINT = "http://minio:9000"
@@ -16,13 +18,6 @@ INFLUX_ORG = "beg"
 INFLUX_DATABASE = "inference_data_logs"
 INFLUX_TOKEN = "influxadmintoken"
 
-s3_client = boto3.client(
-    's3',
-    endpoint_url=S3_ENDPOINT,
-    aws_access_key_id=S3_ACCESS_KEY_ID,
-    aws_secret_access_key=S3_SECRET_ACCESS_KEY
-)
-
 
 def create_dataset_from_measurement(measurement):
     # fetch datapoints from influx
@@ -31,7 +26,19 @@ def create_dataset_from_measurement(measurement):
                                              "sensor_value"])
 
     # read images from s3
-    
+    for record in measurement:
+        image_file_url = record["feature_file_url"]
+        image = fetch_image(image_file_url)
+        if image is None:
+            log_message(f"Could not read image from {image_file_url}")
+            continue
+        cv2.imwrite("error.jpg", image)
+
+        # extract features
+        # features = extract_features(image)
+
+        # create label
+        # label = create_label(record["sensor_value"])
 
     # create iage metadata string
 
@@ -64,3 +71,26 @@ def fetch_measurement(measurement,
                 record.values.pop('table', None)
                 records.append(record.values)
         return records
+
+
+def fetch_image(image_file_url):
+    s3_client = boto3.client(
+        's3',
+        endpoint_url=S3_ENDPOINT,
+        aws_access_key_id=S3_ACCESS_KEY_ID,
+        aws_secret_access_key=S3_SECRET_ACCESS_KEY
+    )
+
+    # read image
+    image = s3_client.get_object(Bucket=BUCKET_NAME, Key=image_file_url)
+    image = image['Body'].read()
+    image = np.frombuffer(image, np.uint8)
+    if image.size == 0:
+        raise Exception("Could not read image from s3")
+
+    # decode image
+    image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+    if image is None:
+        raise Exception("Could not decode image")
+
+    return image
