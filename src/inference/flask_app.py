@@ -97,5 +97,6 @@ def create_dataset():
     measurement = request.form.get("measurement")
     if measurement is None:
         return {'message': 'No measurement name.'}, 400
-    create_dataset_from_measurement(measurement)
-    return {}, 200
+    dataset_uuid, num_images = create_dataset_from_measurement(measurement)
+    responseString = f'Created dataset {dataset_uuid}, {num_images} images'
+    return {'message': responseString}, 200
