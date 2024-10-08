@@ -8,7 +8,7 @@ import numpy as np
 import cv2
 from uuid import uuid4
 import os
-
+from datetime import datetime
 
 S3_ENDPOINT = "http://minio:9000"
 S3_ACCESS_KEY_ID = "minioadmin"
@@ -20,14 +20,21 @@ INFLUX_ORG = "beg"
 INFLUX_DATABASE = "inference_data_logs"
 INFLUX_TOKEN = "influxadmintoken"
 
+s3_client = boto3.client(
+    's3',
+    endpoint_url=S3_ENDPOINT,
+    aws_access_key_id=S3_ACCESS_KEY_ID,
+    aws_secret_access_key=S3_SECRET_ACCESS_KEY
+)
+
 
 def create_dataset_from_measurement(measurement):
     # fetch datapoints from influx
     columns = ["feature_file_url", "sensor_value"]
     measurement = fetch_measurement(measurement, columns)
 
-    # create dataset at s3 bucket
-    dataset_uid = str(uuid4())
+    # create dataset uid
+    dataset_uuid = str(uuid4())
 
     # read images from s3
     for record in measurement:
@@ -38,12 +45,44 @@ def create_dataset_from_measurement(measurement):
             log_message(f"Could not read image from {image_file_url}")
             continue
 
-        # create image metadata string
-        image_uid = os.path.basename(image_file_url).split(".")[0]
-        filename = f"{image_uid}_{sensor_value}.jpg"
+        # scale image and convert to jpg
+        is_success, image_buffer = cv2.imencode('.jpg', image)
+        if not is_success:
+            log_message("Could not encode image to JPEG format")
+            continue
 
-        # upload images 
-        return
+        # create image metadata string
+        image_uuid = os.path.basename(image_file_url).split(".")[0]
+        filename = f'datasets/{dataset_uuid}/{image_uuid}_{sensor_value}.jpg'
+
+        # upload images as jpg to s3
+        try:
+            s3_client.put_object(
+                Bucket=BUCKET_NAME,
+                Key=filename,
+                Body=image_buffer.tobytes(),
+                ContentType='image/jpeg'
+            )
+        except Exception as e:
+            log_message(f"Could not upload image to s3: {e}")
+            continue
+
+    # add metadata txt file to bucket
+    metadata = {
+        "dataset_uuid": dataset_uuid,
+        "measurement": measurement,
+        "num_images": len(measurement),
+        "created_at": datetime.now().isoformat()
+    }
+    metadata = "\n".join(f"{key}: {value}" for key, value in metadata.items())
+    s3_client.put_object(
+        Bucket=BUCKET_NAME,
+        Key=f'datasets/{dataset_uuid}/metadata.txt',
+        Body=metadata,
+        ContentType='text/plain'  # Setze den Content-Type auf JSON
+    )
+
+    return dataset_uuid, len(measurement)
 
 
 def fetch_measurement(measurement,
@@ -74,13 +113,6 @@ def fetch_measurement(measurement,
 
 
 def fetch_image(image_file_url):
-    s3_client = boto3.client(
-        's3',
-        endpoint_url=S3_ENDPOINT,
-        aws_access_key_id=S3_ACCESS_KEY_ID,
-        aws_secret_access_key=S3_SECRET_ACCESS_KEY
-    )
-
     # read image
     image = s3_client.get_object(Bucket=BUCKET_NAME, Key=image_file_url)
     image = image['Body'].read()
