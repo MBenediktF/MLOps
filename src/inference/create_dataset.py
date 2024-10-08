@@ -79,7 +79,7 @@ def create_dataset_from_measurement(measurement):
         Bucket=BUCKET_NAME,
         Key=f'datasets/{dataset_uuid}/metadata.txt',
         Body=metadata,
-        ContentType='text/plain'  # Setze den Content-Type auf JSON
+        ContentType='text/plain'
     )
 
     return dataset_uuid, len(measurement)
