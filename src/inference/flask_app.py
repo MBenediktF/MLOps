@@ -1,8 +1,9 @@
-# from run_inference_pipeline import run_inference_pipeline
+from run_inference_pipeline import run_inference_pipeline
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
 from log_features_prediction import log_features_prediction, file_is_jpg
+from create_dataset import create_dataset_from_measurement
 
 app = Flask(__name__)
 
@@ -88,3 +89,13 @@ def predict():
         return {'message': f'Could not store data: {e}'}, 500
 
     return {'prediction': prediction}, 200
+
+
+@app.route("/create_dataset", methods=["POST"])
+def create_dataset():
+    # get measurement name
+    measurement = request.form.get("measurement")
+    if measurement is None:
+        return {'message': 'No measurement name.'}, 400
+    create_dataset_from_measurement(measurement)
+    return {}, 200
