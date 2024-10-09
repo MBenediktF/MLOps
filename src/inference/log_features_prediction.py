@@ -1,5 +1,5 @@
 from uuid import uuid4
-from influx_helpers import write_record, Point
+from influx_helpers import write_record, create_record
 from s3_helpers import upload_file
 
 
@@ -15,7 +15,9 @@ def log_features_prediction(
 
 def write_inference_data_to_influx(
         image_url, prediction, sensor_value, measurement):
-    record = Point(measurement) \
+    if not isinstance(image_url, str):
+        raise ValueError(f"image_url has to be a str, got {type(image_url)}")
+    record = create_record(measurement) \
         .field("feature_file_url", image_url) \
         .field("prediction", prediction) \
         .field("sensor_value", sensor_value)
@@ -26,7 +28,8 @@ def save_image_to_s3(image_file, measurement):
     if not file_is_jpg(image_file):
         return False
     filename = f'features/{measurement}/{uuid4()}.jpg'
-    return upload_file(image_file, filename)
+    upload_file(image_file, filename)
+    return filename
 
 
 def file_is_jpg(file):
