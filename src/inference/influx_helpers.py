@@ -16,6 +16,18 @@ influx_api = influx_client.write_api(write_options=SYNCHRONOUS)
 DEFAULT_COLUMNS = ["feature_file_url", "sensor_value", "prediction"]
 
 
+def enable_local_dev(influx_endpoint_local):
+    global influx_client
+    global influx_api
+    influx_client.close()
+    influx_client = InfluxDBClient(
+        url=influx_endpoint_local,
+        org=INFLUX_ORG,
+        token=INFLUX_TOKEN,
+    )
+    influx_api = influx_client.write_api(write_options=SYNCHRONOUS)
+
+
 def write_record(record):
     influx_api.write(
         bucket=INFLUX_DATABASE,

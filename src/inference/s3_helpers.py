@@ -14,6 +14,16 @@ s3_client = boto3.client(
 )
 
 
+def enable_local_dev(s3_endpoint_local):
+    global s3_client
+    s3_client = boto3.client(
+        's3',
+        endpoint_url=s3_endpoint_local,
+        aws_access_key_id=S3_ACCESS_KEY_ID,
+        aws_secret_access_key=S3_SECRET_ACCESS_KEY
+    )
+
+
 def upload_file(file, filename):
     try:
         s3_client.upload_fileobj(
