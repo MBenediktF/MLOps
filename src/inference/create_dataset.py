@@ -10,6 +10,9 @@ from influx_helpers import fetch_records
 from s3_helpers import upload_image_from_buffer, upload_txt_from_dict
 from s3_helpers import fetch_image
 
+IMAGE_WIDTH = 100
+IMAGE_HEIGHT = 75
+
 
 def create_dataset_from_measurement(measurement):
     # fetch datapoints from influx
@@ -27,6 +30,8 @@ def create_dataset_from_measurement(measurement):
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
         # scale image and convert to jpg
+        if image.shape[1] != IMAGE_WIDTH or image.shape[0] != IMAGE_HEIGHT:
+            image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
         is_success, image_buffer = cv2.imencode('.jpg', image)
         if not is_success:
             log_message("Could not encode image to JPEG format")
