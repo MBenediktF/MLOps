@@ -65,3 +65,7 @@ start_services:
 
 stop_services:
 	@docker-compose stop
+
+add_pythonpath:
+	@export PYTHONPATH="${PYTHONPATH}:src"
+
