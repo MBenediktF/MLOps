@@ -1,4 +1,4 @@
-from run_inference_pipeline import run_inference_pipeline
+from run_inference_pipeline import run_inference_pipeline  # noqa: F401
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
