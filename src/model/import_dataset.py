@@ -14,9 +14,10 @@ if not dataset:
     raise Exception("Could not download dataset")
 
 print(dataset)
+print(len(dataset))
 
-images = np.zeros((len(dataset), IMAGE_HEIGHT, IMAGE_WIDTH, 3), dtype=np.uint8)
-labels = np.zeros((len(dataset), 1), dtype=np.uint8)
+# images = np.zeros((len(dataset), IMAGE_HEIGHT, IMAGE_WIDTH, 3), dtype=np.uint8)
+# labels = np.zeros((len(dataset), 1), dtype=np.uint8)
 
 # for i, image in enumerate(dataset):
     # images[i] = image['image']
