@@ -41,3 +41,7 @@ def fetch_records(measurement, columns=DEFAULT_COLUMNS):
             record.values.pop('table', None)
             records.append(record.values)
     return records
+
+
+def create_record(measurement):
+    return Point(measurement)
