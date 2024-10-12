@@ -6,10 +6,11 @@ from tensorflow.keras.initializers import TruncatedNormal
 from tensorflow.keras import backend as K
 
 
-def create_model(img_width, img_height, dropout=0.2, metrics=["mae"]):
+def create_model(img_size, dropout=0.2):
     K.backend()
     K.clear_session()
     seed = TruncatedNormal(stddev=0.1)
+    img_width, img_height = img_size[2], img_size[1]
 
     # Input layer
     input = Input(shape=(img_height, img_width, 3))
@@ -43,22 +44,21 @@ def create_model(img_width, img_height, dropout=0.2, metrics=["mae"]):
     # Fully connected dense layers
     x = Dense(256, name="dense_position_1", activation='relu',
               kernel_initializer=seed, bias_initializer=seed)(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(dropout)(x)
     x = Dense(128, name="dense_position_2", activation='relu',
               kernel_initializer=seed, bias_initializer=seed)(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(dropout)(x)
     x = Dense(64, name="dense_position_3", activation='relu',
               kernel_initializer=seed, bias_initializer=seed)(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(dropout)(x)
     x = Dense(32, name="dense_position_4", activation='relu',
               kernel_initializer=seed, bias_initializer=seed)(x)
-    x = Dropout(0.2)(x)
+    x = Dropout(dropout)(x)
     output = Dense(2,  name="position_output", activation='sigmoid',
                    kernel_initializer=seed, bias_initializer=seed)(x)
 
     # Model definition and compile
     model = Model(inputs=input, outputs=output, name="DistanceEstimationModel")
-    model.compile(optimizer="adam", loss="mean_squared_error", metrics=metrics)
 
     return model
 
