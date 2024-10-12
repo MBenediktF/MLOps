@@ -54,7 +54,7 @@ def create_model(img_size, dropout=0.2):
     x = Dense(32, name="dense_position_4", activation='relu',
               kernel_initializer=seed, bias_initializer=seed)(x)
     x = Dropout(dropout)(x)
-    output = Dense(2,  name="position_output", activation='sigmoid',
+    output = Dense(1,  name="position_output", activation='sigmoid',
                    kernel_initializer=seed, bias_initializer=seed)(x)
 
     # Model definition and compile
