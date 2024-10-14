@@ -1,6 +1,3 @@
-import os
-import tensorflow as tf
-import certifi
 import mlflow
 import mlflow.tensorflow
 
@@ -9,10 +6,6 @@ from model.preprocess_data import preprocess_data
 from model.create_model import create_model
 from model.fit_model import fit_model
 from model.evaluate_model import evaluate_model
-
-print("TensorFlow version:", tf.__version__)
-
-os.environ['SSL_CERT_FILE'] = certifi.where()
 
 mlflow.set_tracking_uri("http://localhost:5003")
 
