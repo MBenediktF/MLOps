@@ -47,7 +47,24 @@ def mlflow_run(train_x, train_y, test_x, test_y,
     mlflow.end_run()
 
 
-def main():
+def check_parameter_grid(parameters):
+    # Check if parameters exists and is a dictionary
+    if not isinstance(parameters, dict):
+        raise ValueError("The 'parameters' variable must be a dictionary.")
+
+    # Check if the keys 'dropout' and 'epochs' exist
+    required_keys = ['dropout', 'epochs']
+    for key in required_keys:
+        if key not in parameters:
+            raise KeyError(f"The key '{key}' is missing from 'parameters'.")
+
+    # Check if the values associated with the keys are lists
+    for key in required_keys:
+        if not isinstance(parameters[key], list):
+            raise ValueError(f"The value of '{key}' must be a list.")
+
+
+def run_experiment():
     # Daten importieren
     images, labels, _ = import_dataset(dataset_id)
 
@@ -77,4 +94,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    experiment_name = "Default"
+    dataset_id = "ea93eb20-616c-4ad2-9d82-cca701766612"
+    test_split = 0.2
+    parameters = {
+        'dropout': [0.2, 0.3],
+        'epochs': [3, 6]
+    }
+    run_experiment(experiment_name, dataset_id, test_split, parameters)
