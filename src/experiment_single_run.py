@@ -22,7 +22,7 @@ def main():
     images, labels, uids = import_dataset(dataset_id)
 
     # Daten vorverarbeiten
-    train_x, train_y, train_uids, test_x, test_y, test_uids = \
+    train_x, train_y, _, test_x, test_y, _ = \
         preprocess_data(images, labels, uids, test_split)
 
     # Experiment erstellen
