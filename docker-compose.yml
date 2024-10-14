@@ -71,12 +71,12 @@ services:
   minio:
     image: minio/minio:latest
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - ${S3_PORT}:${S3_PORT}
+      - ${MINIO_UI_PORT}:${MINIO_UI_PORT}
     environment:
       MINIO_ACCESS_KEY: ${S3_ACCESS_KEY_ID}
       MINIO_SECRET_KEY: ${S3_SECRET_ACCESS_KEY}
-    command: server /data --console-address :9001
+    command: server /data --console-address :${MINIO_UI_PORT}
     volumes:
       - minio_data:/data
 
