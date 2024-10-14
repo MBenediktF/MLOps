@@ -43,8 +43,9 @@ services:
       context: .
       dockerfile: src/mlflow/Dockerfile
     ports:
-      - "5003:5003"
+      - "${MLFLOW_PORT}:${MLFLOW_PORT}"
     environment:
+      MLFLOW_PORT: ${MLFLOW_PORT}
       MLFLOW_TRACKING_URI: mysql+pymysql://mlflow:mlflow@mysql:3306/mlflow
       MLFLOW_S3_ENDPOINT_URL: http://minio:${S3_PORT}
       AWS_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
