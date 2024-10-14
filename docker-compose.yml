@@ -12,6 +12,8 @@ services:
     environment:
       GF_SECURITY_ADMIN_USER: grafanaadmin
       GF_SECURITY_ADMIN_PASSWORD: grafanaadminpassword
+    depends_on:
+      - influxdb
 
   inference:
     build:
@@ -31,6 +33,10 @@ services:
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_DATABASE=${INFLUX_DATABASE}
       - INFLUX_TOKEN=${INFLUX_TOKEN}
+    depends_on:
+      - mlflow
+      - minio
+      - influxdb
 
   mlflow:
     build:
