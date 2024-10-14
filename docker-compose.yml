@@ -63,8 +63,6 @@ services:
       MYSQL_DATABASE: mlflow
       MYSQL_USER: mlflow
       MYSQL_PASSWORD: mlflow
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
