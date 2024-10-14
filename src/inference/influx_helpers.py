@@ -5,8 +5,7 @@ import os
 
 load_dotenv()
 
-influx_port = os.getenv('INFLUX_PORT')
-influx_endpoint = f"http://influxdb:{influx_port}"
+influx_endpoint = "http://influxdb:8086"
 influx_org = os.getenv('INFLUX_ORG')
 influx_database = os.getenv('INFLUX_DATABASE')
 influx_token = os.getenv('INFLUX_TOKEN')

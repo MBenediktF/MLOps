@@ -30,7 +30,7 @@ services:
       - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
       - BUCKET_NAME=${BUCKET_NAME}
       - MLFLOW_PORT=${MLFLOW_PORT}
-      - INFLUX_PORT=${INFLUX_PORT}
+      - INFLUX_PORT=8086
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_DATABASE=${INFLUX_DATABASE}
       - INFLUX_TOKEN=${INFLUX_TOKEN}
@@ -83,14 +83,14 @@ services:
   influxdb:
     image: influxdb:latest
     ports:
-      - "8086:8086"
+      - 8086:8086
     environment:
       DOCKER_INFLUXDB_INIT_MODE: setup
-      DOCKER_INFLUXDB_INIT_USERNAME: influxadmin
-      DOCKER_INFLUXDB_INIT_PASSWORD: influxadminpassword
-      DOCKER_INFLUXDB_INIT_ORG: beg
-      DOCKER_INFLUXDB_INIT_BUCKET: inference_data_logs
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: influxadmintoken
+      DOCKER_INFLUXDB_INIT_USERNAME: ${INFLUX_ADMIN_USER}
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_ADMIN_PASSWORD}
+      DOCKER_INFLUXDB_INIT_ORG: ${INFLUX_ORG}
+      DOCKER_INFLUXDB_INIT_BUCKET: ${INFLUX_DATABASE}
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN}
     volumes:
       - influxdb_data:/var/lib/influxdb2
       - influxdb_config:/etc/influxdb2
