@@ -8,7 +8,6 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
       - log_data:/var/lib/grafana/logs
-      - ./grafana.ini:/etc/grafana/grafana.ini
     environment:
       GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
