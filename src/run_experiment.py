@@ -7,7 +7,17 @@ from model.create_model import create_model
 from model.fit_model import fit_model
 from model.evaluate_model import evaluate_model
 
-mlflow.set_tracking_uri("http://localhost:5003")
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+mlflow_port = os.getenv('MLFLOW_PORT')
+mlflow.set_tracking_uri(f"http://mlflow:{mlflow_port}")
+
+
+def enable_local_dev():
+    mlflow.set_tracking_uri(f"http://localhost:{mlflow_port}")
 
 
 def mlflow_run(train_x, train_y, test_x, test_y,
@@ -91,6 +101,7 @@ def run_experiment(experiment_name, dataset_id, test_split, parameters):
 
 
 if __name__ == "__main__":
+    enable_local_dev()
     experiment_name = "Default"
     dataset_id = "ea93eb20-616c-4ad2-9d82-cca701766612"
     test_split = 0.2
