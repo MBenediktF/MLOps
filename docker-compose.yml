@@ -22,7 +22,7 @@ services:
     volumes:
       - log_data:/app/logs
     ports:
-      - "5001:5000"
+      - ${INFERENCE_PORT}:${INFERENCE_PORT}
     environment:
       - S3_PORT=${S3_PORT}
       - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
@@ -33,6 +33,7 @@ services:
       - INFLUX_ORG=${INFLUX_ORG}
       - INFLUX_DATABASE=${INFLUX_DATABASE}
       - INFLUX_TOKEN=${INFLUX_TOKEN}
+      - INFERENCE_PORT=${INFERENCE_PORT}
     depends_on:
       - mlflow
       - minio
