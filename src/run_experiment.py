@@ -64,7 +64,7 @@ def check_parameter_grid(parameters):
             raise ValueError(f"The value of '{key}' must be a list.")
 
 
-def run_experiment():
+def run_experiment(experiment_name, dataset_id, test_split, parameters):
     # Daten importieren
     images, labels, _ = import_dataset(dataset_id)
 
