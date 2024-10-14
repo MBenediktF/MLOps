@@ -7,6 +7,9 @@ def preprocess_data(images, labels, uids, test_split=0.2, seed=0):
     if np.any(images < 0) or np.any(images > 255):
         raise ValueError("Input data must be between 0 and 255")
 
+    if uids is None:
+        uids = np.arange(images.shape[0])
+
     # Normalize data
     images = images / 255.0
 

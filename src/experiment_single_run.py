@@ -19,18 +19,14 @@ mlflow.set_tracking_uri(mlflow_tracking_uri)
 
 def main():
     # Daten importieren
-    images, labels, uids = import_dataset(dataset_id)
+    images, labels, _ = import_dataset(dataset_id)
 
     # Daten vorverarbeiten
     train_x, train_y, _, test_x, test_y, _ = \
-        preprocess_data(images, labels, uids, test_split)
+        preprocess_data(images, labels, _, test_split)
 
-    dataset_train = mlflow.data.from_numpy(
-        features=train_x, targets=train_y
-    )
-    dataset_test = mlflow.data.from_numpy(
-        features=test_x, targets=test_y
-    )
+    dataset_train = mlflow.data.from_numpy(features=train_x, targets=train_y)
+    dataset_test = mlflow.data.from_numpy(features=test_x, targets=test_y)
 
     # Experiment erstellen
     mlflow.set_experiment(experiment_name)
