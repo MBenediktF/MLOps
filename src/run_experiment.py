@@ -8,9 +8,6 @@ from model.fit_model import fit_model
 from model.evaluate_model import evaluate_model
 
 mlflow.set_tracking_uri("http://localhost:5003")
-dataset_id = "ea93eb20-616c-4ad2-9d82-cca701766612"
-experiment_name = "Default"
-test_split = 0.2
 
 
 def mlflow_run(train_x, train_y, test_x, test_y,
