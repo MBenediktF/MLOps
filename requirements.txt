@@ -6,3 +6,4 @@ dvc
 dvc-s3
 sklearn.utils
 keras.utils
+python-dotenv
