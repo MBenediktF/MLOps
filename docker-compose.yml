@@ -4,14 +4,15 @@ services:
   grafana:
     image: grafana/grafana:latest
     ports:
-      - "3000:3000"
+      - ${GRAFANA_PORT}:${GRAFANA_PORT}
     volumes:
       - grafana_data:/var/lib/grafana
       - log_data:/var/lib/grafana/logs
       - ./grafana.ini:/etc/grafana/grafana.ini
     environment:
-      GF_SECURITY_ADMIN_USER: grafanaadmin
-      GF_SECURITY_ADMIN_PASSWORD: grafanaadminpassword
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD}
+      GF_SERVER_HTTP_PORT: ${GRAFANA_PORT}
     depends_on:
       - influxdb
 
