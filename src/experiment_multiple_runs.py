@@ -1,49 +1,62 @@
 import mlflow
 import mlflow.tensorflow
 
-from model.import_data import import_data
+from model.import_dataset import import_dataset
 from model.preprocess_data import preprocess_data
 from model.create_model import create_model
 from model.fit_model import fit_model
 from model.evaluate_model import evaluate_model
 
 mlflow.set_tracking_uri("http://localhost:5003")
+dataset_id = "ea93eb20-616c-4ad2-9d82-cca701766612"
+experiment_name = "Default"
+test_split = 0.2
 
 
-def mlflow_run(x_train, y_train, x_test, y_test, dropout, epochs):
+def mlflow_run(train_x, train_y, test_x, test_y,
+               dropout, epochs,
+               dataset_train, dataset_test):
     with mlflow.start_run():
-
         mlflow.tensorflow.autolog()
 
-        # Log the hyperparameters
-        mlflow.log_param("selected_dropout", dropout)
-        mlflow.log_param("selected_epochs", epochs)
+        # Log inputs
+        mlflow.log_input(dataset_train, context="train")
+        mlflow.log_input(dataset_test, context="test")
 
         # Modell erstellen
-        model = create_model(dropout=0.2)
+        model = create_model(test_x.shape, dropout)
 
         # Modell trainieren
-        fit_model(model, x_train, y_train,
+        fit_model(model, train_x, train_y,
                   optimizer='adam',
-                  loss='sparse_categorical_crossentropy',
+                  loss="mean_squared_error",
                   metrics=['accuracy'],
                   epochs=epochs)
 
         # Modell evaluieren
-        eval = evaluate_model(model, x_test, y_test)
+        test_loss, test_acc = evaluate_model(model, test_x, test_y)
 
         # Metriken loggen
-        mlflow.tensorflow.mlflow.log_metric("evaluation_accuracy", eval[1])
+        mlflow.tensorflow.mlflow.log_metric("test_loss", test_loss)
+        mlflow.tensorflow.mlflow.log_metric("test_loss", test_acc)
+        mlflow.tensorflow.mlflow.log_param("dropout", dropout)
+        mlflow.tensorflow.mlflow.log_param("test_split", test_split)
+        mlflow.tensorflow.mlflow.log_param("epochs", epochs)
+        mlflow.tensorflow.mlflow.log_param("dataset_id", dataset_id)
 
     mlflow.end_run()
 
 
 def main():
     # Daten importieren
-    x_train, y_train, x_test, y_test = import_data()
+    images, labels, _ = import_dataset(dataset_id)
 
     # Daten vorverarbeiten
-    x_train, x_test = preprocess_data(x_train, x_test)
+    train_x, train_y, _, test_x, test_y, _ = \
+        preprocess_data(images, labels, _, test_split)
+
+    dataset_train = mlflow.data.from_numpy(features=train_x, targets=train_y)
+    dataset_test = mlflow.data.from_numpy(features=test_x, targets=test_y)
 
     # Define hyperparameter grid
     parameters = {
@@ -52,12 +65,15 @@ def main():
     }
 
     # Set experiment
-    mlflow.set_experiment("MNIST Multiple Runs")
+    mlflow.set_experiment(experiment_name)
 
     # Iterate over all combinations of hyperparameters
     for dropout in parameters['dropout']:
         for epochs in parameters['epochs']:
-            mlflow_run(x_train, y_train, x_test, y_test, dropout, epochs)
+            mlflow_run(train_x, train_y, test_x, test_y,
+                       dropout, epochs,
+                       dataset_train, dataset_test
+                       )
 
 
 if __name__ == "__main__":
