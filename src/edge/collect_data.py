@@ -3,7 +3,7 @@ import time
 from capture_image import capture_image_jpg
 from take_lidar_measurement import take_lidar_measurement
 
-api_url = "http://192.168.178.133:5001/upload"
+api_url = "http://192.168.178.147:5001/predict"
 
 
 while True:
