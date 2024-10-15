@@ -7,6 +7,13 @@ from buzzer_output import set_beep_interval
 api_url = "http://192.168.178.147:5001/predict"
 
 
+def send_measurement_to_api(image, sensor_value):
+    files = {'image': image}
+    data = {'sensor_value': sensor_value}
+    response = requests.post(api_url, files=files, data=data)
+    print(f"API Response: {response.status_code}, {response.text}")
+
+
 while True:
     time.sleep(0.25)
 
@@ -26,8 +33,4 @@ while True:
         print("Measurement out of range")
         continue
 
-    # send api request
-    files = {'image': image}
-    data = {'sensor_value': sensor_value}
-    response = requests.post(api_url, files=files, data=data)
-    print(f"API Response: {response.status_code}, {response.text}")
+    send_measurement_to_api(image, sensor_value)
