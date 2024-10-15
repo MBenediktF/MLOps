@@ -16,16 +16,16 @@ while True:
         continue
 
     # read lidar sensor
-    measurement = take_lidar_measurement()
-    if measurement is None:
+    sensor_value = take_lidar_measurement()
+    if sensor_value is None:
         print("Could not get measurement")
         continue
-    if measurement > 250:
+    if sensor_value > 250:
         print("Measurement out of range")
         continue
 
     # send api request
     files = {'image': image}
-    data = {'measurement': measurement}
+    data = {'sensor_value': sensor_value}
     response = requests.post(api_url, files=files, data=data)
     print(f"API Response: {response.status_code}, {response.text}")
