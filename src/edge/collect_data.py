@@ -2,6 +2,7 @@ import requests
 import time
 from capture_image import capture_image_jpg
 from take_lidar_measurement import take_lidar_measurement
+from buzzer_output import set_beep_interval
 
 api_url = "http://192.168.178.147:5001/predict"
 
@@ -20,6 +21,7 @@ while True:
     if sensor_value is None:
         print("Could not get measurement")
         continue
+    set_beep_interval(sensor_value-30)
     if sensor_value > 250:
         print("Measurement out of range")
         continue
