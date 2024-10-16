@@ -9,6 +9,9 @@ services:
       - grafana_data:/var/lib/grafana
       - log_data:/var/lib/grafana/logs
       - ./grafana.ini:/etc/grafana/grafana.ini
+    environment:
+      GF_SECURITY_ADMIN_USER: grafanaadmin
+      GF_SECURITY_ADMIN_PASSWORD: grafanaadminpassword
 
   inference:
     build:
@@ -26,10 +29,10 @@ services:
     ports:
       - "5003:5003"
     environment:
-      - MLFLOW_TRACKING_URI=mysql+pymysql://mlflow:mlflow@mysql:3306/mlflow
-      - MLFLOW_S3_ENDPOINT_URL=http://minio:9000
-      - AWS_ACCESS_KEY_ID=minioadmin
-      - AWS_SECRET_ACCESS_KEY=minioadmin
+      MLFLOW_TRACKING_URI: mysql+pymysql://mlflow:mlflow@mysql:3306/mlflow
+      MLFLOW_S3_ENDPOINT_URL: http://minio:9000
+      AWS_ACCESS_KEY_ID: minioadmin
+      AWS_SECRET_ACCESS_KEY: minioadmin
     depends_on:
       - mysql
       - minio
@@ -37,7 +40,7 @@ services:
   mysql:
     image: mysql:latest
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: mlflowadminpassword
       MYSQL_DATABASE: mlflow
       MYSQL_USER: mlflow
       MYSQL_PASSWORD: mlflow
@@ -53,13 +56,32 @@ services:
       - "9001:9001"
     environment:
       MINIO_ACCESS_KEY: minioadmin
-      MINIO_SECRET_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadminpassword
     command: server /data --console-address :9001
     volumes:
       - minio_data:/data
+
+  influxdb:
+    image: influxdb:latest
+    container_name: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: influxadmin
+      DOCKER_INFLUXDB_INIT_PASSWORD: influxadminpassword
+      DOCKER_INFLUXDB_INIT_ORG: beg
+      DOCKER_INFLUXDB_INIT_BUCKET: inference_data_logs
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: influxadmintoken
+    volumes:
+      - influxdb_data:/var/lib/influxdb2
+      - influxdb_config:/etc/influxdb2
+
 
 volumes:
   log_data:
   grafana_data:
   mysql_data:
   minio_data:
+  influxdb_data:
+  influxdb_config:
