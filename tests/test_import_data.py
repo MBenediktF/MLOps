@@ -1,4 +1,4 @@
-from src.model.import_data import import_data
+from src.model.import_dataset import import_dataset
 from unittest import mock
 import numpy as np
 import pandas as pd
@@ -7,7 +7,7 @@ import pandas as pd
 @mock.patch('src.model.import_data.pd.read_csv',
             return_value=pd.read_csv('tests/mock_data.csv'))
 def test_import_data(mocked_data):
-    x_train, y_train, x_test, y_test = import_data()
+    x_train, y_train, x_test, y_test = import_dataset()
     print(type(x_train))
     assert isinstance(x_train, np.ndarray), \
         "The returned x_train object are not a numpy ndarray"
