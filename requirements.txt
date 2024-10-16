@@ -1,8 +1,8 @@
 tensorflow
-numpy
 matplotlib
 mlflow
 boto3
 dvc
 dvc-s3
-pandas
+sklearn.utils
+keras.utils
