@@ -5,4 +5,4 @@ WORKDIR /app
 COPY src/mlflow/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["mlflow", "ui", "--host", "0.0.0.0", "--port", "5003"]
+CMD ["sh", "-c", "mlflow ui --host 0.0.0.0 --port ${MLFLOW_PORT}"]

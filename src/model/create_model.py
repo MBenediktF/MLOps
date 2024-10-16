@@ -1,9 +1,9 @@
 import tensorflow as tf
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Dense, Dropout, Conv2D, Flatten
-from tensorflow.keras.layers import Input, MaxPooling2D, AveragePooling2D
-from tensorflow.keras.initializers import TruncatedNormal
-from tensorflow.keras import backend as K
+from keras.models import Model  # type: ignore
+from keras.layers import Dense, Dropout, Conv2D, Flatten  # type: ignore
+from keras.layers import Input, MaxPooling2D, AveragePooling2D  # type: ignore
+from keras.initializers import TruncatedNormal  # type: ignore
+from keras import backend as K
 
 
 def create_model(img_size, dropout=0.2):

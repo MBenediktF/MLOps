@@ -1,15 +1,19 @@
 from influxdb_client import InfluxDBClient, Point
 from influxdb_client.client.write_api import SYNCHRONOUS
+from dotenv import load_dotenv
+import os
 
-INFLUX_ENDPOINT = "http://influxdb:8086"
-INFLUX_ORG = "beg"
-INFLUX_DATABASE = "inference_data_logs"
-INFLUX_TOKEN = "influxadmintoken"
+load_dotenv()
+
+influx_endpoint = "http://influxdb:8086"
+influx_org = os.getenv('INFLUX_ORG')
+influx_database = os.getenv('INFLUX_DATABASE')
+influx_token = os.getenv('INFLUX_TOKEN')
 
 influx_client = InfluxDBClient(
-    url=INFLUX_ENDPOINT,
-    org=INFLUX_ORG,
-    token=INFLUX_TOKEN,
+    url=influx_endpoint,
+    org=influx_org,
+    token=influx_token,
 )
 influx_api = influx_client.write_api(write_options=SYNCHRONOUS)
 
@@ -22,23 +26,23 @@ def enable_local_dev(influx_endpoint_local):
     influx_client.close()
     influx_client = InfluxDBClient(
         url=influx_endpoint_local,
-        org=INFLUX_ORG,
-        token=INFLUX_TOKEN,
+        org=influx_org,
+        token=influx_token,
     )
     influx_api = influx_client.write_api(write_options=SYNCHRONOUS)
 
 
 def write_record(record):
     influx_api.write(
-        bucket=INFLUX_DATABASE,
-        org=INFLUX_ORG,
+        bucket=influx_database,
+        org=influx_org,
         record=record)
 
 
 def fetch_records(measurement, columns=DEFAULT_COLUMNS):
     columns_string = ', '.join(f'"{col}"' for col in columns)
     query = f'''
-    from(bucket: "{INFLUX_DATABASE}")
+    from(bucket: "{influx_database}")
     |> range(start: -1y)
     |> filter(fn: (r) => r._measurement == "{measurement}")
     |> pivot(rowKey:["_time"], columnKey: ["_field"], valueColumn: "_value")

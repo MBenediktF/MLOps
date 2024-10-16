@@ -3,9 +3,7 @@ import numpy as np
 from io import BytesIO
 from PIL import Image
 
-# @TODO get this from environment
-S3_ENDPOINT = "http://localhost:9000"
-enable_local_dev(S3_ENDPOINT)
+enable_local_dev()
 
 
 def import_dataset(dataset_uuid):

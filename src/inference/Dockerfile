@@ -16,6 +16,4 @@ COPY src/inference/. ./
 ENV FLASK_APP=flask_app.py
 ENV FLASK_RUN_HOST=0.0.0.0
 
-EXPOSE 5000
-
-CMD ["flask", "run"]
+CMD ["sh", "-c", "flask run --port ${INFERENCE_PORT}"]
