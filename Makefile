@@ -54,6 +54,9 @@ backup_docker_volumes:
 restore_docker_volumes:
 	@bash bash/restore_docker_volumes.sh
 
+build_and_start_services:
+	@docker-compose up -d --build
+
 setup_and_start_services:
 	@docker-compose up -d
 
@@ -62,3 +65,7 @@ start_services:
 
 stop_services:
 	@docker-compose stop
+
+add_pythonpath:
+	@export PYTHONPATH="${PYTHONPATH}:src"
+
