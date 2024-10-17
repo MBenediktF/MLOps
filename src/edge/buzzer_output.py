@@ -4,11 +4,11 @@ import threading
 from take_lidar_measurement import take_lidar_measurement
 import atexit
 
-BUZZER_PIN = 18
+BUZZER_PIN = 23
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(BUZZER_PIN, GPIO.OUT)
 
-buzzer = GPIO.PWM(BUZZER_PIN, 600)
+buzzer = GPIO.PWM(BUZZER_PIN, 500)
 buzzer.start(0)
 
 beep_interval = 1.5
@@ -50,10 +50,15 @@ def set_beep_interval(distance):
 
 
 if __name__ == "__main__":
+    print("Starting buzzer test")
+    beep_interval = 0
+    time.sleep(1)
+    print("Continous mode")
     while True:
         time.sleep(0.25)
-        sensor_value = take_lidar_measurement()-30
+        sensor_value = take_lidar_measurement()
         if sensor_value is None:
             print("Could not get measurement")
             continue
+        sensor_value = sensor_value - 30
         set_beep_interval(sensor_value)
