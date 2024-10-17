@@ -3,3 +3,4 @@ libcamera
 cv2
 adafruit-circuitpython-vl53l0x
 adafruit-blinka
+RPi.GPIO
