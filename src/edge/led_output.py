@@ -2,12 +2,12 @@ import RPi.GPIO as GPIO
 import time
 import atexit
 
-atexit.register(GPIO.cleanup)
-
 GPIO.setmode(GPIO.BCM)
 LED_PIN = 24
 GPIO.setup(LED_PIN, GPIO.OUT)
 GPIO.output(LED_PIN, GPIO.HIGH)
+
+atexit.register(lambda: GPIO.cleanup(LED_PIN))
 
 
 def set_led_output(state):

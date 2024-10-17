@@ -13,7 +13,7 @@ buzzer.start(0)
 
 beep_interval = 1.5
 
-atexit.register(GPIO.cleanup)
+atexit.register(lambda: GPIO.cleanup(BUZZER_PIN))
 
 
 def buzzer_thread():
