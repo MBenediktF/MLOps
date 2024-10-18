@@ -1,0 +1,7 @@
+numpy
+pandas
+mlflow
+flask
+boto3
+opencv-python
+python-dotenv
