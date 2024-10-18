@@ -14,10 +14,7 @@ def index():
         <h1>Inference API is running</h1>
         <ul>
             <li><a href="/show_logs">Show Logs</a></li>
-            <li><a href="/show_data_logs">Show Data Logs</a></li>
-            <br>
             <li><a href="/get_logs">Download Logs</a></li>
-            <li><a href="/get_data_logs">Download Data Logs</a></li>
         </ul>
     """
 
