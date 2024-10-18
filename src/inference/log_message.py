@@ -20,7 +20,7 @@ if not os.path.exists(filename):
 
 
 logging.basicConfig(
-    filename='logs/inference_pipeline.log',
+    filename=filename,
     format='%(asctime)s - %(levelname)s - %(message)s',
     level=INFO
 )
