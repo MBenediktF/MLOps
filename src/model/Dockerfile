@@ -11,7 +11,8 @@ RUN apt-get update && apt-get install -y \
 COPY src/model/requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY src/inference/. ./
+COPY src/model/. ./
+COPY src/inference/s3_helpers.py ./inference/
 
 ENV FLASK_APP=flask_app.py
 ENV FLASK_RUN_HOST=0.0.0.0
