@@ -1,15 +1,15 @@
-from run_inference_pipeline import run_inference_pipeline  # noqa: F401
+from log_message import log_message  # noqa: F401
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
-from log_features_prediction import log_features_prediction, file_is_jpg
-from create_dataset import create_dataset_from_measurement
+from run_experiment import run_experiment, check_parameter_grid
+import threading
 
 app = Flask(__name__)
 
 
 @app.route("/")
-def index():
+def index_route():
     return """
         <h1>Model training API is running</h1>
         <ul>
@@ -20,7 +20,7 @@ def index():
 
 
 @app.route("/show_logs")
-def show_logs():
+def show_logs_route():
     try:
         shutil.copy("logs/inference_pipeline.log", "inference_pipeline.log")
         response = send_file(
@@ -35,7 +35,7 @@ def show_logs():
 
 
 @app.route("/get_logs")
-def get_logs():
+def get_logs_route():
     try:
         shutil.copy("logs/inference_pipeline.log", "inference_pipeline.log")
         response = send_file("inference_pipeline.log", as_attachment=True)
@@ -45,40 +45,29 @@ def get_logs():
         return jsonify({"error": "Could not read log file"}), 500
 
 
-@app.route("/predict", methods=["POST"])
-def predict():
-    # get image file
-    if 'image' not in request.files:
-        return {'message': 'No file part'}, 400
-    file = request.files['image']
-    if file.filename == '':
-        return {'message': 'No selected file'}, 400
-    if not file_is_jpg(file):
-        return {'message': 'Filetype not supported.'}, 400
-
-    # get sensor value
-    sensor_value = request.form.get("sensor_value")
-    if sensor_value is None:
-        return {'message': 'No sensor value provided.'}, 400
-
-    # prediction = run_inference_pipeline(features)
-    prediction = 44
-
+@app.route("/run_experiment", methods=["POST"])
+def run_experiment_route():
+    # get and check parameters
+    experiment_name = request.form.get("experiment_name")
+    if experiment_name is None:
+        return {'message': 'No experiment name.'}, 400
+    dataset_id = request.form.get("dataset_id")
+    if dataset_id is None:
+        return {'message': 'No dataset id.'}, 400
+    test_split = request.form.get("test_split")
+    if test_split is None:
+        test_split = 0.2
+    parameters = request.form.get("parameters")
+    if parameters is None:
+        return {'message': 'No parameters.'}, 400
     try:
-        log_features_prediction(file, prediction, sensor_value)
+        check_parameter_grid(parameters)
     except Exception as e:
-        return {'message': f'Could not store data: {e}'}, 500
-
-    return {'prediction': prediction}, 200
-
-
-@app.route("/create_dataset", methods=["POST"])
-def create_dataset():
-    # get measurement name
-    measurement = request.form.get("measurement")
-    if measurement is None:
-        return {'message': 'No measurement name.'}, 400
-    # create dataset
-    dataset_uuid, num_images = create_dataset_from_measurement(measurement)
-    responseString = f'Created dataset {dataset_uuid}, {num_images} images'
+        return {'message': str(e)}, 400
+    # start training thread
+    experiment_thread = threading.Thread(
+        target=run_experiment,
+        args=(experiment_name, dataset_id, test_split, parameters))
+    experiment_thread.start()
+    responseString = f'Started experiment {experiment_name}.'
     return {'message': responseString}, 200
