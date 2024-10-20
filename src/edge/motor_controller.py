@@ -1,5 +1,6 @@
 import os
 import RPi.GPIO as GPIO
+import time
 
 GPIO.setmode(GPIO.BCM)
 DIR_LEFT_PIN = 6
@@ -21,42 +22,40 @@ def write_pwm_config(fname, value):
     return 0
 
 
+def set_pwm_output(channel, period, duty_cycle):
+    channel = str(channel)
+    if channel not in ["0", "1"]:
+        raise ValueError("Channel 0 and 1 supported, unknown channel")
+    if not os.path.exists(f"/sys/class/pwm/pwmchip0/pwm{channel}"):
+        write_pwm_config("export", channel)
+        time.sleep(0.01)
+    write_pwm_config(f"pwm{channel}/period", str(period))
+    write_pwm_config(f"pwm{channel}/duty_cycle", str(duty_cycle))
+
+
+def enable_pwm_output(channel):
+    channel = str(channel)
+    if channel not in ["0", "1"]:
+        raise ValueError("Channel 0 and 1 supported, unknown channel")
+    write_pwm_config(f"pwm{channel}/enable", "1")
+
+
+def disable_pwm_output(channel):
+    channel = str(channel)
+    if channel not in ["0", "1"]:
+        raise ValueError("Channel 0 and 1 supported, unknown channel")
+    write_pwm_config(f"pwm{channel}/enable", "0")
+
+
 def main():
-    if not os.path.exists("/sys/class/pwm/pwmchip0/pwm0"):
-        ret = write_pwm_config("export", "0")
-        if ret:
-            return ret
-
-    ret = write_pwm_config("pwm0/period", "500000000")  # 500ms period (2 Hz)
-    if ret:
-        return ret
-
-    ret = write_pwm_config("pwm0/duty_cycle", "400000000")  # 80% Duty Cycle
-    if ret:
-        return ret
-
-    ret = write_pwm_config("pwm0/enable", "1")  # Enable PWM
-    if ret:
-        return ret
-
-    if not os.path.exists("/sys/class/pwm/pwmchip0/pwm1"):
-        ret = write_pwm_config("export", "1")
-        if ret:
-            return ret
-
-    ret = write_pwm_config("pwm1/period", "500000000")  # 500ms period (2 Hz)
-    if ret:
-        return ret
-
-    ret = write_pwm_config("pwm1/duty_cycle", "400000000")  # 80% Duty Cycle
-    if ret:
-        return ret
-
-    ret = write_pwm_config("pwm1/enable", "1")  # Enable PWM
-    if ret:
-        return ret
-
-    return 0
+    set_pwm_output(0, 50000000, 40000000)
+    set_pwm_output(1, 50000000, 40000000)
+    enable_pwm_output(0)
+    enable_pwm_output(1)
+    time.sleep(5)
+    disable_pwm_output(0)
+    disable_pwm_output(1)
+    return
 
 
 if __name__ == "__main__":
