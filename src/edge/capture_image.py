@@ -17,7 +17,7 @@ def capture_image_jpg():
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         # crop image to 4:3
-        #image = image[:, 567:4032]
+        image = image[:, 567:4032]
 
         # reduce image resolution
         image = cv2.resize(image, (640, 480))
