@@ -1,7 +1,7 @@
 import requests
 import threading
 
-api_url = "http://172.20.10.3:5001/predict"
+api_url = "http://192.168.178.147:5001/predict"
 
 
 def send_measurement_to_api_thread(image, sensor_value):
