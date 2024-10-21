@@ -21,10 +21,6 @@ class WHEEL:
         GPIO.setup(self.dir_pin, GPIO.OUT)
         self.set_speed(0)
 
-    def __del__(self):
-        self.pwm.disable()
-        GPIO.cleanup(self.dir_pin)
-
     def set_speed(self, speed: int) -> None:
         """
         Sets wheel speed and direction.
@@ -61,6 +57,8 @@ def main():
     wheel_left.set_speed(-50)
     wheel_right.set_speed(-50)
     time.sleep(5)
+    wheel_left.set_speed(0)
+    wheel_right.set_speed(0)
     return
 
 
