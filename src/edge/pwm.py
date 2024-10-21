@@ -22,7 +22,7 @@ class PWM:
         if self.channel not in ["0", "1"]:
             raise ValueError("Channel 0 and 1 supported, unknown channel")
         if not os.path.exists(f"/sys/class/pwm/pwmchip0/pwm{channel}"):
-            self.__write("export", channel)
+            self.__write("export", self.channel)
             time.sleep(0.01)
 
     def __del__(self):
