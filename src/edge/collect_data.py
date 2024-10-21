@@ -3,9 +3,9 @@ from capture_image import capture_image_jpg
 from take_lidar_measurement import take_lidar_measurement
 from buzzer_output import set_beep_interval
 from led_output import set_led_output
-from drive import drive, drive_forward, drive_backward, drive_stop
-from drive import rotate_left, rotate_right
-from drive import enable_speed_mode, disable_speed_mode
+from drive_helpers import drive, drive_forward, drive_backward, drive_stop
+from drive_helpers import rotate_left, rotate_right
+from drive_helpers import enable_speed_mode, disable_speed_mode
 # from button_input import wait_for_button_press_release
 from controller_input import event_actions
 import time
