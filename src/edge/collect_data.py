@@ -47,6 +47,7 @@ while True:
         # stop if distance to small
         if target_speed == 0:
             set_beep_interval(0)
+            set_led_output(False)
             break
 
         time.sleep(0.25)
