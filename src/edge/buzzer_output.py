@@ -19,7 +19,7 @@ atexit.register(lambda: GPIO.cleanup(BUZZER_PIN))
 def buzzer_thread():
     global beep_interval
     while True:
-        if beep_interval > 1:
+        if beep_interval >= 1:
             continue
         buzzer.ChangeDutyCycle(50)
         time.sleep(0.03)
@@ -36,7 +36,7 @@ buzzer_control_thread.start()
 def set_beep_interval(distance):
     global beep_interval
     if distance > 200:
-        beep_interval = 1.5
+        beep_interval = 1
     elif 100 < distance <= 200:
         beep_interval = 0.8
     elif 70 < distance <= 120:
@@ -46,7 +46,7 @@ def set_beep_interval(distance):
     elif 10 < distance <= 30:
         beep_interval = 0.12
     else:
-        beep_interval = 0
+        beep_interval = 1
 
 
 if __name__ == "__main__":
