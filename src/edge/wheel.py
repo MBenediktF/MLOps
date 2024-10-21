@@ -3,6 +3,7 @@ from pwm import PWM
 import time
 
 GPIO.setmode(GPIO.BCM)
+
 DIR_LEFT_PIN = 6
 DIR_RIGHT_PIN = 16
 
@@ -46,10 +47,11 @@ class WHEEL:
             raise ValueError("Speed has to be an integer from 0 to 100")
 
 
-def main():
-    wheel_left = WHEEL(0, DIR_LEFT_PIN)
-    wheel_right = WHEEL(1, DIR_RIGHT_PIN)
+wheel_left = WHEEL(0, DIR_LEFT_PIN)
+wheel_right = WHEEL(1, DIR_RIGHT_PIN)
 
+
+def main():
     wheel_left.set_speed(50)
     wheel_right.set_speed(50)
     time.sleep(5)
