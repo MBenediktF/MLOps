@@ -21,11 +21,11 @@ class PWM:
         self.channel = str(channel)
         if self.channel not in ["0", "1"]:
             raise ValueError("Channel 0 and 1 supported, unknown channel")
-
-    def __write(self, fname, value):
         if not os.path.exists(f"/sys/class/pwm/pwmchip0/pwm{self.channel}"):
             self.__write("export", self.channel)
             time.sleep(0.01)
+
+    def __write(self, fname, value):
         fpath = f"/sys/class/pwm/pwmchip0/{fname}"
         try:
             with open(fpath, 'w') as f:
