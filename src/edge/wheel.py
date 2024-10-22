@@ -8,7 +8,7 @@ DIR_LEFT_PIN = 6
 DIR_RIGHT_PIN = 16
 INT_LEFT_PIN = 26
 INT_RIGHT_PIN = 19
-K_p = 0.5
+K_p = 0.2
 
 
 class WHEEL:
@@ -24,6 +24,7 @@ class WHEEL:
         self.int_pin = int_pin
         self.int_count = 0
         self.speed = 0
+        self.direction = 0
         self.steps = 0
         self.active = True
 
@@ -53,17 +54,21 @@ class WHEEL:
 
     def __controller_thread(self) -> None:
         while self.active:
+            # get steps and calc diff
             steps_real = self.__get_int_count()
-            steps_goal = self.steps + abs(self.speed)
+            steps_goal = self.steps + self.speed
             self.steps = steps_goal
             diff = steps_goal - steps_real
 
-            target_speed = abs(self.speed) + K_p * diff
+            # calc target speed (p-controller)
+            target_speed = self.speed + K_p * diff
             target_speed = max(0, min(100, target_speed))
-            if self.speed < 0:
-                target_speed = target_speed * -1
 
+            # set target speed, respect direction
+            if self.direction < 0:
+                target_speed = target_speed * -1
             self.__set_speed_pwm(target_speed)
+
             time.sleep(0.1)
 
     def cleanup(self) -> None:
@@ -84,9 +89,6 @@ class WHEEL:
             count (int): Interrupt count
         """
         return self.int_count
-
-    def __reset_int_count(self) -> None:
-        self.int_count = 0
 
     def __set_speed_pwm(self, speed: int) -> None:
         """
@@ -110,9 +112,11 @@ class WHEEL:
             raise ValueError("Speed has to be an integer -100 to 100")
 
     def set_speed(self, speed: int) -> None:
-        self.steps = 0
-        self.speed = speed
-        self.__reset_int_count()
+        self.speed = abs(speed)
+        if speed < 0:
+            self.direction = -1
+        elif speed > 0:
+            self.direction = +1
 
 
 wheel_left = WHEEL(0, DIR_LEFT_PIN, INT_LEFT_PIN)
