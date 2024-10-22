@@ -35,18 +35,18 @@ buzzer_control_thread.start()
 
 def set_beep_interval(distance):
     global beep_interval
-    if distance > 200:
-        beep_interval = 1
-    elif 100 < distance <= 200:
+    if distance > 250:
+        beep_interval = 1.5
+    elif 170 < distance <= 250:
         beep_interval = 0.8
-    elif 70 < distance <= 120:
+    elif 120 < distance <= 170:
         beep_interval = 0.5
-    elif 30 < distance <= 70:
+    elif 55 < distance <= 120:
         beep_interval = 0.3
-    elif 10 < distance <= 30:
+    elif 10 < distance <= 55:
         beep_interval = 0.12
     else:
-        beep_interval = 1
+        beep_interval = 0
 
 
 if __name__ == "__main__":
