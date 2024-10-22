@@ -21,7 +21,7 @@ class WHEEL:
         GPIO.setup(self.dir_pin, GPIO.OUT)
         self.set_speed(0)
 
-    def set_speed(self, speed: int) -> None:
+    def set_speed(self, speed: float) -> None:
         """
         Sets wheel speed and direction.
         Args:
