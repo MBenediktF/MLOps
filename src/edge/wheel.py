@@ -56,16 +56,12 @@ class WHEEL:
             steps_real = self.__get_int_count()
             steps_goal = self.steps + abs(self.speed)
             self.steps = steps_goal
-
             diff = steps_goal - steps_real
-
-            print(diff)
 
             target_speed = abs(self.speed) + K_p * diff
             target_speed = max(0, min(100, target_speed))
             if self.speed < 0:
                 target_speed = target_speed * -1
-            print(f"New target speed: {target_speed}")
 
             self.__set_speed_pwm(target_speed)
             time.sleep(0.1)
