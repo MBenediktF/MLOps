@@ -1,5 +1,4 @@
 from wheel import wheel_left, wheel_right
-from interrupts import get_rotation_count
 import time
 import atexit
 
@@ -7,10 +6,12 @@ atexit.register(lambda: wheel_left.set_speed(0))
 atexit.register(lambda: wheel_right.set_speed(0))
 
 K_p = 0.5
-target_speed = 50
+target_speed = 30
 
 while True:
-    n_left, n_right = get_rotation_count()
+    n_left = wheel_left.get_int_count()
+    n_right = wheel_right.get_int_count()
+
     diff = abs(n_left-n_right)
     print(diff)
 
