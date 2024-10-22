@@ -3,11 +3,9 @@ from capture_image import capture_image_jpg
 from take_lidar_measurement import take_lidar_measurement
 from buzzer_output import set_beep_interval
 from led_output import set_led_output
-from drive_helpers import drive, drive_forward, drive_backward, drive_stop
-from drive_helpers import rotate_left, rotate_right
-from drive_helpers import enable_speed_mode, disable_speed_mode
-# from button_input import wait_for_button_press_release
+from drive_helpers import drive, enable_controller
 from controller_input import event_actions
+# from button_input import wait_for_button_press_release
 import time
 
 
@@ -57,12 +55,5 @@ def park():
     print("Finished.")
     time.sleep(1)
 
-
+enable_controller()
 event_actions['x_pressed'] = park
-event_actions['up'] = drive_forward
-event_actions['down'] = drive_backward
-event_actions['left'] = rotate_left
-event_actions['right'] = rotate_right
-event_actions['released'] = drive_stop
-event_actions['r2_pressed'] = enable_speed_mode
-event_actions['r2_released'] = disable_speed_mode
