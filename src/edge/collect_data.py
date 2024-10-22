@@ -22,19 +22,19 @@ def park():
         distance = sensor_value - 35
         print(f"Distance: {distance}")
 
-        set_led_output(distance <= 200)
+        set_led_output(distance <= 250)
         set_beep_interval(distance)
 
         # set motor speed
         if distance <= 15:
             target_speed = 0
-        elif distance <= 200:
-            target_speed = 10
+        elif distance <= 250:
+            target_speed = 20
         else:
             target_speed = 30
         drive(target_speed)
 
-        if distance < 200:
+        if distance < 250:
             # take image
             image = capture_image_jpg()
             if image is None:
@@ -46,7 +46,9 @@ def park():
 
         # stop if distance to small
         if target_speed == 0:
-            set_beep_interval(0)
+            set_beep_interval(1)
+            time.sleep(1)
+            set_beep_interval(300)
             set_led_output(False)
             break
 
