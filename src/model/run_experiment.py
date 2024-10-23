@@ -23,7 +23,7 @@ def enable_local_dev():
 def mlflow_run(
         train_x, train_y, test_x, test_y,
         dropout, epochs, test_split,
-        dataset_train, dataset_test
+        dataset_id, dataset_train, dataset_test
         ):
     with mlflow.start_run():
         mlflow.tensorflow.autolog()
@@ -99,7 +99,7 @@ def run_experiment(experiment_name, dataset_id, test_split, parameters):
             mlflow_run(
                 train_x, train_y, test_x, test_y,
                 dropout, epochs, test_split,
-                dataset_train, dataset_test
+                dataset_id, dataset_train, dataset_test
             )
 
 
