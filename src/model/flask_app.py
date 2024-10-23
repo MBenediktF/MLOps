@@ -4,6 +4,7 @@ import shutil
 import os
 from run_experiment import run_experiment, check_parameter_grid
 import threading
+import json
 
 app = Flask(__name__)
 
@@ -51,19 +52,28 @@ def run_experiment_route():
     experiment_name = request.form.get("experiment_name")
     if experiment_name is None:
         return {'message': 'No experiment name.'}, 400
+
     dataset_id = request.form.get("dataset_id")
     if dataset_id is None:
         return {'message': 'No dataset id.'}, 400
+
     test_split = request.form.get("test_split")
     if test_split is None:
         test_split = 0.2
+    try:
+        test_split = float(test_split)
+    except Exception as e:
+        return {'message': str(e)}, 400
+
     parameters = request.form.get("parameters")
     if parameters is None:
         return {'message': 'No parameters.'}, 400
     try:
+        parameters = json.loads(parameters)
         check_parameter_grid(parameters)
     except Exception as e:
         return {'message': str(e)}, 400
+
     # start training thread
     experiment_thread = threading.Thread(
         target=run_experiment,
