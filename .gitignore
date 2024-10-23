@@ -5,3 +5,4 @@ __pycache__
 /datasets
 backup
 src/edge/venv
+.DS_Store

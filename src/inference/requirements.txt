@@ -2,3 +2,7 @@ numpy
 pandas
 mlflow
 flask
+boto3
+influxdb-client
+opencv-python
+python-dotenv

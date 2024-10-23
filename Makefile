@@ -54,6 +54,9 @@ backup_docker_volumes:
 restore_docker_volumes:
 	@bash bash/restore_docker_volumes.sh
 
+build_and_start_services:
+	@docker-compose up -d --build
+
 setup_and_start_services:
 	@docker-compose up -d
 
@@ -65,3 +68,6 @@ stop_services:
 
 edge_setup_venv:
 	@source src/edge/venv/bin/activate
+
+add_pythonpath:
+	@export PYTHONPATH="${PYTHONPATH}:src"
