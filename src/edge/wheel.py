@@ -8,9 +8,9 @@ DIR_LEFT_PIN = 6
 DIR_RIGHT_PIN = 16
 INT_LEFT_PIN = 26
 INT_RIGHT_PIN = 19
-K_p = 0.4
-K_i = 0.027
-K_d = 0.02
+K_p = 0.6
+K_i = 0.01
+K_d = 0.005
 
 
 class WHEEL:
@@ -76,6 +76,10 @@ class WHEEL:
             # set target speed, respect direction
             if self.direction < 0:
                 target_speed = target_speed * -1
+
+            if abs(target_speed) < 11:
+                target_speed = 0
+
             self.__set_speed_pwm(target_speed)
 
             time.sleep(0.1)
@@ -113,6 +117,9 @@ class WHEEL:
             GPIO.output(self.dir_pin, GPIO.LOW)
         else:
             GPIO.output(self.dir_pin, GPIO.HIGH)
+
+        if abs(speed) > 0:
+            print(abs(speed))
 
         if abs(speed) <= 100:
             self.pwm.set(100000, int(100000/200*abs(speed)))
