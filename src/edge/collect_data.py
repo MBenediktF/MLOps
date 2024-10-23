@@ -24,12 +24,14 @@ def park():
         set_beep_interval(distance)
 
         # set motor speed
-        if distance <= 15:
+        if distance <= 12:
             target_speed = 0
+        elif distance <= 100:
+            target_speed = 3
         elif distance <= 250:
-            target_speed = 20
+            target_speed = 5
         else:
-            target_speed = 30
+            target_speed = 15
         drive(target_speed)
 
         if distance < 250:
@@ -54,6 +56,7 @@ def park():
 
     print("Finished.")
     time.sleep(1)
+
 
 enable_controller()
 event_actions['x_pressed'] = park
