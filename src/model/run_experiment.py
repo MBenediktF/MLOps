@@ -20,9 +20,11 @@ def enable_local_dev():
     mlflow.set_tracking_uri(f"http://localhost:{mlflow_port}")
 
 
-def mlflow_run(train_x, train_y, test_x, test_y,
-               dropout, epochs,
-               dataset_train, dataset_test):
+def mlflow_run(
+        train_x, train_y, test_x, test_y,
+        dropout, epochs, test_split,
+        dataset_train, dataset_test
+        ):
     with mlflow.start_run():
         mlflow.tensorflow.autolog()
 
@@ -94,10 +96,11 @@ def run_experiment(experiment_name, dataset_id, test_split, parameters):
     # Iterate over all combinations of hyperparameters
     for dropout in parameters['dropout']:
         for epochs in parameters['epochs']:
-            mlflow_run(train_x, train_y, test_x, test_y,
-                       dropout, epochs,
-                       dataset_train, dataset_test
-                       )
+            mlflow_run(
+                train_x, train_y, test_x, test_y,
+                dropout, epochs, test_split,
+                dataset_train, dataset_test
+            )
 
 
 if __name__ == "__main__":
