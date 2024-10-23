@@ -118,9 +118,6 @@ class WHEEL:
         else:
             GPIO.output(self.dir_pin, GPIO.HIGH)
 
-        if abs(speed) > 0:
-            print(abs(speed))
-
         if abs(speed) <= 100:
             self.pwm.set(100000, int(100000/200*abs(speed)))
             self.pwm.enable()
