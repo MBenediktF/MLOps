@@ -45,11 +45,11 @@ def mlflow_run(
                   )
 
         # Modell evaluieren
-        test_loss, test_acc = evaluate_model(model, test_x, test_y)
+        test_loss, test_mae = evaluate_model(model, test_x, test_y)
 
         # Metriken loggen
         mlflow.tensorflow.mlflow.log_metric("test_loss", test_loss)
-        mlflow.tensorflow.mlflow.log_metric("test_loss", test_acc)
+        mlflow.tensorflow.mlflow.log_metric("test_mae", test_mae)
         mlflow.tensorflow.mlflow.log_param("dropout", dropout)
         mlflow.tensorflow.mlflow.log_param("test_split", test_split)
         mlflow.tensorflow.mlflow.log_param("epochs", epochs)
