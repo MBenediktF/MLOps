@@ -8,7 +8,9 @@ DIR_LEFT_PIN = 6
 DIR_RIGHT_PIN = 16
 INT_LEFT_PIN = 26
 INT_RIGHT_PIN = 19
-K_p = 0.2
+K_p = 0.4
+K_i = 0.027
+K_d = 0.02
 
 
 class WHEEL:
@@ -25,7 +27,9 @@ class WHEEL:
         self.int_count = 0
         self.speed = 0
         self.direction = 0
-        self.steps = 0
+        self.pid_integral = 0
+        self.pid_prev_diff = 0
+        self.pid_steps = 0
         self.active = True
 
         GPIO.setmode(GPIO.BCM)
@@ -56,13 +60,20 @@ class WHEEL:
         while self.active:
             # get steps and calc diff
             steps_real = self.__get_int_count()
-            steps_goal = self.steps + self.speed
-            self.steps = steps_goal
+            steps_goal = self.pid_steps + self.speed
+            self.pid_steps = steps_goal
             diff = steps_goal - steps_real
 
-            # calc target speed (p-controller)
-            target_speed = self.speed + K_p * diff
+            # calc target speed (PID-controller)
+            self.pid_integral += diff
+            P_out = K_p * diff
+            I_out = K_i * self.pid_integral
+            D_out = K_d * (diff - self.pid_prev_diff)
+            target_speed = P_out + I_out + D_out
             target_speed = max(0, min(100, target_speed))
+            self.pid_prev_diff = diff
+
+            print(target_speed)
 
             # set target speed, respect direction
             if self.direction < 0:
