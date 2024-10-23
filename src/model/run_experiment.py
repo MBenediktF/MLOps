@@ -40,7 +40,9 @@ def mlflow_run(
                   optimizer='adam',
                   loss="mean_squared_error",
                   metrics=['accuracy'],
-                  epochs=epochs)
+                  epochs=epochs,
+                  batch_size=128
+                  )
 
         # Modell evaluieren
         test_loss, test_acc = evaluate_model(model, test_x, test_y)
