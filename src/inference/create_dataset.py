@@ -14,10 +14,10 @@ IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75
 
 
-def create_dataset_from_measurement(measurement):
+def create_dataset_from_measurement(measurement_name):
     # fetch datapoints from influx
     columns = ["feature_file_url", "sensor_value"]
-    measurement = fetch_records(measurement, columns)
+    measurement = fetch_records(measurement_name, columns)
 
     # create dataset uid
     dataset_uuid = str(uuid4())
@@ -51,7 +51,7 @@ def create_dataset_from_measurement(measurement):
     # add metadata txt file to bucket
     metadata = {
         "dataset_uuid": dataset_uuid,
-        "measurement": measurement,
+        "measurement": measurement_name,
         "num_images": len(measurement),
         "created_at": datetime.now().isoformat()
     }
