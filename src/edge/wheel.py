@@ -73,8 +73,6 @@ class WHEEL:
             target_speed = max(0, min(100, target_speed))
             self.pid_prev_diff = diff
 
-            print(target_speed)
-
             # set target speed, respect direction
             if self.direction < 0:
                 target_speed = target_speed * -1
