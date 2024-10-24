@@ -29,6 +29,10 @@ def create_dataset_from_measurement(measurement_name):
         image = fetch_image(image_file_url)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
 
+        # skip measurements without a valid reference measurement
+        if sensor_value == 0:
+            continue
+
         # scale image and convert to jpg
         if image.shape[1] != IMAGE_WIDTH or image.shape[0] != IMAGE_HEIGHT:
             image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
