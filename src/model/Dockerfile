@@ -13,6 +13,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY src/model/. ./
 COPY src/inference/s3_helpers.py ./inference/
+COPY src/inference/influx_helpers.py ./inference/
 
 ENV FLASK_APP=flask_app.py
 ENV FLASK_RUN_HOST=0.0.0.0

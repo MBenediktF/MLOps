@@ -6,9 +6,9 @@ import cv2
 from uuid import uuid4
 import os
 from datetime import datetime
-from influx_helpers import fetch_records
-from s3_helpers import upload_image_from_buffer, upload_txt_from_dict
-from s3_helpers import fetch_image
+from inference.influx_helpers import fetch_records
+from inference.s3_helpers import upload_image_from_buffer, upload_txt_from_dict
+from inference.s3_helpers import fetch_image
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75

@@ -5,6 +5,8 @@ import os
 from run_experiment import run_experiment, check_parameter_grid
 import threading
 import json
+from create_dataset import create_dataset_from_measurement
+
 
 app = Flask(__name__)
 
@@ -44,6 +46,18 @@ def get_logs_route():
         return response
     except Exception:
         return jsonify({"error": "Could not read log file"}), 500
+
+
+@app.route("/create_dataset", methods=["POST"])
+def create_dataset():
+    # get measurement name
+    measurement = request.form.get("measurement")
+    if measurement is None:
+        return {'message': 'No measurement name.'}, 400
+    # create dataset
+    dataset_uuid, num_images = create_dataset_from_measurement(measurement)
+    responseString = f'Created dataset {dataset_uuid}, {num_images} images'
+    return {'message': responseString}, 200
 
 
 @app.route("/run_experiment", methods=["POST"])
