@@ -5,7 +5,7 @@ INFO = logging.INFO
 WARNING = logging.WARNING
 ERROR = logging.ERROR
 
-filename = "logs/training_pipeling.log"
+filename = "logs/model_services.log"
 
 os.makedirs(os.path.dirname(filename), exist_ok=True)
 
