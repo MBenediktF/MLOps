@@ -25,3 +25,12 @@ def load_model_with_best_accuracy(experiment: str):
         raise Exception("Model could not be loaded")
 
     return model
+
+
+def load_registered_model(model_name: str):
+    try:
+        model = mlflow.tensorflow.load_model(model_name)
+    except Exception:
+        raise Exception("Model could not be loaded")
+
+    return model
