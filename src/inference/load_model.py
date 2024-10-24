@@ -1,4 +1,5 @@
 import mlflow
+import mlflow.tensorflow
 
 
 def load_model(experiment: str, run_id: str):
@@ -30,7 +31,7 @@ def load_model_with_best_accuracy(experiment: str):
 def load_registered_model(model_name: str):
     try:
         model = mlflow.tensorflow.load_model(model_name)
-    except Exception:
-        raise Exception("Model could not be loaded")
+    except Exception as e:
+        raise Exception(f"Model could not be loaded: {e}")
 
     return model
