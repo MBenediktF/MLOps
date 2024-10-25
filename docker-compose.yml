@@ -44,7 +44,7 @@ services:
       - minio
       - influxdb
 
-  model_training:
+  model_services:
     build:
       context: .
       dockerfile: src/model/Dockerfile
