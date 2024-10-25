@@ -1,10 +1,14 @@
-from run_inference_pipeline import run_inference_pipeline  # noqa: F401
+from inference_pipeline import InferencePipeline  # noqa: F401
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
-from log_features_prediction import file_is_jpg
 
 app = Flask(__name__)
+
+model_name = "Dev-Live"
+model_version = "1"
+measurement = "m2"
+inference_pipeline = InferencePipeline(model_name, model_version, measurement)
 
 
 @app.route("/")
@@ -71,7 +75,9 @@ def predict():
     file = request.files['image']
     if file.filename == '':
         return {'message': 'No selected file'}, 400
-    if not file_is_jpg(file):
+    
+    # check if file is jpg
+    if not file.filename.endswith(('.jpg', '.jpeg')):
         return {'message': 'Filetype not supported.'}, 400
 
     # get sensor value
@@ -80,6 +86,6 @@ def predict():
         sensor_value = 0
 
     # run inference pipeline
-    prediction = run_inference_pipeline(file, sensor_value)
+    prediction = inference_pipeline.run(file, sensor_value)
 
     return {'prediction': prediction}, 200
