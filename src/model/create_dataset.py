@@ -7,7 +7,8 @@ from uuid import uuid4
 import os
 from datetime import datetime
 from inference.influx_helpers import fetch_records
-from inference.s3_helpers import upload_image_from_buffer, upload_txt_from_dict
+from inference.s3_helpers import upload_image_from_bytefile
+from inference.s3_helpers import upload_txt_from_dict
 from inference.s3_helpers import fetch_image
 
 IMAGE_WIDTH = 100
@@ -47,7 +48,7 @@ def create_dataset_from_measurement(measurement_name):
 
         # upload images as jpg to s3
         try:
-            upload_image_from_buffer(image_buffer, filename)
+            upload_image_from_bytefile(image_buffer.tobytes(), filename)
         except Exception as e:
             log_message(f"Could not upload image to s3: {e}")
             continue

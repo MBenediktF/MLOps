@@ -43,15 +43,6 @@ def upload_image_from_bytefile(bytefile, filename):
     return True
 
 
-def upload_image_from_buffer(buffer, filename):
-    s3_client.put_object(
-        Bucket=bucket_name,
-        Key=filename,
-        Body=buffer.tobytes(),
-        ContentType='image/jpeg'
-    )
-
-
 def upload_txt_from_dict(dict, file_path):
     dict_string = "\n".join(f"{key}: {value}" for key, value in dict.items())
     s3_client.put_object(
