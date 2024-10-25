@@ -75,7 +75,7 @@ def predict():
     file = request.files['image']
     if file.filename == '':
         return {'message': 'No selected file'}, 400
-    
+
     # check if file is jpg
     if not file.filename.endswith(('.jpg', '.jpeg')):
         return {'message': 'Filetype not supported.'}, 400
