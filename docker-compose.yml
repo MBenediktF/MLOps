@@ -35,6 +35,10 @@ services:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFERENCE_PORT=${INFERENCE_PORT}
       - MODEL_TRAINING_PORT=${MODEL_TRAINING_PORT}
+      - MYSQL_PORT=3306
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
     depends_on:
       - mlflow
       - minio
@@ -83,8 +87,6 @@ services:
 
   mysql:
     image: mysql:latest
-    ports:
-      - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
