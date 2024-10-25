@@ -34,8 +34,8 @@ def upload_file(file, filename):
     try:
         s3_client.upload_fileobj(
             file, bucket_name, filename)
-    except Exception:
-        return False
+    except Exception as e:
+        raise e
     return True
 
 
