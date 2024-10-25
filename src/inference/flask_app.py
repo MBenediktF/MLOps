@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify, send_file
 import shutil
 import os
 
+SECRET_TOKEN = ""
+
 app = Flask(__name__)
 
 model_name = "Dev-Live"
@@ -69,6 +71,12 @@ def get_data_logs():
 
 @app.route("/predict", methods=["POST"])
 def predict():
+    # clinet authentication
+    auth_token = request.headers.get("auth_token")
+    client_uid = request.headers.get("client_uid")
+    if check_client_auth(client_uid, auth_token):
+        return {'message': 'Unauthorized'}, 401
+    
     # get image file
     if 'image' not in request.files:
         return {'message': 'No file part'}, 400
