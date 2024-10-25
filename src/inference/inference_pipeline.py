@@ -5,9 +5,6 @@ import threading
 import numpy as np
 import cv2
 
-IMAGE_WIDTH = 100
-IMAGE_HEIGHT = 75
-
 
 class InferencePipeline():
     def __init__(self, model_name, model_version, measurement) -> None:
@@ -17,8 +14,9 @@ class InferencePipeline():
             log_message(f"Error loading model: {str(e)}", ERROR)
             raise e
         self.measurement = measurement
-        self.image_width = IMAGE_WIDTH
-        self.image_height = IMAGE_HEIGHT
+        self.image_width = self.model.input_shape[2]
+        self.image_height = self.model.input_shape[1]
+        log_message(f"Model loaded: {model_name} - {model_version}")
 
     def run(self, image_file, sensor_value: int = 0) -> int:
         # 1: Get and check input image
