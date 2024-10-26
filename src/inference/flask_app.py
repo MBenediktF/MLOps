@@ -1,5 +1,5 @@
 from inference_pipeline import InferencePipeline  # noqa: F401
-from clients import create_client, check_client_auth
+from clients import create_client, check_client_auth, delete_client
 from clients import get_client_model, set_client_model
 from flask import Flask, request, jsonify, send_file
 import shutil
@@ -132,7 +132,9 @@ def set_model_version_route():
         return {'message': 'Missing model version.'}, 400
 
     # set model for client
-    set_client_model(client_uid, model_name, model_version)
+    success = set_client_model(client_uid, model_name, model_version)
+    if not success:
+        return {'message': 'Nothing updated'}, 400
 
     return {'message': 'Model set successfully'}, 200
 
@@ -150,3 +152,18 @@ def get_model_version_route():
         return {'messsage': 'Unknown client'}, 400
 
     return {'model_name': model, 'model_version': version}, 200
+
+
+@app.route("/delete_client", methods=["POST"])
+def delete_client_route():
+    # get client info
+    client_uid = request.form.get("client_uid")
+    if client_uid is None:
+        return {'message': 'No client specified.'}, 400
+
+    # delete client
+    success = delete_client(client_uid)
+    if not success:
+        return {'message': 'Unknown client'}, 400
+
+    return {'message': 'Successfully deleted client'}, 200

@@ -1,5 +1,5 @@
 from mysql_helpers import init_table, insert_record
-from mysql_helpers import get_records, update_record
+from mysql_helpers import get_records, update_record, delete_record
 from uuid import uuid4
 from hashlib import sha256
 from log_message import log_message, ERROR
@@ -65,3 +65,11 @@ def set_client_model(uid: str, model_name: str, model_version: str) -> bool:
         f"uid='{uid}'"
     )
     return True if updated else False
+
+
+def delete_client(uid: str) -> bool:
+    deleted = delete_record(
+        "clients",
+        f"uid='{uid}'"
+    )
+    return True if deleted else False
