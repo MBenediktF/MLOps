@@ -1,5 +1,6 @@
 from inference_pipeline import InferencePipeline  # noqa: F401
 from clients import create_client, check_client_auth
+from clients import get_client_model, set_client_model
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
@@ -113,3 +114,39 @@ def create_client_route():
     uid, auth_token = create_client(client_name)
 
     return {'client_uid': uid, 'auth_token': auth_token}, 200
+
+
+@app.route("/set_model_version", methods=["POST"])
+def set_model_version_route():
+    # get client info
+    client_uid = request.form.get("client_uid")
+    if client_uid is None:
+        return {'message': 'No client specified.'}, 400
+
+    # get model name and version
+    model_name = request.form.get("model_name")
+    if model_name is None:
+        return {'message': 'Missing model name'}, 400
+    model_version = request.form.get("model_version")
+    if model_version is None:
+        return {'message': 'Missing model version.'}, 400
+
+    # set model for client
+    set_client_model(client_uid, model_name, model_version)
+
+    return {'message': 'Model set successfully'}, 200
+
+
+@app.route("/get_model_version", methods=["POST"])
+def get_model_version_route():
+    # get client info
+    client_uid = request.form.get("client_uid")
+    if client_uid is None:
+        return {'message': 'No client specified.'}, 400
+
+    # get model for client
+    model, version = get_client_model(client_uid)
+    if model is None or version is None:
+        return {'messsage': 'Unknown client'}, 400
+
+    return {'model_name': model, 'model_version': version}, 200

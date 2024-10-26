@@ -46,19 +46,16 @@ def check_client_auth(uid: str, api_key: str) -> bool:
         "clients",
         f"uid='{uid}' AND api_key_hash='{api_key_hash}'"
         )
-    log_message(f"Client: {client}")
-    if not client:
-        log_message("Unauthorzed")
-        return False
-    return True
+    return True if client else False
 
 
-def set_client_model(uid, model_name, model_version) -> int:
-    return update_record(
+def set_client_model(uid: str, model_name: str, model_version: str) -> bool:
+    updated = update_record(
         "clients",
         {"model_name": model_name, "model_version": model_version},
         f"uid='{uid}'"
     )
+    return True if updated else False
 
 
 def get_client_model(uid) -> tuple:
