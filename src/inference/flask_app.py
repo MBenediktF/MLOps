@@ -5,8 +5,6 @@ from flask import Flask, request, jsonify, send_file
 import shutil
 import os
 
-SECRET_TOKEN = ""
-
 app = Flask(__name__)
 
 model_name = "Dev-Live"
