@@ -12,13 +12,18 @@ class InferencePipeline():
             self.model = load_registered_model(model_name, model_version)
         except Exception as e:
             log_message(f"Error loading model: {str(e)}", ERROR)
-            raise e
+            self.model = None
+            return
         self.measurement = measurement
         self.image_width = self.model.input_shape[2]
         self.image_height = self.model.input_shape[1]
         log_message(f"Model loaded: {model_name} - {model_version}")
 
     def run(self, image_file, sensor_value: int = 0) -> int:
+        # 0: Check if model is available
+        if not self.model:
+            return None
+
         # 1: Get and check input image
         try:
             image_data = image_file.read()
