@@ -1,6 +1,6 @@
 from inference_pipeline import InferencePipeline  # noqa: F401
 from clients import create_client, check_client_auth, delete_client
-from clients import get_client_model, set_client_model
+from clients import list_clients, get_client_model, set_client_model
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
@@ -112,6 +112,12 @@ def create_client_route():
     uid, auth_token = create_client(client_name)
 
     return {'client_uid': uid, 'auth_token': auth_token}, 200
+
+
+@app.route("/list_clients", methods=["POST"])
+def list_clients_route():
+    clients = list_clients()
+    return {'message': clients}, 200
 
 
 @app.route("/set_model_version", methods=["POST"])

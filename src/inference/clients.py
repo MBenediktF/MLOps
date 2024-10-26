@@ -58,6 +58,21 @@ def get_client_model(uid) -> tuple:
     return model, version
 
 
+def list_clients() -> list:
+    records = get_records("clients", "")
+    clients = []
+    for record in records:
+        client = {
+            "uid": record[1],
+            "name": record[2],
+            "model_name": record[4],
+            "model_version": record[5],
+            "timestamp": record[6]
+        }
+        clients.append(client)
+    return clients
+
+
 def set_client_model(uid: str, model_name: str, model_version: str) -> bool:
     updated = update_record(
         "clients",
