@@ -18,8 +18,8 @@ def load_model(experiment: str, run_id: str):
 
     try:
         model = mlflow.tensorflow.load_model(f"runs:/{run_id}/model")
-    except Exception:
-        raise Exception("Model could not be loaded")
+    except Exception as e:
+        raise Exception(f"Model could not be loaded: {e}")
 
     return model
 
