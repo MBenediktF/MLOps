@@ -1,4 +1,5 @@
 from inference_pipeline import InferencePipeline  # noqa: F401
+from clients import create_client, check_client_auth
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
@@ -72,11 +73,13 @@ def get_data_logs():
 @app.route("/predict", methods=["POST"])
 def predict():
     # clinet authentication
-    auth_token = request.headers.get("auth_token")
-    client_uid = request.headers.get("client_uid")
-    if check_client_auth(client_uid, auth_token):
+    client_uid = request.form.get("client_uid")
+    auth_token = request.headers.get("Authorization")
+    if client_uid is None or auth_token is None:
+        return {'message': 'Missing credetials'}, 401
+    if not check_client_auth(client_uid, auth_token):
         return {'message': 'Unauthorized'}, 401
-    
+
     # get image file
     if 'image' not in request.files:
         return {'message': 'No file part'}, 400
@@ -97,3 +100,16 @@ def predict():
     prediction = inference_pipeline.run(file, sensor_value)
 
     return {'prediction': prediction}, 200
+
+
+@app.route("/create_client", methods=["POST"])
+def create_client_route():
+    # get client name
+    client_name = request.form.get("name")
+    if client_name is None:
+        return {'message': 'No client name specified.'}, 400
+
+    # create client
+    uid, auth_token = create_client(client_name)
+
+    return {'client_uid': uid, 'auth_token': auth_token}, 200
