@@ -49,15 +49,6 @@ def check_client_auth(uid: str, api_key: str) -> bool:
     return True if client else False
 
 
-def set_client_model(uid: str, model_name: str, model_version: str) -> bool:
-    updated = update_record(
-        "clients",
-        {"model_name": model_name, "model_version": model_version},
-        f"uid='{uid}'"
-    )
-    return True if updated else False
-
-
 def get_client_model(uid) -> tuple:
     client = get_records("clients", f"uid='{uid}'")
     if not client:
@@ -65,3 +56,12 @@ def get_client_model(uid) -> tuple:
     model = client[0][4]
     version = client[0][5]
     return model, version
+
+
+def set_client_model(uid: str, model_name: str, model_version: str) -> bool:
+    updated = update_record(
+        "clients",
+        {"model_name": model_name, "model_version": model_version},
+        f"uid='{uid}'"
+    )
+    return True if updated else False
