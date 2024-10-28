@@ -100,7 +100,7 @@ def predict():
 
     return {'prediction': prediction}, 200
 
-
+  
 @app.route("/create_client", methods=["POST"])
 def create_client_route():
     # get client name
