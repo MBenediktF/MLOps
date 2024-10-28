@@ -1,5 +1,5 @@
 from mysql_helpers import init_table, insert_record
-from mysql_helpers import get_records, update_record, delete_record
+from mysql_helpers import get_records, delete_record
 from uuid import uuid4
 from hashlib import sha256
 from log_message import log_message, ERROR
