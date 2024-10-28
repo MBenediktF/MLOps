@@ -2,6 +2,7 @@ from uuid import uuid4
 from influx_helpers import write_record, create_record
 from s3_helpers import upload_image_from_bytefile
 from log_message import log_message, ERROR
+from collect_image_characteristics import collect_image_characteristics
 
 
 def log_features_prediction(
@@ -12,19 +13,25 @@ def log_features_prediction(
         model_name="",
         model_version=""
         ):
-    feature_file_name = save_image_to_s3(feature_file, measurement)
-    if not feature_file_name:
-        log_message("Could not save image to S3", ERROR)
-        raise ValueError("Invalid file type: Only .jpg files are allowed")
-    write_inference_data_to_influx(
-        feature_file_name,
-        prediction,
-        sensor_value,
-        measurement,
-        model_name,
-        model_version
-        )
-    return
+    try:
+        # 1: Save image to S3
+        feature_file_name = save_image_to_s3(feature_file, measurement)
+        if not feature_file_name:
+            raise ValueError("Invalid file type: Only .jpg files are allowed")
+        # 2: Collect image characteristics
+        image_characteristics = collect_image_characteristics(feature_file)
+        # 3: Write data to InfluxDB
+        write_inference_data_to_influx(
+            feature_file_name,
+            prediction,
+            sensor_value,
+            measurement,
+            model_name,
+            model_version,
+            image_characteristics
+            )
+    except Exception as e:
+        log_message(f"Error logging features prediction: {str(e)}", ERROR)
 
 
 def write_inference_data_to_influx(
@@ -33,7 +40,8 @@ def write_inference_data_to_influx(
         sensor_value,
         measurement,
         model_name,
-        model_version
+        model_version,
+        image_characteristics
         ):
     if not isinstance(image_url, str):
         log_message("image_url has to be a str", ERROR)
@@ -43,7 +51,29 @@ def write_inference_data_to_influx(
         .field("prediction", prediction) \
         .field("sensor_value", sensor_value) \
         .field("model_name", model_name) \
-        .field("model_version", model_version)
+        .field("model_version", model_version) \
+        .field("brightness_mean", image_characteristics['brightness_mean']) \
+        .field("brightness_std", image_characteristics['brightness_std']) \
+        .field("red_mean", image_characteristics['red_mean']) \
+        .field("green_mean", image_characteristics['green_mean']) \
+        .field("blue_mean", image_characteristics['blue_mean']) \
+        .field("red_std", image_characteristics['red_std']) \
+        .field("green_std", image_characteristics['green_std']) \
+        .field("blue_std", image_characteristics['blue_std']) \
+        .field("lab_L", image_characteristics['lab_L']) \
+        .field("lab_A", image_characteristics['lab_A']) \
+        .field("lab_B", image_characteristics['lab_B']) \
+        .field("hsv_H", image_characteristics['hsv_H']) \
+        .field("hsv_S", image_characteristics['hsv_S']) \
+        .field("hsv_V", image_characteristics['hsv_V']) \
+        .field("edge_count", image_characteristics['edge_count']) \
+        .field("contrast", image_characteristics['contrast']) \
+        .field("dissimilarity", image_characteristics['dissimilarity']) \
+        .field("homogeneity", image_characteristics['homogeneity']) \
+        .field("ASM", image_characteristics['ASM']) \
+        .field("energy", image_characteristics['energy']) \
+        .field("correlation", image_characteristics['correlation']) \
+        .field("keypoint_count", image_characteristics['keypoint_count'])
     write_record(record)
 
 
