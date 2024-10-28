@@ -8,7 +8,7 @@ init_table(
     "deployments",
     """
         id INT AUTO_INCREMENT PRIMARY KEY,
-        uid VARCHAR(255) NOT NULL
+        uid VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         model_name VARCHAR(255) NOT NULL,
         model_version VARCHAR(255) NOT NULL,
