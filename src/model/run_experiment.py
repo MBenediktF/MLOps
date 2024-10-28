@@ -1,11 +1,11 @@
 import mlflow
 import mlflow.tensorflow
 
-from model.import_dataset import import_dataset
-from model.preprocess_data import preprocess_data
-from model.create_model import create_model
-from model.fit_model import fit_model
-from model.evaluate_model import evaluate_model
+from import_dataset import import_dataset
+from preprocess_data import preprocess_data
+from create_model import create_model
+from fit_model import fit_model
+from evaluate_model import evaluate_model
 
 from dotenv import load_dotenv
 import os
@@ -20,9 +20,11 @@ def enable_local_dev():
     mlflow.set_tracking_uri(f"http://localhost:{mlflow_port}")
 
 
-def mlflow_run(train_x, train_y, test_x, test_y,
-               dropout, epochs,
-               dataset_train, dataset_test):
+def mlflow_run(
+        train_x, train_y, test_x, test_y,
+        dropout, epochs, batch_size, test_split,
+        dataset_id, dataset_train, dataset_test
+        ):
     with mlflow.start_run():
         mlflow.tensorflow.autolog()
 
@@ -37,18 +39,21 @@ def mlflow_run(train_x, train_y, test_x, test_y,
         fit_model(model, train_x, train_y,
                   optimizer='adam',
                   loss="mean_squared_error",
-                  metrics=['accuracy'],
-                  epochs=epochs)
+                  metrics=['mae'],
+                  epochs=epochs,
+                  batch_size=batch_size
+                  )
 
         # Modell evaluieren
-        test_loss, test_acc = evaluate_model(model, test_x, test_y)
+        test_loss, test_mae = evaluate_model(model, test_x, test_y)
 
         # Metriken loggen
         mlflow.tensorflow.mlflow.log_metric("test_loss", test_loss)
-        mlflow.tensorflow.mlflow.log_metric("test_loss", test_acc)
+        mlflow.tensorflow.mlflow.log_metric("test_mae", test_mae)
         mlflow.tensorflow.mlflow.log_param("dropout", dropout)
         mlflow.tensorflow.mlflow.log_param("test_split", test_split)
         mlflow.tensorflow.mlflow.log_param("epochs", epochs)
+        mlflow.tensorflow.mlflow.log_param("batch_size", batch_size)
         mlflow.tensorflow.mlflow.log_param("dataset_id", dataset_id)
 
     mlflow.end_run()
@@ -82,22 +87,18 @@ def run_experiment(experiment_name, dataset_id, test_split, parameters):
     dataset_train = mlflow.data.from_numpy(features=train_x, targets=train_y)
     dataset_test = mlflow.data.from_numpy(features=test_x, targets=test_y)
 
-    # Define hyperparameter grid
-    parameters = {
-        'dropout': [0.2, 0.3],
-        'epochs': [3, 6]
-    }
-
     # Set experiment
     mlflow.set_experiment(experiment_name)
 
     # Iterate over all combinations of hyperparameters
     for dropout in parameters['dropout']:
         for epochs in parameters['epochs']:
-            mlflow_run(train_x, train_y, test_x, test_y,
-                       dropout, epochs,
-                       dataset_train, dataset_test
-                       )
+            for batch_size in parameters['batch_size']:
+                mlflow_run(
+                    train_x, train_y, test_x, test_y,
+                    dropout, epochs, batch_size, test_split,
+                    dataset_id, dataset_train, dataset_test
+                )
 
 
 if __name__ == "__main__":
@@ -107,6 +108,7 @@ if __name__ == "__main__":
     test_split = 0.2
     parameters = {
         'dropout': [0.2, 0.3],
-        'epochs': [3, 6]
+        'epochs': [20],
+        'batch_size': [64, 128]
     }
     run_experiment(experiment_name, dataset_id, test_split, parameters)

@@ -4,7 +4,7 @@ from s3_helpers import upload_file
 
 
 def log_features_prediction(
-        feature_file, prediction, sensor_value, measurement="dev"):
+        feature_file, prediction, sensor_value, measurement="m1"):
     feature_file_name = save_image_to_s3(feature_file, measurement)
     if not feature_file_name:
         raise ValueError("Invalid file type: Only .jpg files are allowed")

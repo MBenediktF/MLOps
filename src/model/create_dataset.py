@@ -6,18 +6,18 @@ import cv2
 from uuid import uuid4
 import os
 from datetime import datetime
-from influx_helpers import fetch_records
-from s3_helpers import upload_image_from_buffer, upload_txt_from_dict
-from s3_helpers import fetch_image
+from inference.influx_helpers import fetch_records
+from inference.s3_helpers import upload_image_from_buffer, upload_txt_from_dict
+from inference.s3_helpers import fetch_image
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75
 
 
-def create_dataset_from_measurement(measurement):
+def create_dataset_from_measurement(measurement_name):
     # fetch datapoints from influx
     columns = ["feature_file_url", "sensor_value"]
-    measurement = fetch_records(measurement, columns)
+    measurement = fetch_records(measurement_name, columns)
 
     # create dataset uid
     dataset_uuid = str(uuid4())
@@ -51,7 +51,7 @@ def create_dataset_from_measurement(measurement):
     # add metadata txt file to bucket
     metadata = {
         "dataset_uuid": dataset_uuid,
-        "measurement": measurement,
+        "measurement": measurement_name,
         "num_images": len(measurement),
         "created_at": datetime.now().isoformat()
     }

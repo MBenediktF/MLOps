@@ -18,7 +18,9 @@ def test_fit_model_valid():
               optimizer='adam',
               loss="mse",
               metrics=['accuracy'],
-              epochs=1)
+              epochs=1,
+              batch_size=1
+              )
 
     assert isinstance(model, tf.keras.Model), \
         "The trained model is not a Keras model"
