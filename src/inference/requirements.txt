@@ -7,3 +7,4 @@ influxdb-client
 opencv-python
 python-dotenv
 tensorflow
+mysql-connector-python
