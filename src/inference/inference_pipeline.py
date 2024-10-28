@@ -23,7 +23,6 @@ class InferencePipeline():
         self.image_height = self.model.input_shape[1]
         log_message(f"Model loaded: {model_name} - {model_version}")
 
-      
     def run(self, image_file, sensor_value: int = 0) -> int:
         # 0: Check if model is available
         if not self.model:
