@@ -12,8 +12,6 @@ init_table(
         uid VARCHAR(255) NOT NULL,
         name VARCHAR(255) NOT NULL,
         api_key_hash VARCHAR(255) NOT NULL,
-        model_name VARCHAR(255) NOT NULL,
-        model_version VARCHAR(255) NOT NULL,
         timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     """
     )
@@ -27,8 +25,8 @@ def create_client(name: str) -> tuple:
     try:
         insert_record(
             "clients",
-            ("uid", "name", "api_key_hash", "model_name", "model_version"),
-            (uid, name, api_key_hash, "", "")
+            ("uid", "name", "api_key_hash"),
+            (uid, name, api_key_hash)
         )
     except Exception as e:
         log_message(f"Could not create client: {e}", ERROR)
@@ -49,15 +47,6 @@ def check_client_auth(uid: str, api_key: str) -> bool:
     return True if client else False
 
 
-def get_client_model(uid) -> tuple:
-    client = get_records("clients", f"uid='{uid}'")
-    if not client:
-        return None, None
-    model = client[0][4]
-    version = client[0][5]
-    return model, version
-
-
 def list_clients() -> list:
     records = get_records("clients", "")
     clients = []
@@ -65,21 +54,10 @@ def list_clients() -> list:
         client = {
             "uid": record[1],
             "name": record[2],
-            "model_name": record[4],
-            "model_version": record[5],
             "timestamp": record[6]
         }
         clients.append(client)
     return clients
-
-
-def set_client_model(uid: str, model_name: str, model_version: str) -> bool:
-    updated = update_record(
-        "clients",
-        {"model_name": model_name, "model_version": model_version},
-        f"uid='{uid}'"
-    )
-    return True if updated else False
 
 
 def delete_client(uid: str) -> bool:
