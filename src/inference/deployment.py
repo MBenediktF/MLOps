@@ -59,7 +59,6 @@ def list_deployments() -> list:
     return deployments
 
 
-# TODO: Update other records with false
 def set_active_deployment(id: str) -> bool:
     updated = update_record(
         "deployments",
