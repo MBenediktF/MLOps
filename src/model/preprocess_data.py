@@ -10,8 +10,12 @@ def preprocess_data(images, labels, uids, test_split=0.2, seed=0):
     if uids is None:
         uids = np.arange(images.shape[0])
 
-    # Normalize data
+    # Normalize features
     images = images / 255.0
+
+    # Normalize labels
+    labels = np.clip(labels, 0, 250)
+    labels = np.round(labels / 250.0, 2)
 
     # shuffle dataset
     images, labels, uids = shuffle(images, labels, uids, random_state=seed)

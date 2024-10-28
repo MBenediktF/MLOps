@@ -6,18 +6,19 @@ import cv2
 from uuid import uuid4
 import os
 from datetime import datetime
-from influx_helpers import fetch_records
-from s3_helpers import upload_image_from_buffer, upload_txt_from_dict
-from s3_helpers import fetch_image
+from inference.influx_helpers import fetch_records
+from inference.s3_helpers import upload_image_from_bytefile
+from inference.s3_helpers import upload_txt_from_dict
+from inference.s3_helpers import fetch_image
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75
 
 
-def create_dataset_from_measurement(measurement):
+def create_dataset_from_measurement(measurement_name):
     # fetch datapoints from influx
     columns = ["feature_file_url", "sensor_value"]
-    measurement = fetch_records(measurement, columns)
+    measurement = fetch_records(measurement_name, columns)
 
     # create dataset uid
     dataset_uuid = str(uuid4())
@@ -28,6 +29,10 @@ def create_dataset_from_measurement(measurement):
         sensor_value = record["sensor_value"]
         image = fetch_image(image_file_url)
         image = cv2.imdecode(image, cv2.IMREAD_COLOR)
+
+        # skip measurements without a valid reference measurement
+        if sensor_value == 0:
+            continue
 
         # scale image and convert to jpg
         if image.shape[1] != IMAGE_WIDTH or image.shape[0] != IMAGE_HEIGHT:
@@ -43,7 +48,7 @@ def create_dataset_from_measurement(measurement):
 
         # upload images as jpg to s3
         try:
-            upload_image_from_buffer(image_buffer, filename)
+            upload_image_from_bytefile(image_buffer.tobytes(), filename)
         except Exception as e:
             log_message(f"Could not upload image to s3: {e}")
             continue
@@ -51,7 +56,7 @@ def create_dataset_from_measurement(measurement):
     # add metadata txt file to bucket
     metadata = {
         "dataset_uuid": dataset_uuid,
-        "measurement": measurement,
+        "measurement": measurement_name,
         "num_images": len(measurement),
         "created_at": datetime.now().isoformat()
     }

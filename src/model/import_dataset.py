@@ -1,9 +1,7 @@
-from inference.s3_helpers import download_dataset, enable_local_dev
+from inference.s3_helpers import download_dataset
 import numpy as np
 from io import BytesIO
 from PIL import Image
-
-enable_local_dev()
 
 
 def import_dataset(dataset_uuid):
