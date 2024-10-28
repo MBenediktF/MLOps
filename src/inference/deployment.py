@@ -35,7 +35,20 @@ def create_deployment(name: str, model_name: str, model_version: str) -> str:
 def get_deployment(id: str) -> tuple:
     deployment = get_records("deployments", f"id='{id}'")
     if not deployment:
-        return None, None
+        log_message(f"Deployment with id {id} not found", ERROR)
+        return None, None, None, None
+    name = deployment[0][2]
+    model = deployment[0][3]
+    version = deployment[0][4]
+    active = deployment[0][5]
+    return name, model, version, active
+
+
+def get_active_deployment() -> tuple:
+    deployment = get_records("deployments", "activce='True'")
+    if not deployment:
+        log_message("No active deployment found", ERROR)
+        return None, None, None, None
     name = deployment[0][2]
     model = deployment[0][3]
     version = deployment[0][4]
