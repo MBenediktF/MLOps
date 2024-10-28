@@ -14,21 +14,18 @@ inference_pipeline = InferencePipeline(model_name, model_version, measurement)
 
 
 @app.route("/")
-def index():
+def index_route():
     return """
         <h1>Inference API is running</h1>
         <ul>
             <li><a href="/show_logs">Show Logs</a></li>
-            <li><a href="/show_data_logs">Show Data Logs</a></li>
-            <br>
             <li><a href="/get_logs">Download Logs</a></li>
-            <li><a href="/get_data_logs">Download Data Logs</a></li>
         </ul>
     """
 
 
 @app.route("/show_logs")
-def show_logs():
+def show_logs_route():
     try:
         shutil.copy("logs/inference_pipeline.log", "inference_pipeline.log")
         response = send_file(
@@ -43,7 +40,7 @@ def show_logs():
 
 
 @app.route("/get_logs")
-def get_logs():
+def get_logs_route():
     try:
         shutil.copy("logs/inference_pipeline.log", "inference_pipeline.log")
         response = send_file("inference_pipeline.log", as_attachment=True)
@@ -53,24 +50,8 @@ def get_logs():
         return jsonify({"error": "Could not read log file"}), 500
 
 
-@app.route("/show_data_logs")
-def show_data_logs():
-    try:
-        return send_file("logs/features_prediction.csv", as_attachment=False)
-    except Exception:
-        return jsonify({"error": "Could not read log file"}), 500
-
-
-@app.route("/get_data_logs")
-def get_data_logs():
-    try:
-        return send_file("logs/features_prediction.csv", as_attachment=True)
-    except Exception:
-        return jsonify({"error": "Could not read log file"}), 500
-
-
 @app.route("/predict", methods=["POST"])
-def predict():
+def predict_route():
     # clinet authentication
     client_uid = request.form.get("client_uid")
     auth_token = request.headers.get("Authorization")
@@ -100,7 +81,7 @@ def predict():
 
     return {'prediction': prediction}, 200
 
-  
+
 @app.route("/create_client", methods=["POST"])
 def create_client_route():
     # get client name
