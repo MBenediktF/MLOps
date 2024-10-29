@@ -38,6 +38,7 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - LOGFILE_NAME=${INFERENCE_LOGFILE_NAME}
     depends_on:
       - minio
       - influxdb
@@ -63,6 +64,7 @@ services:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFERENCE_PORT=${INFERENCE_PORT}
       - MODEL_TRAINING_PORT=${MODEL_TRAINING_PORT}
+      - LOGFILE_NAME=${MODEL_SERVICES_LOGFILE_NAME}
     depends_on:
       - mlflow
       - minio
