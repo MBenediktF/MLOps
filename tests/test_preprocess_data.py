@@ -1,4 +1,4 @@
-from src.model.preprocess_data import preprocess_data
+from src.model.components.preprocess_data import preprocess_data
 import pytest
 
 
