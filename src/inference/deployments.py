@@ -45,15 +45,14 @@ def get_deployment(id: str) -> tuple:
 
 
 def get_active_deployment() -> tuple:
-    deployment = get_records("deployments", "activce='True'")
+    deployment = get_records("deployments", "active='1'")
     if not deployment:
         log_message("No active deployment found", ERROR)
         return None, None, None, None
     name = deployment[0][2]
     model = deployment[0][3]
     version = deployment[0][4]
-    active = deployment[0][5]
-    return name, model, version, active
+    return name, model, version
 
 
 def list_deployments() -> list:
@@ -72,18 +71,18 @@ def list_deployments() -> list:
     return deployments
 
 
-def set_active_deployment(id: str) -> bool:
+def set_active_deployment(uid: str) -> bool:
     updated = update_record(
         "deployments",
-        {"active": True},
-        f"id='{id}'"
+        {"active": '1'},
+        f"uid='{uid}'"
     )
     if not updated:
         return False
     updated = update_record(
         "deployments",
-        {"active": False},
-        f"id!='{id}'"
+        {"active": '0'},
+        f"uid!='{uid}'"
     )
     return True
 
