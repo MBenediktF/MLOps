@@ -1,15 +1,15 @@
 # Read the data from influx and s3 in order to create a new dataset
 # with features and labels fron an measuerment
 
-from log_message import log_message
 import cv2
 from uuid import uuid4
 import os
 from datetime import datetime
-from inference.influx_helpers import fetch_records
-from inference.s3_helpers import upload_image_from_bytefile
-from inference.s3_helpers import upload_txt_from_dict
-from inference.s3_helpers import fetch_image
+from helpers.logs import log_message
+from helpers.influx import fetch_records
+from helpers.s3 import upload_image_from_bytefile
+from helpers.s3 import upload_txt_from_dict
+from helpers.s3 import fetch_image
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75

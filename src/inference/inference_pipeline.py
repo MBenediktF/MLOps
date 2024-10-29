@@ -1,4 +1,4 @@
-from log_message import log_message, ERROR
+from helpers.logs import log_message, ERROR
 from log_features_prediction import log_features_prediction
 from load_model import load_registered_model
 from deployments import get_active_deployment

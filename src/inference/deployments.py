@@ -1,7 +1,7 @@
-from mysql_helpers import init_table, insert_record
-from mysql_helpers import get_records, update_record, delete_record
+from helpers.logs import log_message, ERROR
+from helpers.mysql import init_table, insert_record
+from helpers.mysql import get_records, update_record, delete_record
 from uuid import uuid4
-from log_message import log_message, ERROR
 
 # Create deployments table
 init_table(

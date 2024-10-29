@@ -1,4 +1,4 @@
-from inference.s3_helpers import download_dataset
+from helpers.s3 import download_dataset
 import numpy as np
 from io import BytesIO
 from PIL import Image

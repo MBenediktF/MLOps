@@ -1,4 +1,4 @@
-from log_message import log_message  # noqa: F401
+from helpers.logs import log_message  # noqa: F401
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os

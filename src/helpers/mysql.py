@@ -1,7 +1,7 @@
 import mysql.connector
 from dotenv import load_dotenv
 import os
-from log_message import log_message, INFO, ERROR
+from logs import log_message, INFO, ERROR
 
 load_dotenv()
 
