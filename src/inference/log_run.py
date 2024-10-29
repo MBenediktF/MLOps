@@ -6,7 +6,7 @@ from uuid import uuid4
 from collect_image_characteristics import collect_image_characteristics
 
 
-def log_features_prediction(
+def log_run(
         feature_file,
         prediction,
         sensor_value,

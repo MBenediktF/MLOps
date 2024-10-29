@@ -1,5 +1,5 @@
 from helpers.logs import log, ERROR
-from log_features_prediction import log_features_prediction
+from log_run import log_run
 from load_model import load_registered_model
 from tables.deployments import get_active_deployment
 import threading
@@ -66,7 +66,7 @@ class InferencePipeline():
 
         # 4: Start log data thread
         log_thread = threading.Thread(
-            target=log_features_prediction,
+            target=log_run,
             args=(
                 image_data,
                 prediction_mm,
