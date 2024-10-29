@@ -10,10 +10,7 @@ import os
 
 app = Flask(__name__)
 
-model_name = "Dev-Live"
-model_version = "1"
-measurement = "m2"
-inference_pipeline = InferencePipeline(model_name, model_version, measurement)
+inference_pipeline = InferencePipeline()
 
 
 @app.route("/")
