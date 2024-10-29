@@ -1,12 +1,10 @@
 import mlflow
 import mlflow.tensorflow
-
-from import_dataset import import_dataset
-from preprocess_data import preprocess_data
-from create_model import create_model
-from fit_model import fit_model
-from evaluate_model import evaluate_model
-
+from components.import_dataset import import_dataset
+from components.preprocess_data import preprocess_data
+from components.create_model import create_model
+from components.fit_model import fit_model
+from components.evaluate_model import evaluate_model
 from dotenv import load_dotenv
 import os
 

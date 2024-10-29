@@ -1,4 +1,4 @@
-from src.model.fit_model import fit_model
+from src.model.components.fit_model import fit_model
 import tensorflow as tf
 
 
