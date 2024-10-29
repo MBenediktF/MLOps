@@ -10,7 +10,7 @@ import cv2
 class InferencePipeline():
     def __init__(self) -> None:
         # get deployment
-        active_deployment = get_active_deployment
+        active_deployment = get_active_deployment()
         self.measurement = active_deployment[0]
         self.model_name = active_deployment[1]
         self.model_version = active_deployment[2]
