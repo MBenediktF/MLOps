@@ -1,9 +1,9 @@
 from inference_pipeline import InferencePipeline  # noqa: F401
-from clients import create_client, check_client_auth
-from clients import list_clients, delete_client
-from deployments import create_deployment, list_deployments
-from deployments import set_active_deployment, get_active_deployment
-from deployments import delete_deployment
+from tables.clients import create_client, check_client_auth
+from tables.clients import list_clients, delete_client
+from tables.deployments import create_deployment, list_deployments
+from tables.deployments import set_active_deployment, get_active_deployment
+from tables.deployments import delete_deployment
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
