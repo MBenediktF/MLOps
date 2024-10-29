@@ -1,4 +1,4 @@
-from inference_pipeline import InferencePipeline  # noqa: F401
+from inference.pipeline import InferencePipeline  # noqa: F401
 from tables.clients import create_client, check_client_auth
 from tables.clients import list_clients, delete_client
 from tables.deployments import create_deployment, list_deployments
