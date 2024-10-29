@@ -1,4 +1,4 @@
-from helpers.logs import log_message, ERROR
+from helpers.logs import log, ERROR
 from log_features_prediction import log_features_prediction
 from load_model import load_registered_model
 from deployments import get_active_deployment
@@ -19,7 +19,7 @@ class InferencePipeline():
             not self.model_name or
             not self.model_version
         ):
-            log_message("No active deployment found", ERROR)
+            log("No active deployment found", ERROR)
             self.model = None
             return
 
@@ -30,12 +30,12 @@ class InferencePipeline():
                 self.model_version
                 )
         except Exception as e:
-            log_message(f"Error loading model: {str(e)}", ERROR)
+            log(f"Error loading model: {str(e)}", ERROR)
             self.model = None
             return
         self.image_width = self.model.input_shape[2]
         self.image_height = self.model.input_shape[1]
-        log_message(f"Model loaded: {self.model_name} - {self.model_version}")
+        log(f"Model loaded: {self.model_name} - {self.model_version}")
 
     def run(self, image_file, sensor_value: int = 0) -> int:
         # 0: Check if model is available
@@ -48,7 +48,7 @@ class InferencePipeline():
             image = np.frombuffer(image_data, np.uint8)
             image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         except Exception as e:
-            log_message(f"Error reading image: {str(e)}", ERROR)
+            log(f"Error reading image: {str(e)}", ERROR)
             return None
 
         # 2: Preprocess and normalize image
@@ -61,7 +61,7 @@ class InferencePipeline():
             prediction = self.model.predict(image)
             prediction_mm = int(prediction[0][0] * 250)
         except Exception as e:
-            log_message(f"Error predicting image: {str(e)}", ERROR)
+            log(f"Error predicting image: {str(e)}", ERROR)
             return None
 
         # 4: Start log data thread

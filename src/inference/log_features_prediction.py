@@ -1,4 +1,4 @@
-from helpers.logs import log_message, ERROR
+from helpers.logs import log, ERROR
 from helpers.influx import write_record, create_record
 from helpers.s3 import upload_image_from_bytefile
 from uuid import uuid4
@@ -32,7 +32,7 @@ def log_features_prediction(
             image_characteristics
             )
     except Exception as e:
-        log_message(f"Error logging features prediction: {str(e)}", ERROR)
+        log(f"Error logging features prediction: {str(e)}", ERROR)
 
 
 def write_inference_data_to_influx(
@@ -45,7 +45,7 @@ def write_inference_data_to_influx(
         image_characteristics
         ):
     if not isinstance(image_url, str):
-        log_message("image_url has to be a str", ERROR)
+        log("image_url has to be a str", ERROR)
         raise ValueError(f"image_url has to be a str, got {type(image_url)}")
     record = create_record(measurement) \
         .field("feature_file_url", image_url) \
@@ -83,6 +83,6 @@ def save_image_to_s3(image_file, measurement):
     try:
         upload_image_from_bytefile(image_file, filename)
     except Exception as e:
-        log_message(f"Could not upload image to S3: {e}", ERROR)
+        log(f"Could not upload image to S3: {e}", ERROR)
         return False
     return filename

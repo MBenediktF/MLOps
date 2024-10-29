@@ -1,7 +1,7 @@
 import mysql.connector
 from dotenv import load_dotenv
 import os
-from logs import log_message, INFO, ERROR
+from helpers.logs import log, INFO, ERROR
 
 load_dotenv()
 
@@ -17,11 +17,11 @@ try:
         database=mysql_database
     )
 except mysql.connector.Error as e:
-    log_message(f"Failed to connect to MySQL database: {e}", ERROR)
+    log(f"Failed to connect to MySQL database: {e}", ERROR)
     raise e
 
 if mysql_client.is_connected():
-    log_message("Connected to MySQL database", INFO)
+    log("Connected to MySQL database", INFO)
 
 mysql_cursor = mysql_client.cursor()
 

@@ -24,5 +24,5 @@ logging.basicConfig(
 )
 
 
-def log_message(message: str, level: int = INFO):
+def log(message: str, level: int = INFO):
     logging.log(level, message)

@@ -5,7 +5,7 @@ import cv2
 from uuid import uuid4
 import os
 from datetime import datetime
-from helpers.logs import log_message
+from helpers.logs import log
 from helpers.influx import fetch_records
 from helpers.s3 import upload_image_from_bytefile
 from helpers.s3 import upload_txt_from_dict
@@ -39,7 +39,7 @@ def create_dataset_from_measurement(measurement_name):
             image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
         is_success, image_buffer = cv2.imencode('.jpg', image)
         if not is_success:
-            log_message("Could not encode image to JPEG format")
+            log("Could not encode image to JPEG format")
             continue
 
         # create image metadata string
@@ -50,7 +50,7 @@ def create_dataset_from_measurement(measurement_name):
         try:
             upload_image_from_bytefile(image_buffer.tobytes(), filename)
         except Exception as e:
-            log_message(f"Could not upload image to s3: {e}")
+            log(f"Could not upload image to s3: {e}")
             continue
 
     # add metadata txt file to bucket

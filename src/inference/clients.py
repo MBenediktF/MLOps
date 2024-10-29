@@ -1,4 +1,4 @@
-from helpers.logs import log_message, ERROR
+from helpers.logs import log, ERROR
 from helpers.mysql import init_table, insert_record
 from helpers.mysql import get_records, delete_record
 from uuid import uuid4
@@ -29,7 +29,7 @@ def create_client(name: str) -> tuple:
             (uid, name, api_key_hash)
         )
     except Exception as e:
-        log_message(f"Could not create client: {e}", ERROR)
+        log(f"Could not create client: {e}", ERROR)
     return uid, api_key
 
 
