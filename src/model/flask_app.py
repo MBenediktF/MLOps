@@ -14,7 +14,7 @@ app = Flask(__name__)
 @app.route("/")
 def index_route():
     return """
-        <h1>Model training API is running</h1>
+        <h1>Model services API is running</h1>
         <ul>
             <li><a href="/show_logs">Show Logs</a></li>
             <li><a href="/get_logs">Download Logs</a></li>
