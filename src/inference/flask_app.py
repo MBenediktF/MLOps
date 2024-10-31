@@ -1,9 +1,10 @@
-from inference_pipeline import InferencePipeline  # noqa: F401
-from clients import create_client, check_client_auth
-from clients import list_clients, delete_client
-from deployments import create_deployment, list_deployments
-from deployments import set_active_deployment, get_active_deployment
-from deployments import delete_deployment
+from pipeline import InferencePipeline  # noqa: F401
+from tables.clients import create_client, check_client_auth
+from tables.clients import list_clients, delete_client
+from tables.deployments import create_deployment, list_deployments
+from tables.deployments import set_active_deployment, get_active_deployment
+from tables.deployments import delete_deployment
+from helpers.email import send_email
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
@@ -178,3 +179,10 @@ def delete_deployemnt_route():
     if not success:
         return {'message': 'Unknown deployment'}, 400
     return {'message': 'Successfully deleted deployment'}, 200
+
+
+@app.route("/send_email", methods=["POST"])
+def send_email_route():
+    if send_email("Updates von Inference API", "Es gibt neue Updates."):
+        return {'message': 'Email sent successfully'}, 200
+    return {'message': 'Failed to send email'}, 500

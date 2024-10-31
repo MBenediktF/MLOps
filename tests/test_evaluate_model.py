@@ -1,4 +1,4 @@
-from src.model.evaluate_model import evaluate_model
+from src.model.components.evaluate_model import evaluate_model
 import tensorflow as tf
 
 

@@ -1,15 +1,15 @@
 # Read the data from influx and s3 in order to create a new dataset
 # with features and labels fron an measuerment
 
-from log_message import log_message
 import cv2
 from uuid import uuid4
 import os
 from datetime import datetime
-from inference.influx_helpers import fetch_records
-from inference.s3_helpers import upload_image_from_bytefile
-from inference.s3_helpers import upload_txt_from_dict
-from inference.s3_helpers import fetch_image
+from helpers.logs import log
+from helpers.influx import fetch_records
+from helpers.s3 import upload_image_from_bytefile
+from helpers.s3 import upload_txt_from_dict
+from helpers.s3 import fetch_image
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75
@@ -39,7 +39,7 @@ def create_dataset_from_measurement(measurement_name):
             image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
         is_success, image_buffer = cv2.imencode('.jpg', image)
         if not is_success:
-            log_message("Could not encode image to JPEG format")
+            log("Could not encode image to JPEG format")
             continue
 
         # create image metadata string
@@ -50,7 +50,7 @@ def create_dataset_from_measurement(measurement_name):
         try:
             upload_image_from_bytefile(image_buffer.tobytes(), filename)
         except Exception as e:
-            log_message(f"Could not upload image to s3: {e}")
+            log(f"Could not upload image to s3: {e}")
             continue
 
     # add metadata txt file to bucket

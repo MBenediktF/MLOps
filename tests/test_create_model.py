@@ -1,4 +1,4 @@
-from src.model.create_model import create_model
+from src.model.components.create_model import create_model
 import tensorflow as tf
 import pytest
 

@@ -1,4 +1,4 @@
-from src.model.import_dataset import import_dataset
+from src.model.components.import_dataset import import_dataset
 from unittest import mock
 import numpy as np
 import pandas as pd

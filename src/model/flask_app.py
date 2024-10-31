@@ -1,4 +1,4 @@
-from log_message import log_message  # noqa: F401
+from helpers.logs import log  # noqa: F401
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
@@ -14,7 +14,7 @@ app = Flask(__name__)
 @app.route("/")
 def index_route():
     return """
-        <h1>Model training API is running</h1>
+        <h1>Model services API is running</h1>
         <ul>
             <li><a href="/show_logs">Show Logs</a></li>
             <li><a href="/get_logs">Download Logs</a></li>
