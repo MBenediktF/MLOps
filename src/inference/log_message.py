@@ -1,11 +1,14 @@
 import logging
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 INFO = logging.INFO
 WARNING = logging.WARNING
 ERROR = logging.ERROR
 
-filename = "logs/inference_pipeline.log"
+filename = f"logs/{os.getenv('LOGFILE_NAME')}"
 
 os.makedirs(os.path.dirname(filename), exist_ok=True)
 

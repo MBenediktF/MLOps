@@ -1,29 +1,42 @@
 from log_message import log_message, ERROR
 from log_features_prediction import log_features_prediction
 from load_model import load_registered_model
+from deployments import get_active_deployment
 import threading
 import numpy as np
 import cv2
 
 
 class InferencePipeline():
-    def __init__(self, model_name, model_version, measurement) -> None:
-        self.model_name = model_name
-        self.model_version = model_version
-        self.measurement = measurement
+    def __init__(self) -> None:
+        # get deployment
+        active_deployment = get_active_deployment()
+        self.measurement = active_deployment[0]
+        self.model_name = active_deployment[1]
+        self.model_version = active_deployment[2]
+        if (
+            not self.measurement or
+            not self.model_name or
+            not self.model_version
+        ):
+            log_message("No active deployment found", ERROR)
+            self.model = None
+            return
 
         # load model
         try:
-            self.model = load_registered_model(model_name, model_version)
+            self.model = load_registered_model(
+                self.model_name,
+                self.model_version
+                )
         except Exception as e:
             log_message(f"Error loading model: {str(e)}", ERROR)
             self.model = None
             return
         self.image_width = self.model.input_shape[2]
         self.image_height = self.model.input_shape[1]
-        log_message(f"Model loaded: {model_name} - {model_version}")
+        log_message(f"Model loaded: {self.model_name} - {self.model_version}")
 
-      
     def run(self, image_file, sensor_value: int = 0) -> int:
         # 0: Check if model is available
         if not self.model:

@@ -1,16 +1,16 @@
 from inference_pipeline import InferencePipeline  # noqa: F401
-from clients import create_client, check_client_auth, delete_client
-from clients import list_clients, get_client_model, set_client_model
+from clients import create_client, check_client_auth
+from clients import list_clients, delete_client
+from deployments import create_deployment, list_deployments
+from deployments import set_active_deployment, get_active_deployment
+from deployments import delete_deployment
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
 
 app = Flask(__name__)
 
-model_name = "Dev-Live"
-model_version = "1"
-measurement = "m2"
-inference_pipeline = InferencePipeline(model_name, model_version, measurement)
+inference_pipeline = InferencePipeline()
 
 
 @app.route("/")
@@ -101,44 +101,6 @@ def list_clients_route():
     return {'message': clients}, 200
 
 
-@app.route("/set_model_version", methods=["POST"])
-def set_model_version_route():
-    # get client info
-    client_uid = request.form.get("client_uid")
-    if client_uid is None:
-        return {'message': 'No client specified.'}, 400
-
-    # get model name and version
-    model_name = request.form.get("model_name")
-    if model_name is None:
-        return {'message': 'Missing model name'}, 400
-    model_version = request.form.get("model_version")
-    if model_version is None:
-        return {'message': 'Missing model version.'}, 400
-
-    # set model for client
-    success = set_client_model(client_uid, model_name, model_version)
-    if not success:
-        return {'message': 'Nothing updated'}, 400
-
-    return {'message': 'Model set successfully'}, 200
-
-
-@app.route("/get_model_version", methods=["POST"])
-def get_model_version_route():
-    # get client info
-    client_uid = request.form.get("client_uid")
-    if client_uid is None:
-        return {'message': 'No client specified.'}, 400
-
-    # get model for client
-    model, version = get_client_model(client_uid)
-    if model is None or version is None:
-        return {'messsage': 'Unknown client'}, 400
-
-    return {'model_name': model, 'model_version': version}, 200
-
-
 @app.route("/delete_client", methods=["POST"])
 def delete_client_route():
     # get client info
@@ -150,5 +112,69 @@ def delete_client_route():
     success = delete_client(client_uid)
     if not success:
         return {'message': 'Unknown client'}, 400
-
     return {'message': 'Successfully deleted client'}, 200
+
+
+@app.route("/create_deployment", methods=["POST"])
+def create_deployment_route():
+    # get inputs
+    deployment_name = request.form.get("name")
+    if deployment_name is None:
+        return {'message': 'No deployment name specified.'}, 400
+    model_name = request.form.get("model_name")
+    if model_name is None:
+        return {'message': 'No model name specified.'}, 400
+    model_version = request.form.get("model_version")
+    if model_version is None:
+        return {'message': 'No model version specified.'}, 400
+
+    # create deployment
+    uid = create_deployment(deployment_name, model_name, model_version)
+
+    return {'deployment_uid': uid}, 200
+
+
+@app.route("/list_deployments", methods=["POST"])
+def list_deployments_route():
+    deployments = list_deployments()
+    return {'message': deployments}, 200
+
+
+@app.route("/get_active_deployment", methods=["POST"])
+def get_active_deployment_route():
+    name, model, version = get_active_deployment()
+    if name is None:
+        return {'message': 'No active deployment'}, 400
+    return {
+        'deployment_name': name,
+        'model_name': model,
+        'model_version': version
+    }, 200
+
+
+@app.route("/set_active_deployment", methods=["POST"])
+def set_active_deployment_route():
+    # get deployment info
+    deployment_uid = request.form.get("deployment_uid")
+    if deployment_uid is None:
+        return {'message': 'No deployment specified.'}, 400
+
+    # set deployment
+    success = set_active_deployment(deployment_uid)
+    if not success:
+        return {'message': 'Unknown deployment or already active'}, 400
+    return {'message': 'Deployment set successfully'}, 200
+
+
+@app.route("/delete_deployment", methods=["POST"])
+def delete_deployemnt_route():
+    # get deployment info
+    deployment_uid = request.form.get("deployment_uid")
+    if deployment_uid is None:
+        return {'message': 'No deployment specified.'}, 400
+
+    # delete deployment
+    success = delete_deployment(deployment_uid)
+    if not success:
+        return {'message': 'Unknown deployment'}, 400
+    return {'message': 'Successfully deleted deployment'}, 200
