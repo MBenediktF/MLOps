@@ -10,7 +10,19 @@ import cv2
 class InferencePipeline():
     def __init__(self) -> None:
         # get deployment
+        self.measurement = ""
+        self.model_name = ""
+        self.model_version = ""
+        self.model = None
+        self.setup_deployment()
+
+    def setup_deployment(self):
         active_deployment = get_active_deployment()
+
+        if active_deployment[0] == self.measurement:
+            return
+
+        log(f"New active deployment: {active_deployment}")
         self.measurement = active_deployment[0]
         self.model_name = active_deployment[1]
         self.model_version = active_deployment[2]
@@ -38,6 +50,7 @@ class InferencePipeline():
         log(f"Model loaded: {self.model_name} - {self.model_version}")
 
     def run(self, image_file, sensor_value: int = 0) -> int:
+        self.setup_deployment()
         # 0: Check if model is available
         if not self.model:
             return None
