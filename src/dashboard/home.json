@@ -22,15 +22,13 @@
     "links": [],
     "panels": [
       {
-        "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
           "x": 0,
           "y": 0
         },
-        "id": 17,
-        "panels": [],
+        "id": 24,
         "title": "General",
         "type": "row"
       },
@@ -626,15 +624,13 @@
         "type": "stat"
       },
       {
-        "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
           "x": 0,
           "y": 11
         },
-        "id": 16,
-        "panels": [],
+        "id": 23,
         "title": "Colors",
         "type": "row"
       },
@@ -2235,6 +2231,32 @@
         ],
         "title": "Value mean(mean)",
         "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 23
+        },
+        "id": 17,
+        "panels": [],
+        "title": "Tetures",
+        "type": "row"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 24
+        },
+        "id": 16,
+        "panels": [],
+        "title": "Features",
+        "type": "row"
       }
     ],
     "schemaVersion": 39,
@@ -2304,6 +2326,6 @@
     "timezone": "browser",
     "title": "Home",
     "uid": "de2thifvsesjkc",
-    "version": 15,
+    "version": 16,
     "weekStart": ""
   }
