@@ -30,6 +30,144 @@
         "fieldConfig": {
           "defaults": {
             "color": {
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "fillOpacity": 80,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                }
+              ]
+            },
+            "unit": "lengthmm"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 17,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "bucketCount": 20,
+          "combine": false,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": false
+          },
+          "tooltip": {
+            "mode": "single",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": [
+                    "sensor_value"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": [
+                    "sensor_value"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Sensor Value",
+        "transformations": [
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "number",
+                  "targetField": "sensor_value"
+                }
+              ],
+              "fields": {}
+            }
+          },
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "number",
+                  "targetField": "sensor_value"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
+        "type": "histogram"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
               "mode": "thresholds"
             },
             "mappings": [],
@@ -48,10 +186,10 @@
         "gridPos": {
           "h": 3,
           "w": 7,
-          "x": 0,
+          "x": 17,
           "y": 0
         },
-        "id": 2,
+        "id": 6,
         "options": {
           "colorMode": "value",
           "graphMode": "area",
@@ -59,10 +197,8 @@
           "orientation": "auto",
           "percentChangeColorMode": "standard",
           "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^first$/",
+            "calcs": [],
+            "fields": "/^ $/",
             "values": false
           },
           "showPercentChange": false,
@@ -72,16 +208,50 @@
         "pluginVersion": "11.2.0",
         "targets": [
           {
+            "alias": " ",
             "datasource": {
               "type": "influxdb",
               "uid": "ae2tfwvyqwtmob"
             },
             "groupBy": [],
-            "measurement": "Measurement_1",
+            "measurement": "/^$Deployment$/",
             "orderByTime": "ASC",
             "policy": "default",
+            "query": "SELECT first(\"model_name\") FROM /^$Deployment$/ WHERE $timeFilter",
+            "rawQuery": false,
             "refId": "A",
-            "resultFormat": "table",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "model_name"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "first"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT first(\"model_name\") FROM /^$Deployment$/ WHERE $timeFilter",
+            "rawQuery": false,
+            "refId": "B",
+            "resultFormat": "time_series",
             "select": [
               [
                 {
@@ -128,9 +298,9 @@
         },
         "gridPos": {
           "h": 3,
-          "w": 3,
-          "x": 7,
-          "y": 0
+          "w": 7,
+          "x": 17,
+          "y": 3
         },
         "id": 3,
         "options": {
@@ -140,10 +310,8 @@
           "orientation": "auto",
           "percentChangeColorMode": "standard",
           "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^first$/",
+            "calcs": [],
+            "fields": "/^ $/",
             "values": false
           },
           "showPercentChange": false,
@@ -153,16 +321,46 @@
         "pluginVersion": "11.2.0",
         "targets": [
           {
+            "alias": " ",
             "datasource": {
               "type": "influxdb",
               "uid": "ae2tfwvyqwtmob"
             },
             "groupBy": [],
-            "measurement": "Measurement_1",
+            "measurement": "/^$Deployment$/",
             "orderByTime": "ASC",
             "policy": "default",
             "refId": "A",
-            "resultFormat": "table",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "model_version"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "first"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
             "select": [
               [
                 {
@@ -181,87 +379,6 @@
           }
         ],
         "title": "Model Version",
-        "type": "stat"
-      },
-      {
-        "datasource": {
-          "default": true,
-          "type": "influxdb",
-          "uid": "ae2tfwvyqwtmob"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "text",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 5,
-          "x": 10,
-          "y": 0
-        },
-        "id": 4,
-        "options": {
-          "colorMode": "value",
-          "graphMode": "area",
-          "justifyMode": "auto",
-          "orientation": "auto",
-          "percentChangeColorMode": "standard",
-          "reduceOptions": {
-            "calcs": [
-              "last"
-            ],
-            "fields": "/^count$/",
-            "values": false
-          },
-          "showPercentChange": false,
-          "textMode": "auto",
-          "wideLayout": true
-        },
-        "pluginVersion": "11.2.0",
-        "targets": [
-          {
-            "datasource": {
-              "type": "influxdb",
-              "uid": "ae2tfwvyqwtmob"
-            },
-            "groupBy": [],
-            "measurement": "Measurement_1",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "A",
-            "resultFormat": "table",
-            "select": [
-              [
-                {
-                  "params": [
-                    "model_version"
-                  ],
-                  "type": "field"
-                },
-                {
-                  "params": [],
-                  "type": "count"
-                }
-              ]
-            ],
-            "tags": []
-          }
-        ],
-        "title": "Measurement Count",
         "type": "stat"
       },
       {
@@ -296,29 +413,27 @@
                 {
                   "color": "green",
                   "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
                 }
               ]
-            }
+            },
+            "unit": "lengthmm"
           },
           "overrides": []
         },
         "gridPos": {
-          "h": 8,
-          "w": 12,
+          "h": 6,
+          "w": 17,
           "x": 0,
-          "y": 3
+          "y": 6
         },
-        "id": 1,
+        "id": 5,
         "options": {
+          "bucketCount": 20,
           "legend": {
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": true
+            "showLegend": false
           },
           "tooltip": {
             "mode": "single",
@@ -327,22 +442,21 @@
         },
         "targets": [
           {
-            "alias": "histogram",
             "datasource": {
               "type": "influxdb",
               "uid": "ae2tfwvyqwtmob"
             },
             "groupBy": [],
-            "measurement": "Measurement_1",
+            "measurement": "/^$Deployment$/",
             "orderByTime": "ASC",
             "policy": "default",
             "refId": "A",
-            "resultFormat": "time_series",
+            "resultFormat": "table",
             "select": [
               [
                 {
                   "params": [
-                    "sensor_value"
+                    "prediction"
                   ],
                   "type": "field"
                 }
@@ -351,14 +465,191 @@
             "tags": []
           }
         ],
-        "title": "Panel Title",
+        "title": "Predictions",
+        "transformations": [
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "number",
+                  "targetField": "prediction"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
         "type": "histogram"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 7,
+          "x": 17,
+          "y": 6
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [],
+            "fields": "/^ $/",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "model_name"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "count"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "model_name"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "count"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Data Count",
+        "type": "stat"
       }
     ],
     "schemaVersion": 39,
     "tags": [],
     "templating": {
-      "list": []
+      "list": [
+        {
+          "current": {
+            "selected": true,
+            "text": [
+              "Measurement_1"
+            ],
+            "value": [
+              "Measurement_1"
+            ]
+          },
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ae2tfwvyqwtmob"
+          },
+          "definition": "SHOW MEASUREMENTS",
+          "hide": 0,
+          "includeAll": false,
+          "multi": false,
+          "name": "Deployment",
+          "options": [],
+          "query": {
+            "query": "SHOW MEASUREMENTS",
+            "refId": "InfluxVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        },
+        {
+          "current": {
+            "selected": true,
+            "text": "Measurement_5",
+            "value": "Measurement_5"
+          },
+          "definition": "SHOW MEASUREMENTS",
+          "hide": 0,
+          "includeAll": false,
+          "label": "Compare to",
+          "multi": false,
+          "name": "Compare",
+          "options": [],
+          "query": {
+            "query": "SHOW MEASUREMENTS",
+            "refId": "InfluxVariableQueryEditor-VariableQuery"
+          },
+          "refresh": 2,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
     },
     "time": {
       "from": "now-7d",
@@ -368,6 +659,6 @@
     "timezone": "browser",
     "title": "Home",
     "uid": "de2thifvsesjkc",
-    "version": 1,
+    "version": 9,
     "weekStart": ""
   }
