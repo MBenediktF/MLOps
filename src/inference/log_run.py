@@ -5,6 +5,9 @@ from uuid import uuid4
 
 from collect_image_characteristics import collect_image_characteristics
 
+# Keep measuremeent "Not selected" alive
+write_record(create_record("Not selected").field("placeholder", 0))
+
 
 def log_run(
         feature_file,
