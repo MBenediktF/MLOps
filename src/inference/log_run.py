@@ -10,6 +10,7 @@ write_record(create_record("Not selected").field("placeholder", 0))
 
 
 def log_run(
+        client_uid,
         feature_file,
         prediction,
         sensor_value,
@@ -26,6 +27,7 @@ def log_run(
         image_characteristics = collect_image_characteristics(feature_file)
         # 3: Write data to InfluxDB
         write_inference_data_to_influx(
+            client_uid,
             feature_file_name,
             prediction,
             sensor_value,
@@ -39,6 +41,7 @@ def log_run(
 
 
 def write_inference_data_to_influx(
+        client_uid,
         image_url,
         prediction,
         sensor_value,
@@ -51,6 +54,7 @@ def write_inference_data_to_influx(
         log("image_url has to be a str", ERROR)
         raise ValueError(f"image_url has to be a str, got {type(image_url)}")
     record = create_record(measurement) \
+        .field("client_uid", client_uid) \
         .field("feature_file_url", image_url) \
         .field("prediction", prediction) \
         .field("sensor_value", sensor_value) \
