@@ -73,7 +73,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 17,
           "x": 0,
           "y": 1
@@ -86,7 +86,7 @@
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": false
+            "showLegend": true
           },
           "tooltip": {
             "mode": "multi",
@@ -303,7 +303,7 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 3,
+          "h": 4,
           "w": 7,
           "x": 17,
           "y": 5
@@ -427,10 +427,10 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 17,
           "x": 0,
-          "y": 6
+          "y": 7
         },
         "id": 5,
         "options": {
@@ -439,7 +439,7 @@
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": false
+            "showLegend": true
           },
           "tooltip": {
             "mode": "single",
@@ -539,10 +539,10 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 3,
+          "h": 4,
           "w": 7,
           "x": 17,
-          "y": 8
+          "y": 9
         },
         "id": 2,
         "options": {
@@ -624,13 +624,15 @@
         "type": "stat"
       },
       {
+        "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 11
+          "y": 13
         },
         "id": 23,
+        "panels": [],
         "title": "Colors",
         "type": "row"
       },
@@ -675,12 +677,12 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 8,
           "x": 0,
-          "y": 12
+          "y": 14
         },
-        "id": 7,
+        "id": 26,
         "options": {
           "bucketCount": 20,
           "combine": false,
@@ -688,7 +690,7 @@
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": false
+            "showLegend": true
           },
           "tooltip": {
             "mode": "multi",
@@ -808,10 +810,10 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 8,
           "x": 8,
-          "y": 12
+          "y": 14
         },
         "id": 8,
         "options": {
@@ -821,7 +823,7 @@
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": false
+            "showLegend": true
           },
           "tooltip": {
             "mode": "multi",
@@ -941,10 +943,10 @@
           "overrides": []
         },
         "gridPos": {
-          "h": 5,
+          "h": 6,
           "w": 8,
           "x": 16,
-          "y": 12
+          "y": 14
         },
         "id": 9,
         "options": {
@@ -954,7 +956,7 @@
             "calcs": [],
             "displayMode": "list",
             "placement": "bottom",
-            "showLegend": false
+            "showLegend": true
           },
           "tooltip": {
             "mode": "multi",
@@ -1061,7 +1063,7 @@
           "h": 3,
           "w": 4,
           "x": 0,
-          "y": 17
+          "y": 20
         },
         "id": 13,
         "options": {
@@ -1170,9 +1172,9 @@
           "h": 3,
           "w": 4,
           "x": 4,
-          "y": 17
+          "y": 20
         },
-        "id": 18,
+        "id": 28,
         "options": {
           "colorMode": "value",
           "graphMode": "area",
@@ -1279,7 +1281,7 @@
           "h": 3,
           "w": 4,
           "x": 8,
-          "y": 17
+          "y": 20
         },
         "id": 14,
         "options": {
@@ -1388,7 +1390,7 @@
           "h": 3,
           "w": 4,
           "x": 12,
-          "y": 17
+          "y": 20
         },
         "id": 12,
         "options": {
@@ -1497,7 +1499,7 @@
           "h": 3,
           "w": 4,
           "x": 16,
-          "y": 17
+          "y": 20
         },
         "id": 15,
         "options": {
@@ -1606,7 +1608,7 @@
           "h": 3,
           "w": 4,
           "x": 20,
-          "y": 17
+          "y": 20
         },
         "id": 11,
         "options": {
@@ -1715,7 +1717,7 @@
           "h": 3,
           "w": 6,
           "x": 0,
-          "y": 20
+          "y": 23
         },
         "id": 10,
         "options": {
@@ -1824,9 +1826,9 @@
           "h": 3,
           "w": 6,
           "x": 6,
-          "y": 20
+          "y": 23
         },
-        "id": 19,
+        "id": 25,
         "options": {
           "colorMode": "value",
           "graphMode": "area",
@@ -1860,7 +1862,7 @@
               [
                 {
                   "params": [
-                    "brightness_std"
+                    "brightness_mean"
                   ],
                   "type": "field"
                 },
@@ -1889,7 +1891,7 @@
               [
                 {
                   "params": [
-                    "brightness_std"
+                    "brightness_mean"
                   ],
                   "type": "field"
                 },
@@ -1902,7 +1904,7 @@
             "tags": []
           }
         ],
-        "title": "Brightness Mean(Std)",
+        "title": "Brightness Mean(Mean)",
         "type": "stat"
       },
       {
@@ -1933,7 +1935,7 @@
           "h": 3,
           "w": 4,
           "x": 12,
-          "y": 20
+          "y": 23
         },
         "id": 20,
         "options": {
@@ -2042,7 +2044,7 @@
           "h": 3,
           "w": 4,
           "x": 16,
-          "y": 20
+          "y": 23
         },
         "id": 21,
         "options": {
@@ -2151,7 +2153,7 @@
           "h": 3,
           "w": 4,
           "x": 20,
-          "y": 20
+          "y": 23
         },
         "id": 22,
         "options": {
@@ -2238,7 +2240,7 @@
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 23
+          "y": 26
         },
         "id": 17,
         "panels": [],
@@ -2246,12 +2248,811 @@
         "type": "row"
       },
       {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 5,
+          "x": 0,
+          "y": 27
+        },
+        "id": 19,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [],
+            "fields": "/^ $/",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "edge_count"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "edge_count"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Edge Count Mean",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "red",
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "fillOpacity": 35,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              }
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 19,
+          "x": 5,
+          "y": 27
+        },
+        "id": 7,
+        "options": {
+          "bucketCount": 50,
+          "combine": false,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "right",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "alias": "$Deployment",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"sensor_value\" FROM /^$Deployment$/ WHERE $timeFilter",
+            "rawQuery": false,
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "edge_count"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": "$Compare",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"sensor_value\" FROM /^$Compare$/ WHERE $timeFilter AND \"$Deployment\" != \"$Compare\"",
+            "rawQuery": false,
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "edge_count"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Edge Count",
+        "transformations": [
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "number",
+                  "targetField": "Value"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
+        "type": "histogram"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 5,
+          "x": 0,
+          "y": 30
+        },
+        "id": 27,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "percentChangeColorMode": "standard",
+          "reduceOptions": {
+            "calcs": [],
+            "fields": "/^ $/",
+            "values": false
+          },
+          "showPercentChange": false,
+          "textMode": "auto",
+          "wideLayout": true
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "edge_count"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "stddev"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "edge_count"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "stddev"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Edge Count Std",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 0,
+          "y": 33
+        },
+        "id": 18,
+        "options": {
+          "displayMode": "gradient",
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [],
+            "fields": "/^ $/",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "contrast"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "contrast"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Contrast",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 6,
+          "y": 33
+        },
+        "id": 29,
+        "options": {
+          "displayMode": "gradient",
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [],
+            "fields": "/^ $/",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "dissimilarity"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "dissimilarity"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Dissimilarity",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 12,
+          "y": 33
+        },
+        "id": 30,
+        "options": {
+          "displayMode": "gradient",
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [],
+            "fields": "/^ $/",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "homogeneity"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "homogeneity"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Homogeneity",
+        "type": "bargauge"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "palette-classic"
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "text",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 18,
+          "y": 33
+        },
+        "id": 31,
+        "options": {
+          "displayMode": "gradient",
+          "maxVizHeight": 300,
+          "minVizHeight": 16,
+          "minVizWidth": 8,
+          "namePlacement": "auto",
+          "orientation": "horizontal",
+          "reduceOptions": {
+            "calcs": [],
+            "fields": "/^ $/",
+            "values": false
+          },
+          "showUnfilled": true,
+          "sizing": "auto",
+          "valueMode": "color"
+        },
+        "pluginVersion": "11.2.0",
+        "targets": [
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "energy"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": " ",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "energy"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Energy",
+        "type": "bargauge"
+      },
+      {
         "collapsed": false,
         "gridPos": {
           "h": 1,
           "w": 24,
           "x": 0,
-          "y": 24
+          "y": 36
         },
         "id": 16,
         "panels": [],
@@ -2266,8 +3067,8 @@
         {
           "current": {
             "selected": true,
-            "text": "Measurement_5",
-            "value": "Measurement_5"
+            "text": "Measurement_6",
+            "value": "Measurement_6"
           },
           "datasource": {
             "type": "influxdb",
@@ -2326,6 +3127,6 @@
     "timezone": "browser",
     "title": "Home",
     "uid": "de2thifvsesjkc",
-    "version": 16,
+    "version": 18,
     "weekStart": ""
   }
