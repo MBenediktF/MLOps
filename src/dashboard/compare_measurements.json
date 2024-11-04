@@ -3058,6 +3058,139 @@
         "panels": [],
         "title": "Features",
         "type": "row"
+      },
+      {
+        "datasource": {
+          "default": true,
+          "type": "influxdb",
+          "uid": "ae2tfwvyqwtmob"
+        },
+        "description": "",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "fixedColor": "red",
+              "mode": "palette-classic"
+            },
+            "custom": {
+              "fillOpacity": 35,
+              "gradientMode": "none",
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              },
+              "lineWidth": 1,
+              "stacking": {
+                "group": "A",
+                "mode": "none"
+              }
+            },
+            "fieldMinMax": false,
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red"
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 37
+        },
+        "id": 32,
+        "options": {
+          "bucketCount": 50,
+          "combine": false,
+          "legend": {
+            "calcs": [],
+            "displayMode": "list",
+            "placement": "bottom",
+            "showLegend": true
+          },
+          "tooltip": {
+            "mode": "multi",
+            "sort": "none"
+          }
+        },
+        "targets": [
+          {
+            "alias": "$Deployment",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "measurement": "/^$Deployment$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"sensor_value\" FROM /^$Deployment$/ WHERE $timeFilter",
+            "rawQuery": false,
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "keypoint_count"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "alias": "$Compare",
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ae2tfwvyqwtmob"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "/^$Compare$/",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"sensor_value\" FROM /^$Compare$/ WHERE $timeFilter AND \"$Deployment\" != \"$Compare\"",
+            "rawQuery": false,
+            "refId": "B",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "keypoint_count"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "title": "Keypoint Count",
+        "transformations": [
+          {
+            "id": "convertFieldType",
+            "options": {
+              "conversions": [
+                {
+                  "destinationType": "number",
+                  "targetField": "Value"
+                }
+              ],
+              "fields": {}
+            }
+          }
+        ],
+        "type": "histogram"
       }
     ],
     "schemaVersion": 39,
@@ -3066,9 +3199,9 @@
       "list": [
         {
           "current": {
-            "selected": true,
-            "text": "Measurement_6",
-            "value": "Measurement_6"
+            "selected": false,
+            "text": "Measurement_1",
+            "value": "Measurement_1"
           },
           "datasource": {
             "type": "influxdb",
@@ -3092,9 +3225,9 @@
         },
         {
           "current": {
-            "selected": true,
-            "text": "Measurement_3",
-            "value": "Measurement_3"
+            "selected": false,
+            "text": "Measurement_5",
+            "value": "Measurement_5"
           },
           "datasource": {
             "type": "influxdb",
@@ -3125,8 +3258,8 @@
     },
     "timepicker": {},
     "timezone": "browser",
-    "title": "Home",
+    "title": "Compare Measurements",
     "uid": "de2thifvsesjkc",
-    "version": 18,
+    "version": 20,
     "weekStart": ""
   }
