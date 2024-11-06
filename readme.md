@@ -2,6 +2,8 @@
 
 ![Systemarchitektur](src/system_architecture.jpg)
 
+# THIS IS NOT UP TO DATE!
+
 ## Service overview
 
 The environment consists of the following services:
