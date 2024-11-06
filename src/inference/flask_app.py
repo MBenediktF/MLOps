@@ -78,7 +78,7 @@ def predict_route():
         sensor_value = 0
 
     # run inference pipeline
-    prediction = inference_pipeline.run(file, sensor_value)
+    prediction = inference_pipeline.run(client_uid, file, sensor_value)
 
     return {'prediction': prediction}, 200
 

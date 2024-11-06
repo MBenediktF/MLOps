@@ -49,7 +49,7 @@ class InferencePipeline():
         self.image_height = self.model.input_shape[1]
         log(f"Model loaded: {self.model_name} - {self.model_version}")
 
-    def run(self, image_file, sensor_value: int = 0) -> int:
+    def run(self, client_uid: str, image_file, sensor_value: int = 0) -> int:
         self.setup_deployment()
         # 0: Check if model is available
         if not self.model:
@@ -81,12 +81,13 @@ class InferencePipeline():
         log_thread = threading.Thread(
             target=log_run,
             args=(
+                client_uid,
                 image_data,
                 prediction_mm,
                 sensor_value,
                 self.measurement,
                 self.model_name,
-                self.model_version
+                self.model_version,
                 )
         )
         log_thread.start()
