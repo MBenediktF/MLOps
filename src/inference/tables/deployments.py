@@ -1,6 +1,7 @@
 from helpers.logs import log, ERROR
 from helpers.mysql import init_table, insert_record
 from helpers.mysql import get_records, update_record, delete_record
+from helpers.influx import count_records
 from uuid import uuid4
 
 # Create deployments table
@@ -64,6 +65,7 @@ def list_deployments() -> list:
             "name": record[2],
             "model_name": record[3],
             "model_version": record[4],
+            "records": count_records(record[2]),
             "active": record[5],
             "timestamp": record[6]
         }
