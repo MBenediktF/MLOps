@@ -9,3 +9,4 @@ python-dotenv
 tensorflow
 mysql-connector-python
 scikit-image
+flask-cors
