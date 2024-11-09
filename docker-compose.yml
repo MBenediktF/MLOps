@@ -75,6 +75,19 @@ services:
       - minio
       - inference
 
+  config_ui:
+    build:
+      context: .
+      dockerfile: src/config_ui/Dockerfile
+    ports:
+      - ${CONFIG_UI_PORT}:${CONFIG_UI_PORT}
+    environment:
+      - INFERENCE_PORT=${INFERENCE_PORT}
+      - MODEL_TRAINING_PORT=${MODEL_TRAINING_PORT}
+    depends_on:
+      - inference
+      - model_services
+
   mlflow:
     build:
       context: .
