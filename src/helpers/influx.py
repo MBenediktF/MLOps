@@ -64,6 +64,7 @@ def count_records(measurement):
     from(bucket: "{influx_database}")
     |> range(start: -1y)
     |> filter(fn: (r) => r._measurement == "{measurement}")
+    |> filter(fn: (r) => r._field == "feature_file_url")
     |> count()
     '''
     result = influx_client.query_api().query(query)
