@@ -4,12 +4,11 @@
 import cv2
 from uuid import uuid4
 import os
-from datetime import datetime
 from helpers.logs import log
 from helpers.influx import fetch_records
 from helpers.s3 import upload_image_from_bytefile
-from helpers.s3 import upload_txt_from_dict
 from helpers.s3 import fetch_image
+from tables.datasets import store_dataset
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75
@@ -60,13 +59,7 @@ def create_dataset_from_measurements(measurements):
                 log(f"Could not upload image to s3: {e}")
                 continue
 
-    # add metadata txt file to bucket
-    metadata = {
-        "dataset_uid": dataset_uid,
-        "measurements": measurements,
-        "num_images": num_records,
-        "created_at": datetime.now().isoformat()
-    }
-    upload_txt_from_dict(metadata, f'datasets/{dataset_uid}/metadata.txt')
+    # store dataset metadata in mysql table
+    store_dataset(dataset_uid, str(measurements), str(num_records))
 
     return dataset_uid, num_records
