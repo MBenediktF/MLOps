@@ -6,6 +6,7 @@ from run_experiment import run_experiment, check_parameter_grid
 import threading
 import json
 from create_dataset import create_dataset_from_measurements
+from tables.datasets import list_datasets
 
 
 app = Flask(__name__)
@@ -96,3 +97,9 @@ def run_experiment_route():
     experiment_thread.start()
     responseString = f'Started experiment {experiment_name}.'
     return {'message': responseString}, 200
+
+
+@app.route("/list_datasets", methods=["POST"])
+def list_datasets_route():
+    datasets = list_datasets()
+    return {'message': datasets}, 200
