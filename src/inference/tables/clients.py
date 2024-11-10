@@ -30,6 +30,7 @@ def create_client(name: str) -> tuple:
         )
     except Exception as e:
         log(f"Could not create client: {e}", ERROR)
+        return None, None
     return uid, api_key
 
 
@@ -54,7 +55,7 @@ def list_clients() -> list:
         client = {
             "uid": record[1],
             "name": record[2],
-            "timestamp": record[6]
+            "timestamp": record[4]
         }
         clients.append(client)
     return clients

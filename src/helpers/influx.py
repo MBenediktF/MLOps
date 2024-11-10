@@ -59,5 +59,20 @@ def fetch_records(measurement, columns=DEFAULT_COLUMNS):
     return records
 
 
+def count_records(measurement):
+    query = f'''
+    from(bucket: "{influx_database}")
+    |> range(start: -1y)
+    |> filter(fn: (r) => r._measurement == "{measurement}")
+    |> count()
+    '''
+    result = influx_client.query_api().query(query)
+    count = 0
+    for table in result:
+        for record in table.records:
+            count += record.get_value()
+    return count
+
+
 def create_record(measurement):
     return Point(measurement)

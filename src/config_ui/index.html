@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps Client Configuration</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        input {
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Config-UI MLOps-Research</h1>
+    <h2>Clients</h2>
+    <table id="client-table">
+        <tr>
+            <th>Name</th>
+            <th>UID</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    <h2>Deployments</h2>
+    <table id="deployment-table">
+        <tr>
+            <th>Name</th>
+            <th>UID</th>
+            <th>Model</th>
+            <th>Version</th>
+            <th>Records</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </table>
+    <dialog id="token-popup">
+        <h3>Client added.</h3>
+        <p><b>UID:</b> <span id="uid-display"></span></p>
+        <p><b>Token:</b> <span id="token-display"></span></p>
+        <p>This is the only chance to save the access token.</p>
+        <button onclick="closePopup()">Close</button>
+    </dialog>
+    
+    <script>
+        // Definition of endpoints
+        const listClientsUrl = 'http://localhost:5001/list_clients';
+        const deleteClientUrl = 'http://localhost:5001/delete_client';
+        const listDeploymentsUrl = 'http://localhost:5001/list_deployments';
+        const deleteDeploymentUrl = 'http://localhost:5001/delete_deployment';
+        const activateDeploymentUrl = 'http://localhost:5001/set_active_deployment';
+        const createClientUrl = 'http://localhost:5001/create_client';
+        const createDeploymentUrl = 'http://localhost:5001/create_deployment';
+
+        async function loadClients() {
+            try {
+                const response = await fetch(listClientsUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+                const data = await response.json();
+                const table = document.getElementById('client-table');
+
+                if (data.message && Array.isArray(data.message)) {
+                    data.message.forEach(client => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${client.name}</td>
+                            <td>${client.uid}</td>
+                            <td><button onclick="deleteClient('${client.uid}')">Delete</button></td>
+                        `;
+                        table.appendChild(row);
+                    });
+                } else {
+                    console.error('Unexpected data format:', data);
+                }
+                // create client row
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                            <td><input type="text" id="new-client-name" placeholder="New Client"></td>
+                            <td></td>
+                            <td><button onclick="createClient()">Create</button></td>
+                        `;
+                        table.appendChild(row);
+            } catch (error) {
+                console.error('Error loading clients:', error);
+            }
+        }
+
+        async function loadDeployments() {
+            try {
+                const response = await fetch(listDeploymentsUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+                const data = await response.json();
+                const table = document.getElementById('deployment-table');
+
+                if (data.message && Array.isArray(data.message)) {
+                    data.message.forEach(deployment => {
+                        const status = deployment.active ? 'Active' : 'Inactive';
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${deployment.name}</td>
+                            <td>${deployment.uid}</td>
+                            <td>${deployment.model_name}</td>
+                            <td>${deployment.model_version}</td>
+                            <td>${deployment.records}</td>
+                            <td>${status}</td>
+                            <td><button onclick="activateDeployment('${deployment.uid}')">Set Active</button></td>
+                        `;
+                        table.appendChild(row);
+                    });
+                } else {
+                    console.error('Unexpected data format:', data);
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                            <td><input type="text" id="new-deployment-name" placeholder="New Deployment"></td>
+                            <td></td>
+                            <td><input type="text" id="new-deployment-model" placeholder="Model Name"></td>
+                            <td><input type="number" id="new-deployment-version" placeholder=1></td>
+                            <td></td>
+                            <td></td>
+                            <td><button onclick="createDeployment()">Create</button></td>
+                        `;
+                        table.appendChild(row);
+            } catch (error) {
+                console.error('Error loading clients:', error);
+            }
+        }
+
+        async function createClient() {
+            // Get client name
+            var name = document.getElementById('new-client-name').value;
+
+            // check name length
+            if (name.length < 3) {
+                console.error('Client name is too short');
+                return;
+            }
+            const formdata = new FormData();
+            formdata.append("name", name);
+
+            const response = await fetch(createClientUrl, {
+                method: 'POST',
+                body: formdata,
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const client_uid = data.client_uid;
+                const auth_token = data.auth_token; 
+                // open modal
+                document.getElementById('uid-display').textContent = client_uid;
+                document.getElementById('token-display').textContent = auth_token;
+                document.getElementById('token-popup').showModal();
+            } else {
+                console.error('Error adding the client:', response.statusText);
+            }
+        }
+
+        async function createDeployment() {
+            // get inputs
+            var name = document.getElementById('new-deployment-name').value;
+            var model_name = document.getElementById('new-deployment-model').value;
+            var model_version = document.getElementById('new-deployment-version').value;
+
+            // check name length
+            if (name.length < 3) {
+                console.error('Deployment name is too short');
+                return;
+            }
+            if (model_name.length < 3) {
+                console.error('Model name is too short');
+                return;
+            }
+
+            const formdata = new FormData();
+            formdata.append("name", name);
+            formdata.append("model_name", model_name);
+            formdata.append("model_version", model_version);
+
+            const response = await fetch(createDeploymentUrl, {
+                method: 'POST',
+                body: formdata,
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error('Error adding the deployment:', response.statusText);
+            }
+        }
+
+        async function deleteClient(uid) {
+            const formdata = new FormData();
+            formdata.append("client_uid", uid);
+
+            const requestOptions = {
+                method: "POST",
+                body: formdata,
+                redirect: "follow"
+            };
+
+            const response = await fetch(deleteClientUrl, requestOptions);
+
+            if (response.ok) {
+                // Refresh table
+                location.reload();
+            } else {
+                console.error('Failed to delete client:', response.statusText);
+            }
+        }
+
+        async function activateDeployment(uid) {
+            const formdata = new FormData();
+            console.log(uid)
+            formdata.append("deployment_uid", uid);
+
+            const requestOptions = {
+                method: "POST",
+                body: formdata,
+                redirect: "follow"
+            };
+
+            const response = await fetch(activateDeploymentUrl, requestOptions);
+
+            if (response.ok) {
+                // Refresh table
+                location.reload();
+            } else {
+                console.error('Failed to set active deployment:', response.statusText);
+            }
+        }
+
+        function closePopup() {
+            document.getElementById('token-popup').close();
+            location.reload();
+        }
+
+        // Load clients and deployments on page load
+        loadClients();
+        loadDeployments();
+    </script>
+</body>
+</html>

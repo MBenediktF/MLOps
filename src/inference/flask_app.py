@@ -6,10 +6,12 @@ from tables.deployments import set_active_deployment, get_active_deployment
 from tables.deployments import delete_deployment
 from helpers.email import send_email
 from flask import Flask, request, jsonify, send_file
+from flask_cors import CORS
 import shutil
 import os
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 inference_pipeline = InferencePipeline()
 
