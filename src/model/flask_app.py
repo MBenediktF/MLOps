@@ -5,7 +5,7 @@ import os
 from run_experiment import run_experiment, check_parameter_grid
 import threading
 import json
-from create_dataset import create_dataset_from_measurement
+from create_dataset import create_dataset_from_measurements
 
 
 app = Flask(__name__)
@@ -51,12 +51,13 @@ def get_logs_route():
 @app.route("/create_dataset", methods=["POST"])
 def create_dataset():
     # get measurement name
-    measurement = request.form.get("measurement")
-    if measurement is None:
+    measurements = request.form.get("measurements")
+    measurements = json.loads(measurements) if measurements else []
+    if measurements is None or measurements == []:
         return {'message': 'No measurement name.'}, 400
     # create dataset
-    dataset_uuid, num_images = create_dataset_from_measurement(measurement)
-    responseString = f'Created dataset {dataset_uuid}, {num_images} images'
+    dataset_uid, num_images = create_dataset_from_measurements(measurements)
+    responseString = f'Created dataset {dataset_uid}, {num_images} images'
     return {'message': responseString}, 200
 
 

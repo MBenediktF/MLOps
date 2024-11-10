@@ -62,10 +62,10 @@ def fetch_image(image_file_url):
     return image
 
 
-def download_dataset(dataset_uuid):
+def download_dataset(dataset_uid):
     response = s3_client.list_objects_v2(
         Bucket=bucket_name,
-        Prefix=f"datasets/{dataset_uuid}/"
+        Prefix=f"datasets/{dataset_uid}/"
     )
     if 'Contents' not in response:
         return False
