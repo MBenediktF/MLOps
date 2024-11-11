@@ -7,9 +7,11 @@ import threading
 import json
 from create_dataset import create_dataset_from_measurements
 from tables.datasets import list_datasets
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route("/")
