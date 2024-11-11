@@ -76,6 +76,7 @@ services:
     depends_on:
       - mlflow
       - minio
+      - mysql
       - inference
 
   config_ui:
