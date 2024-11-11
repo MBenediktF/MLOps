@@ -7,3 +7,5 @@ opencv-python
 python-dotenv
 tensorflow
 influxdb-client
+mysql-connector-python
+flask-cors

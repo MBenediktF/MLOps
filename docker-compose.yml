@@ -68,11 +68,15 @@ services:
       - INFLUX_DATABASE=${INFLUX_DATABASE}
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - INFERENCE_PORT=${INFERENCE_PORT}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MODEL_TRAINING_PORT=${MODEL_TRAINING_PORT}
       - LOGFILE_NAME=${MODEL_SERVICES_LOGFILE_NAME}
     depends_on:
       - mlflow
       - minio
+      - mysql
       - inference
 
   config_ui:

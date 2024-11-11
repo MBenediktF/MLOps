@@ -4,8 +4,8 @@ from io import BytesIO
 from PIL import Image
 
 
-def import_dataset(dataset_uuid):
-    dataset = download_dataset(dataset_uuid)
+def import_dataset(dataset_uid):
+    dataset = download_dataset(dataset_uid)
     if not dataset:
         raise Exception("Could not download dataset")
 

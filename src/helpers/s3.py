@@ -43,16 +43,6 @@ def upload_image_from_bytefile(bytefile, filename):
     return True
 
 
-def upload_txt_from_dict(dict, file_path):
-    dict_string = "\n".join(f"{key}: {value}" for key, value in dict.items())
-    s3_client.put_object(
-        Bucket=bucket_name,
-        Key=file_path,
-        Body=dict_string,
-        ContentType='text/plain'
-    )
-
-
 def fetch_image(image_file_url):
     image = s3_client.get_object(Bucket=bucket_name, Key=image_file_url)
     image = image['Body'].read()
@@ -62,10 +52,10 @@ def fetch_image(image_file_url):
     return image
 
 
-def download_dataset(dataset_uuid):
+def download_dataset(dataset_uid):
     response = s3_client.list_objects_v2(
         Bucket=bucket_name,
-        Prefix=f"datasets/{dataset_uuid}/"
+        Prefix=f"datasets/{dataset_uid}/"
     )
     if 'Contents' not in response:
         return False

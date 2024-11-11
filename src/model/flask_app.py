@@ -5,10 +5,13 @@ import os
 from run_experiment import run_experiment, check_parameter_grid
 import threading
 import json
-from create_dataset import create_dataset_from_measurement
+from create_dataset import create_dataset_from_measurements
+from tables.datasets import list_datasets
+from flask_cors import CORS
 
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route("/")
@@ -51,12 +54,13 @@ def get_logs_route():
 @app.route("/create_dataset", methods=["POST"])
 def create_dataset():
     # get measurement name
-    measurement = request.form.get("measurement")
-    if measurement is None:
+    measurements = request.form.get("measurements")
+    measurements = json.loads(measurements) if measurements else []
+    if measurements is None or measurements == []:
         return {'message': 'No measurement name.'}, 400
     # create dataset
-    dataset_uuid, num_images = create_dataset_from_measurement(measurement)
-    responseString = f'Created dataset {dataset_uuid}, {num_images} images'
+    dataset_uid, num_images = create_dataset_from_measurements(measurements)
+    responseString = f'Created dataset {dataset_uid}, {num_images} images'
     return {'message': responseString}, 200
 
 
@@ -95,3 +99,9 @@ def run_experiment_route():
     experiment_thread.start()
     responseString = f'Started experiment {experiment_name}.'
     return {'message': responseString}, 200
+
+
+@app.route("/list_datasets", methods=["POST"])
+def list_datasets_route():
+    datasets = list_datasets()
+    return {'message': datasets}, 200
