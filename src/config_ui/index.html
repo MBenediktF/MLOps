@@ -46,6 +46,15 @@
             <th>Actions</th>
         </tr>
     </table>
+    <h2>Datasets</h2>
+    <table id="dataset-table">
+        <tr>
+            <th>UID</th>
+            <th>Size</th>
+            <th>Origin</th>
+            <th>Actions</th>
+        </tr>
+    </table>
     <dialog id="token-popup">
         <h3>Client added.</h3>
         <p><b>UID:</b> <span id="uid-display"></span></p>
@@ -58,11 +67,13 @@
         // Definition of endpoints
         const listClientsUrl = 'http://localhost:5001/list_clients';
         const deleteClientUrl = 'http://localhost:5001/delete_client';
+        const listDatasetsUrl = 'http://localhost:5002/list_datasets';
         const listDeploymentsUrl = 'http://localhost:5001/list_deployments';
         const deleteDeploymentUrl = 'http://localhost:5001/delete_deployment';
         const activateDeploymentUrl = 'http://localhost:5001/set_active_deployment';
         const createClientUrl = 'http://localhost:5001/create_client';
         const createDeploymentUrl = 'http://localhost:5001/create_deployment';
+        const createDatasetUrl = 'http://localhost:5002/create_dataset';
 
         async function loadClients() {
             try {
@@ -149,6 +160,45 @@
             }
         }
 
+        async function loadDatasets() {
+            try {
+                const response = await fetch(listDatasetsUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+                const data = await response.json();
+                const table = document.getElementById('dataset-table');
+
+                if (data.message && Array.isArray(data.message)) {
+                    data.message.forEach(deployment => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${deployment.uid}</td>
+                            <td>${deployment.size}</td>
+                            <td>${deployment.measurements}</td>
+                        `;
+                        table.appendChild(row);
+                    });
+                } else {
+                    console.error('Unexpected data format:', data);
+                }
+
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                            <td></td>
+                            <td></td>
+                            <td><input type="text" id="new-dataset-origin" value='[""]'' style="width:300px"></td>
+                            <td><button id="createDatasetButton" onclick="createDataset()">Create</button></td>
+                        `;
+                        table.appendChild(row);
+            } catch (error) {
+                console.error('Error loading datasets:', error);
+            }
+        }
+
         async function createClient() {
             // Get client name
             var name = document.getElementById('new-client-name').value;
@@ -212,6 +262,27 @@
             }
         }
 
+        async function createDataset() {
+            document.getElementById('createDatasetButton').disabled = true;
+            // Get client name
+            var measurements = document.getElementById('new-dataset-origin').value;
+
+            const formdata = new FormData();
+            formdata.append("measurements", measurements);
+
+            const response = await fetch(createDatasetUrl, {
+                method: 'POST',
+                body: formdata,
+            });
+
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error('Error creating dataset:', response.statusText);
+            }
+            document.getElementById('createDatasetButton').disabled = true;
+        }
+
         async function deleteClient(uid) {
             const formdata = new FormData();
             formdata.append("client_uid", uid);
@@ -261,6 +332,7 @@
         // Load clients and deployments on page load
         loadClients();
         loadDeployments();
+        loadDatasets();
     </script>
 </body>
 </html>
