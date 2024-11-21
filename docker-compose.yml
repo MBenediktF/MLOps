@@ -108,6 +108,25 @@ services:
       - mysql
       - minio
 
+  dagster:
+    build:
+      context: .
+      dockerfile: src/dagster/Dockerfile
+    ports:
+      - ${DAGSTER_PORT}:${DAGSTER_PORT}
+    environment:
+      - S3_PORT=${S3_PORT}
+      - S3_ACCESS_KEY_ID=${S3_ACCESS_KEY_ID}
+      - S3_SECRET_ACCESS_KEY=${S3_SECRET_ACCESS_KEY}
+      - BUCKET_NAME=${BUCKET_NAME}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - DAGSTER_PORT=${DAGSTER_PORT}
+    depends_on:
+      - mysql
+      - minio
+
   mysql:
     image: mysql:latest
     ports:
