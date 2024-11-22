@@ -123,9 +123,11 @@ services:
       - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - DAGSTER_PORT=${DAGSTER_PORT}
+      - MLFLOW_PORT=${MLFLOW_PORT}
     depends_on:
       - mysql
       - minio
+      - mlflow
 
   mysql:
     image: mysql:latest
