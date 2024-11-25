@@ -3,6 +3,7 @@ from dagster import AssetExecutionContext
 from dagster import asset, Config, MaterializeResult
 import json
 import numpy as np
+import os
 
 
 class TrainingConfig(Config):
@@ -14,7 +15,7 @@ class TrainingConfig(Config):
 
 
 @asset(
-    deps=["dataset_preprocessed", "model"],
+    deps=["train_data", "model"],
     group_name=None,
     kinds={"tensorflow"},
     description="Trained model"
@@ -30,10 +31,10 @@ def trained_model(
     batch_size = config.batch_size
 
     # get preprocessed dataset from dataset_preprocessed
-    with open("data/dataset_preprocessed.json", "r") as f:
+    with open("data/train_data.json", "r") as f:
         dataset = json.load(f)
-    x_train = np.array(dataset["train_x"])
-    y_train = np.array(dataset["train_y"])
+    images = np.array(dataset["images"])
+    labels = np.array(dataset["labels"])
 
     # get model from model
     model = tf.keras.models.load_model("data/model.h5")
@@ -42,10 +43,13 @@ def trained_model(
     model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
 
     # Fit model
-    history = model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size)
+    model.fit(images, labels, epochs=epochs, batch_size=batch_size)
+
+    # Save the model as .h5 file
+    os.makedirs("data", exist_ok=True)
+    model_path = "data/model.h5"
+    model.save(model_path)
 
     return MaterializeResult(
-        metadata={
-            history: history.history
-        }
+        metadata={}
     )
