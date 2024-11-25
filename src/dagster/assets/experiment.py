@@ -61,7 +61,7 @@ def mlflow_run(
 
 
 class ExperimentConfig(Config):
-    name: str = "Default"
+    name: str = ""
     optimizer: str = "adam"
     loss: str = "mean_squared_error"
     metrics: list = ["mae"]
@@ -107,6 +107,15 @@ def experiment(
                     config.loss,
                     config.metrics
                 )
+
+    # store experiment metadate
+    experiment_json = {
+        "name": config.name,
+        "id": experiment_id
+    }
+    os.makedirs("data", exist_ok=True)
+    with open("data/experiment.json", "w") as f:
+        json.dump(experiment_json, f)
 
     iter = len(config.dropout) * len(config.epochs) * len(config.batch_size)
     experiment_url = f"{mlflow_url}/experiments/{experiment_id}"
