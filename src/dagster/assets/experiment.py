@@ -44,10 +44,14 @@ def mlflow_run(
 
         # Modell trainieren
         model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
-        model.fit(train_x, train_y, epochs=epochs, batch_size=batch_size)
+        model.fit(train_x,
+                  train_y,
+                  epochs=epochs,
+                  batch_size=batch_size,
+                  verbose=0)
 
         # Modell evaluieren
-        test_loss, test_mae = model.evaluate(test_x, test_y, verbose=2)
+        test_loss, test_mae = model.evaluate(test_x, test_y, verbose=0)
 
         # Metriken loggen
         mlflow.tensorflow.mlflow.log_metric("test_loss", test_loss)
@@ -56,6 +60,8 @@ def mlflow_run(
         mlflow.tensorflow.mlflow.log_param("test_split", test_split)
         mlflow.tensorflow.mlflow.log_param("epochs", epochs)
         mlflow.tensorflow.mlflow.log_param("batch_size", batch_size)
+
+        tf.keras.backend.clear_session()
 
     mlflow.end_run()
 
