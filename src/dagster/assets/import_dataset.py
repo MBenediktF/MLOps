@@ -2,7 +2,9 @@ from helpers.s3 import download_dataset
 import numpy as np
 from io import BytesIO
 from PIL import Image
-from dagster import AssetExecutionContext, MetadataValue
+import json
+import os
+from dagster import AssetExecutionContext, Definitions
 from dagster import asset, Config, MaterializeResult, Failure
 
 
@@ -11,7 +13,7 @@ class ImportDatasetConfig(Config):
 
 
 @asset
-def import_dataset(
+def dataset(
     context: AssetExecutionContext,
     config: ImportDatasetConfig
 ) -> MaterializeResult:
@@ -37,14 +39,21 @@ def import_dataset(
         labels[i] = int(filename.split('_')[-1].split('.')[0])
         uids[i] = filename.split('/')[2].split('_')[0]
 
+    # store the dataset as json
     dataset_json = {
         "images": images.tolist(),
         "labels": labels.tolist(),
         "uids": uids.tolist()
     }
+    os.makedirs("data", exist_ok=True)
+    with open("data/dataset.json", "w") as f:
+        json.dump(dataset_json, f)
 
     return MaterializeResult(
         metadata={
-            "dataset": MetadataValue.json(dataset_json),
+            "size": len(images),
         }
     )
+
+
+defs = Definitions(assets=[dataset])
