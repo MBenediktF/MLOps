@@ -12,7 +12,7 @@ class DatasetImportConfig(Config):
     dataset_uid: str = ""
 
 
-@asset
+@asset(group_name="training")
 def dataset(
     context: AssetExecutionContext,
     config: DatasetImportConfig

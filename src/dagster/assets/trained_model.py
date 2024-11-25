@@ -13,7 +13,7 @@ class TrainingConfig(Config):
     batch_size: int = 32
 
 
-@asset(deps=["dataset_preprocessed", "model"])
+@asset(deps=["dataset_preprocessed", "model"], group_name="training")
 def trained_model(
     context: AssetExecutionContext,
     config: TrainingConfig

@@ -15,7 +15,7 @@ class ModelConfig(Config):
     dropout: float = 0.2
 
 
-@asset()
+@asset(group_name="training")
 def model(
     context: AssetExecutionContext,
     config: ModelConfig

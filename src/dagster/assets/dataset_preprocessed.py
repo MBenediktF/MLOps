@@ -11,7 +11,7 @@ class DatasetPreprocessingConfig(Config):
     seed: int = 0
 
 
-@asset(deps=["dataset"])
+@asset(deps=["dataset"], group_name="training")
 def dataset_preprocessed(
     context: AssetExecutionContext,
     config: DatasetPreprocessingConfig
