@@ -2,3 +2,7 @@ dagster-mysql
 dagster-aws
 dagster-webserver
 dagster-aws
+boto3
+opencv-python
+mlflow
+python-dotenv
