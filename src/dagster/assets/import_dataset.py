@@ -8,14 +8,14 @@ from dagster import AssetExecutionContext, Definitions
 from dagster import asset, Config, MaterializeResult, Failure
 
 
-class ImportDatasetConfig(Config):
+class DatasetImportConfig(Config):
     dataset_uid: str
 
 
 @asset
 def dataset(
     context: AssetExecutionContext,
-    config: ImportDatasetConfig
+    config: DatasetImportConfig
 ) -> MaterializeResult:
 
     dataset = download_dataset(config.dataset_uid)

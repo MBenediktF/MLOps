@@ -6,7 +6,7 @@ import json
 import os
 
 
-class PreprocessDataConfig(Config):
+class DatasetPreprocessingConfig(Config):
     test_split: float = 0.2
     seed: int = 0
 
@@ -14,7 +14,7 @@ class PreprocessDataConfig(Config):
 @asset(deps=["dataset"])
 def dataset_preprocessed(
     context: AssetExecutionContext,
-    config: PreprocessDataConfig
+    config: DatasetPreprocessingConfig
 ) -> MaterializeResult:
     test_split = config.test_split if config else 0.2
     seed = config.seed if config else 0
