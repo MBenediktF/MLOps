@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.utils import shuffle
-from dagster import AssetExecutionContext
+from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult, Failure
 import json
 import os
@@ -15,7 +15,7 @@ class DatasetPreprocessingConfig(Config):
     deps=["dataset"],
     group_name=None,
     kinds={"numpy"},
-    description="Preprocessed dataset"
+    description="Preprocessed, splitted dataset"
 )
 def dataset_preprocessed(
     context: AssetExecutionContext,
@@ -31,6 +31,7 @@ def dataset_preprocessed(
     images = np.array(dataset["images"])
     labels = np.array(dataset["labels"])
     uids = np.array(dataset["uids"])
+    dataset_uid = dataset["dataset_uid"]
 
     # Check input data
     if np.any(images < 0) or np.any(images > 255):
@@ -60,7 +61,9 @@ def dataset_preprocessed(
         "train_uids": train_uids.tolist(),
         "test_x": test_x.tolist(),
         "test_y": test_y.tolist(),
-        "test_uids": test_uids.tolist()
+        "test_uids": test_uids.tolist(),
+        "dataset_uid": dataset_uid,
+        "test_split": test_split,
     }
     os.makedirs("data", exist_ok=True)
     with open("data/dataset_preprocessed.json", "w") as f:
@@ -68,7 +71,7 @@ def dataset_preprocessed(
 
     return MaterializeResult(
         metadata={
-            "size_train": len(train_x),
-            "size_test": len(test_x)
+            "size_train": MetadataValue.int(len(train_x)),
+            "size_test": MetadataValue.int(len(test_x))
         }
     )
