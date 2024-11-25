@@ -14,7 +14,7 @@ class DatasetPreprocessingConfig(Config):
 @asset(
     deps=["dataset"],
     group_name="Training",
-    kinds={"numpy"},
+    kinds={"numpy", "scikitlearn"},
     description="Preprocessed, splitted dataset"
 )
 def dataset_preprocessed(
