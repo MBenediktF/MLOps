@@ -9,7 +9,7 @@ from dagster import asset, Config, MaterializeResult, Failure
 
 
 class DatasetImportConfig(Config):
-    dataset_uid: str
+    dataset_uid: str = ""
 
 
 @asset
