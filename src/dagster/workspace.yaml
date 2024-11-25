@@ -1,4 +1,5 @@
 load_from:
-  - python_file: import_dataset.py
-  - python_file: preprocess_dataset.py
-  - python_file: create_model.py
+  - python_file: dataset.py
+  - python_file: dataset_preprocessed.py
+  - python_file: model.py
+  - python_file: trained_model.py

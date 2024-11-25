@@ -15,7 +15,7 @@ class ModelConfig(Config):
     dropout: float = 0.2
 
 
-@asset
+@asset()
 def model(
     context: AssetExecutionContext,
     config: ModelConfig
@@ -85,7 +85,7 @@ def model(
     return MaterializeResult(
         metadata={
             "num_layers": len(model.layers),
-            "num_parameters": model.count_params(), 
+            "num_parameters": model.count_params()
         }
     )
 
