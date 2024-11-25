@@ -2,7 +2,6 @@ from helpers.s3 import download_dataset
 import numpy as np
 from io import BytesIO
 from PIL import Image
-import json
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult, Failure
 
