@@ -22,7 +22,7 @@ class RegisterConfig(Config):
 
 @asset(
     deps=["experiment"],
-    group_name="Training",
+    group_name="Register",
     kinds={"mlflow"},
     description="Register model in MLflow"
 )
