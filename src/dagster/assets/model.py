@@ -4,7 +4,7 @@ from keras.layers import Dense, Dropout, Conv2D, Flatten  # type: ignore
 from keras.layers import Input, MaxPooling2D, AveragePooling2D  # type: ignore
 from keras.initializers import TruncatedNormal  # type: ignore
 from keras import backend as K
-from dagster import AssetExecutionContext, Definitions
+from dagster import AssetExecutionContext
 from dagster import asset, Config, MaterializeResult
 import os
 
@@ -15,7 +15,7 @@ class ModelConfig(Config):
     dropout: float = 0.2
 
 
-@asset(group_name="training")
+@asset(group_name=None)
 def model(
     context: AssetExecutionContext,
     config: ModelConfig
@@ -112,6 +112,3 @@ def inceptionModule(input_layer, c1, c3_in, c3_out, c5_in, c5_out, p_out, id):
     layers = [conv1, conv3, conv5, pool]
     output_layer = tf.keras.layers.concatenate(layers, axis=-1)
     return output_layer
-
-
-defs = Definitions(assets=[model])

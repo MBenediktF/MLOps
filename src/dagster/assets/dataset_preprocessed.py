@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.utils import shuffle
-from dagster import AssetExecutionContext, Definitions
+from dagster import AssetExecutionContext
 from dagster import asset, Config, MaterializeResult, Failure
 import json
 import os
@@ -11,7 +11,7 @@ class DatasetPreprocessingConfig(Config):
     seed: int = 0
 
 
-@asset(deps=["dataset"], group_name="training")
+@asset(deps=["dataset"], group_name=None)
 def dataset_preprocessed(
     context: AssetExecutionContext,
     config: DatasetPreprocessingConfig
@@ -67,6 +67,3 @@ def dataset_preprocessed(
             "size_test": len(test_x)
         }
     )
-
-
-defs = Definitions(assets=[dataset_preprocessed])

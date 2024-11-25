@@ -4,7 +4,7 @@ from io import BytesIO
 from PIL import Image
 import json
 import os
-from dagster import AssetExecutionContext, Definitions
+from dagster import AssetExecutionContext
 from dagster import asset, Config, MaterializeResult, Failure
 
 
@@ -12,7 +12,7 @@ class DatasetImportConfig(Config):
     dataset_uid: str = ""
 
 
-@asset(group_name="training")
+@asset(group_name=None)
 def dataset(
     context: AssetExecutionContext,
     config: DatasetImportConfig
@@ -54,6 +54,3 @@ def dataset(
             "size": len(images),
         }
     )
-
-
-defs = Definitions(assets=[dataset])

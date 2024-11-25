@@ -1,5 +1,5 @@
 import tensorflow as tf
-from dagster import AssetExecutionContext, Definitions
+from dagster import AssetExecutionContext
 from dagster import asset, Config, MaterializeResult
 import json
 import numpy as np
@@ -13,7 +13,7 @@ class TrainingConfig(Config):
     batch_size: int = 32
 
 
-@asset(deps=["dataset_preprocessed", "model"], group_name="training")
+@asset(deps=["dataset_preprocessed", "model"], group_name=None)
 def trained_model(
     context: AssetExecutionContext,
     config: TrainingConfig
@@ -44,6 +44,3 @@ def trained_model(
             history: history.history
         }
     )
-
-
-defs = Definitions(assets=[trained_model])
