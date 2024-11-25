@@ -53,6 +53,8 @@ def fetch_image(image_file_url):
 
 
 def download_dataset(dataset_uid):
+    if len(dataset_uid) < 16:
+        return False
     response = s3_client.list_objects_v2(
         Bucket=bucket_name,
         Prefix=f"datasets/{dataset_uid}/"
