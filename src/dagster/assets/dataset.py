@@ -14,7 +14,7 @@ class DatasetImportConfig(Config):
 
 @asset(
     group_name=None,
-    kinds={"s3", "numpy"},
+    kinds={"s3"},
     description="Raw dataset from S3"
 )
 def dataset(
