@@ -16,11 +16,8 @@ compute_logs:
   config:
     bucket:
       env: BUCKET_NAME
-    s3_endpoint: "http://minio:${S3_PORT}"
-    access_key_id:
-      env: S3_ACCESS_KEY_ID
-    secret_access_key:
-      env: S3_SECRET_ACCESS_KEY
+    endpoint_url: 
+      env: S3_ENDPOINT_URL
 
 local_artifact_storage:
   module: dagster.core.storage.root
