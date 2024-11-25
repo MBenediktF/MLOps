@@ -4,7 +4,7 @@ from io import BytesIO
 from PIL import Image
 import json
 import os
-from dagster import AssetExecutionContext
+from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult, Failure
 
 
@@ -47,7 +47,8 @@ def dataset(
     dataset_json = {
         "images": images.tolist(),
         "labels": labels.tolist(),
-        "uids": uids.tolist()
+        "uids": uids.tolist(),
+        "dataset_uid": config.dataset_uid
     }
     os.makedirs("data", exist_ok=True)
     with open("data/dataset.json", "w") as f:
@@ -55,6 +56,6 @@ def dataset(
 
     return MaterializeResult(
         metadata={
-            "size": len(images),
+            "size": MetadataValue.int(len(images))
         }
     )
