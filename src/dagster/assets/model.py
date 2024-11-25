@@ -17,7 +17,8 @@ class ModelConfig(Config):
 
 @asset(
     group_name=None,
-    kinds={"tensorflow"}
+    kinds={"tensorflow"},
+    description="Untrained model"
 )
 def model(
     context: AssetExecutionContext,

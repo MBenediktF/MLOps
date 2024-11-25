@@ -14,7 +14,8 @@ class DatasetPreprocessingConfig(Config):
 @asset(
     deps=["dataset"],
     group_name=None,
-    kinds={"table"}
+    kinds={"numpy"},
+    description="Preprocessed dataset"
 )
 def dataset_preprocessed(
     context: AssetExecutionContext,

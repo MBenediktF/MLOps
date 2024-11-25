@@ -16,7 +16,8 @@ class TrainingConfig(Config):
 @asset(
     deps=["dataset_preprocessed", "model"],
     group_name=None,
-    kinds={"tensorflow"}
+    kinds={"tensorflow"},
+    description="Trained model"
 )
 def trained_model(
     context: AssetExecutionContext,
