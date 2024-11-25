@@ -131,6 +131,8 @@ services:
       - mysql
       - minio
       - mlflow
+    volumes:
+      - dagster_data:/opt/dagster
 
   mysql:
     image: mysql:latest
@@ -179,3 +181,4 @@ volumes:
   minio_data:
   influxdb_data:
   influxdb_config:
+  dagster_data:
