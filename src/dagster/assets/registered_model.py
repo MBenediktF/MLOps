@@ -24,7 +24,7 @@ class RegisterConfig(Config):
     deps=["experiment"],
     group_name="Training",
     kinds={"mlflow"},
-    description="Run MLFlow experiment"
+    description="Register model in MLflow"
 )
 def registered_model(
     context: AssetExecutionContext,
@@ -42,21 +42,25 @@ def registered_model(
     best_run_id = best_run["run_id"]
 
     # register model
+    model_version = None
     if config.auto:
         model_uri = f"runs:/{best_run_id}/model"
         client = MlflowClient()
-        client.create_model_version(
+        model_version = client.create_model_version(
             name=config.model_name,
             source=model_uri,
             run_id=best_run_id,
+            tags={"auto": ""}
         )
 
     run_url = f"{mlflow_url}/experiments/{experiment_id}/runs/{best_run_id}"
     model_url = f"{mlflow_url}/models/{config.model_name}"
+    version = model_version.version if model_version else "Not registered"
     return MaterializeResult(
         metadata={
-            "best_run": MetadataValue.text(best_run_id),
             "run": MetadataValue.url(run_url),
-            "model": MetadataValue.url(model_url)
+            "model": MetadataValue.url(model_url),
+            "best_run_id": MetadataValue.text(best_run_id),
+            "new_model_version": MetadataValue.text(version)
         }
     )
