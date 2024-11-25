@@ -38,7 +38,7 @@ def registered_model(
 
     # select best run by metric
     metric_str = f"metrics.{config.compare_metric}"
-    best_run = runs.loc[runs[metric_str].idxmax()]
+    best_run = runs.loc[runs[metric_str].idxmin()]
     best_run_id = best_run["run_id"]
 
     # register model
