@@ -11,7 +11,11 @@ class DatasetPreprocessingConfig(Config):
     seed: int = 0
 
 
-@asset(deps=["dataset"], group_name=None)
+@asset(
+    deps=["dataset"],
+    group_name=None,
+    kinds={"table"}
+)
 def dataset_preprocessed(
     context: AssetExecutionContext,
     config: DatasetPreprocessingConfig

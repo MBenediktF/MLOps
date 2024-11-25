@@ -7,13 +7,17 @@ import numpy as np
 
 class TrainingConfig(Config):
     optimizer: str = "adam"
-    loss: str = "mean_squared_erro"
+    loss: str = "mean_squared_error"
     metrics: list = ["mae"]
     epochs: int = 10
     batch_size: int = 32
 
 
-@asset(deps=["dataset_preprocessed", "model"], group_name=None)
+@asset(
+    deps=["dataset_preprocessed", "model"],
+    group_name=None,
+    kinds={"tensorflow"}
+)
 def trained_model(
     context: AssetExecutionContext,
     config: TrainingConfig

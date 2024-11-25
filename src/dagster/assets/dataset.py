@@ -12,7 +12,10 @@ class DatasetImportConfig(Config):
     dataset_uid: str = ""
 
 
-@asset(group_name=None)
+@asset(
+    group_name=None,
+    kinds={"s3", "table"}
+)
 def dataset(
     context: AssetExecutionContext,
     config: DatasetImportConfig

@@ -4,7 +4,7 @@ from keras.layers import Dense, Dropout, Conv2D, Flatten  # type: ignore
 from keras.layers import Input, MaxPooling2D, AveragePooling2D  # type: ignore
 from keras.initializers import TruncatedNormal  # type: ignore
 from keras import backend as K
-from dagster import AssetExecutionContext
+from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
 import os
 
@@ -15,7 +15,10 @@ class ModelConfig(Config):
     dropout: float = 0.2
 
 
-@asset(group_name=None)
+@asset(
+    group_name=None,
+    kinds={"tensorflow"}
+)
 def model(
     context: AssetExecutionContext,
     config: ModelConfig
@@ -85,7 +88,8 @@ def model(
     return MaterializeResult(
         metadata={
             "num_layers": len(model.layers),
-            "num_parameters": model.count_params()
+            "num_parameters": model.count_params(),
+            "output_format": MetadataValue.text("JSON")
         }
     )
 
