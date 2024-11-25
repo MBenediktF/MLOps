@@ -12,13 +12,13 @@ import os
 class ModelConfig(Config):
     img_width: int = 100
     img_height: int = 75
-    dropout: float = 0.2
+    default_dropout: float = 0.2
 
 
 @asset(
     group_name=None,
     kinds={"tensorflow"},
-    description="Untrained model"
+    description="Untrained model architecture"
 )
 def model(
     context: AssetExecutionContext,
@@ -26,7 +26,7 @@ def model(
 ) -> MaterializeResult:
     img_width = config.img_width
     img_height = config.img_height
-    dropout = config.dropout
+    dropout = config.default_dropout
 
     K.backend()
     K.clear_session()
@@ -88,9 +88,8 @@ def model(
 
     return MaterializeResult(
         metadata={
-            "num_layers": len(model.layers),
-            "num_parameters": model.count_params(),
-            "output_format": MetadataValue.text("JSON")
+            "num_layers": MetadataValue.int(len(model.layers)),
+            "num_parameters": MetadataValue.int(model.count_params())
         }
     )
 
