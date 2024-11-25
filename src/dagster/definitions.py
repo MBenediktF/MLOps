@@ -3,13 +3,10 @@ from assets.dataset_preprocessed import dataset_preprocessed
 from assets.model import model
 from assets.trained_model import trained_model
 
-from dagster import Definitions, AssetGroup
+from dagster import Definitions
 
-training_assets = AssetGroup(
-    name="training",
-    assets=[dataset, dataset_preprocessed, model, trained_model]
-)
-
-defs = Definitions(asset_groups=[
-    training_assets
+defs = Definitions(assets=[
+    dataset,
+    dataset_preprocessed,
+    model, trained_model
     ])
