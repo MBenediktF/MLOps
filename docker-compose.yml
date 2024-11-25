@@ -124,6 +124,7 @@ services:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - DAGSTER_PORT=${DAGSTER_PORT}
       - MLFLOW_PORT=${MLFLOW_PORT}
+      - HOST=${HOST}
     depends_on:
       - mysql
       - minio
