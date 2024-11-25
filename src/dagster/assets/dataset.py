@@ -13,7 +13,7 @@ class DatasetImportConfig(Config):
 
 
 @asset(
-    group_name=None,
+    group_name="Training",
     kinds={"s3"},
     description="Raw dataset from S3"
 )

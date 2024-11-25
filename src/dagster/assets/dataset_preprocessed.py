@@ -13,7 +13,7 @@ class DatasetPreprocessingConfig(Config):
 
 @asset(
     deps=["dataset"],
-    group_name=None,
+    group_name="Training",
     kinds={"numpy"},
     description="Preprocessed, splitted dataset"
 )

@@ -16,7 +16,7 @@ class ModelConfig(Config):
 
 
 @asset(
-    group_name=None,
+    group_name="Training",
     kinds={"tensorflow"},
     description="Untrained model architecture"
 )

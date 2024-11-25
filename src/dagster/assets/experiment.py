@@ -72,7 +72,7 @@ class ExperimentConfig(Config):
 
 @asset(
     deps=["dataset_preprocessed", "model"],
-    group_name=None,
+    group_name="Training",
     kinds={"tensorflow", "mlflow"},
     description="Run MLFlow experiment"
 )
@@ -92,6 +92,8 @@ def experiment(
 
     # Config experiment
     mlflow.set_experiment(config.name)
+    experiment = mlflow.get_experiment_by_name(config.name)
+    experiment_id = experiment.experiment_id
 
     # Iterate over all combinations of hyperparameters
     for dropout in config.dropout:
@@ -107,7 +109,7 @@ def experiment(
                 )
 
     iter = len(config.dropout) * len(config.epochs) * len(config.batch_size)
-    experiment_url = f"{mlflow_url}/experiment/{config.name}"
+    experiment_url = f"{mlflow_url}/experiments/{experiment_id}"
     return MaterializeResult(
         metadata={
             "iterations": MetadataValue.int(iter),
