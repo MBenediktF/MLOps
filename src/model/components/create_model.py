@@ -57,7 +57,7 @@ def create_model(img_size, dropout=0.2):
     output = Dense(1,  name="position_output", activation='sigmoid',
                    kernel_initializer=seed, bias_initializer=seed)(x)
 
-    # Model definition and compile
+    # Model definition
     model = Model(inputs=input, outputs=output, name="DistanceEstimationModel")
 
     return model
