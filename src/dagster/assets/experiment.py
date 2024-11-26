@@ -114,7 +114,7 @@ def experiment(
                     config.metrics
                 )
 
-    # store experiment metadate
+    # store experiment metadata
     experiment_json = {
         "name": config.name,
         "id": experiment_id
@@ -128,6 +128,7 @@ def experiment(
     return MaterializeResult(
         metadata={
             "iterations": MetadataValue.int(iter),
-            "experiment": MetadataValue.url(experiment_url)
+            "experiment": MetadataValue.url(experiment_url),
+            "id": MetadataValue.text(experiment_id)
         }
     )
