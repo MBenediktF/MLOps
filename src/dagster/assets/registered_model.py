@@ -15,13 +15,11 @@ mlflow_url = f"{host}:{mlflow_port}/#"
 
 
 class RegisterConfig(Config):
-    auto: bool = True
     model_name: str = ""
-    compare_metric: str = "test_mae"
 
 
 @asset(
-    deps=["experiment"],
+    deps=["best_run"],
     group_name="Register",
     kinds={"mlflow"},
     description="Register model in MLflow"
@@ -30,37 +28,29 @@ def registered_model(
     context: AssetExecutionContext,
     config: RegisterConfig
 ) -> MaterializeResult:
-    # get experiment and runs
-    with open("data/experiment.json", "r") as f:
-        experiment_metadata = json.load(f)
-    experiment_id = experiment_metadata["id"]
-    runs = mlflow.search_runs(experiment_id)
 
-    # select best run by metric
-    metric_str = f"metrics.{config.compare_metric}"
-    best_run = runs.loc[runs[metric_str].idxmin()]
-    best_run_id = best_run["run_id"]
+    # get run metadata
+    with open("data/best_run.json", "r") as f:
+        run_metadata = json.load(f)
+    run_id = run_metadata["id"]
 
     # register model
     model_version = None
     if config.auto:
-        model_uri = f"runs:/{best_run_id}/model"
+        model_uri = f"runs:/{run_id}/model"
         client = MlflowClient()
         model_version = client.create_model_version(
             name=config.model_name,
             source=model_uri,
-            run_id=best_run_id,
+            run_id=run_id,
             tags={"auto": ""}
         )
 
-    run_url = f"{mlflow_url}/experiments/{experiment_id}/runs/{best_run_id}"
     model_url = f"{mlflow_url}/models/{config.model_name}"
     version = model_version.version if model_version else "Not registered"
     return MaterializeResult(
         metadata={
-            "run": MetadataValue.url(run_url),
             "model": MetadataValue.url(model_url),
-            "best_run_id": MetadataValue.text(best_run_id),
             "new_model_version": MetadataValue.text(version)
         }
     )
