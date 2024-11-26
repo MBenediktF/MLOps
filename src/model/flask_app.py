@@ -2,8 +2,6 @@ from helpers.logs import Log  # noqa: F401
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
-from run_experiment import run_experiment, check_parameter_grid
-import threading
 import json
 from create_dataset import create_dataset_from_measurements
 from tables.datasets import list_datasets
@@ -62,43 +60,6 @@ def create_dataset():
     # create dataset
     dataset_uid, num_images = create_dataset_from_measurements(measurements)
     responseString = f'Created dataset {dataset_uid}, {num_images} images'
-    return {'message': responseString}, 200
-
-
-@app.route("/run_experiment", methods=["POST"])
-def run_experiment_route():
-    # get and check parameters
-    experiment_name = request.form.get("experiment_name")
-    if experiment_name is None:
-        return {'message': 'No experiment name.'}, 400
-
-    dataset_id = request.form.get("dataset_id")
-    if dataset_id is None:
-        return {'message': 'No dataset id.'}, 400
-
-    test_split = request.form.get("test_split")
-    if test_split is None:
-        test_split = 0.2
-    try:
-        test_split = float(test_split)
-    except Exception as e:
-        return {'message': str(e)}, 400
-
-    parameters = request.form.get("parameters")
-    if parameters is None:
-        return {'message': 'No parameters.'}, 400
-    try:
-        parameters = json.loads(parameters)
-        check_parameter_grid(parameters)
-    except Exception as e:
-        return {'message': str(e)}, 400
-
-    # start training thread
-    experiment_thread = threading.Thread(
-        target=run_experiment,
-        args=(experiment_name, dataset_id, test_split, parameters))
-    experiment_thread.start()
-    responseString = f'Started experiment {experiment_name}.'
     return {'message': responseString}, 200
 
 
