@@ -6,6 +6,7 @@ import json
 import os
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult, Failure
+from model.import_dataset import import_dataset  # type: ignore
 
 
 class DatasetImportConfig(Config):
@@ -24,6 +25,7 @@ def dataset(
     config: DatasetImportConfig
 ) -> MaterializeResult:
 
+    # check config options
     if config.use_latest:
         # get dataset uid from new_dataset json
         with open("data/new_dataset.json", "r") as f:
@@ -32,26 +34,8 @@ def dataset(
     else:
         dataset_uid = config.dataset_uid
 
-    dataset = download_dataset(dataset_uid)
-    if not dataset:
-        raise Failure("Could not download dataset")
-
-    # get image width and height
-    first_image = next(iter(dataset.values()))
-    img_width, img_height = Image.open(BytesIO(first_image)).size
-
-    # restructure dataset
-    images = np.zeros((len(dataset), img_height, img_width, 3), dtype=np.uint8)
-    labels = np.zeros((len(dataset)), dtype=np.uint16)
-    uids = np.zeros((len(dataset)), dtype='U36')
-    for i, (filename, image) in enumerate(dataset.items()):
-        try:
-            images[i] = np.array(Image.open(BytesIO(image)))
-        except Exception as e:
-            context.log.info(f"Could not read image: {e}")
-            continue
-        labels[i] = int(filename.split('_')[-1].split('.')[0])
-        uids[i] = filename.split('/')[2].split('_')[0]
+    # load and comvert dataset
+    images, labels, uids = import_dataset(dataset_uid)
 
     # store the dataset as json
     dataset_json = {
