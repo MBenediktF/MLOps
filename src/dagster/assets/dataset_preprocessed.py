@@ -21,21 +21,24 @@ def dataset_preprocessed(
     context: AssetExecutionContext,
     config: DatasetPreprocessingConfig
 ) -> MaterializeResult:
+
+    # get config values
     test_split = config.test_split if config else 0.2
     seed = config.seed if config else 0
 
     # get dataset from import_dataset
     with open("data/dataset.json", "r") as f:
         dataset = json.load(f)
-
     images = np.array(dataset["images"])
     labels = np.array(dataset["labels"])
     uids = np.array(dataset["uids"])
     dataset_uid = dataset["dataset_uid"]
 
+    # run preprocess data script
     train_x, train_y, train_uids, test_x, test_y, test_uids = \
         preprocess_data(images, labels, uids, test_split, seed)
 
+    # save new dataset
     dataset_json = {
         "train_x": train_x.tolist(),
         "train_y": train_y.tolist(),
