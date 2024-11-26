@@ -18,7 +18,7 @@ def import_dataset(dataset_uid, context=False):
 
     # restructure dataset
     images = np.zeros((len(dataset), img_height, img_width, 3), dtype=np.uint8)
-    labels = np.zeros((len(dataset)), dtype=np.uint8)
+    labels = np.zeros((len(dataset)), dtype=np.uint16)
     uids = np.zeros((len(dataset)), dtype='U36')
     for i, (filename, image) in enumerate(dataset.items()):
         try:
