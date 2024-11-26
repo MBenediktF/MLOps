@@ -19,12 +19,13 @@ def model(
     context: AssetExecutionContext,
     config: ModelConfig
 ) -> MaterializeResult:
+    # Get model parameters fro config
     img_width = config.img_width
     img_height = config.img_height
     dropout = config.default_dropout
 
+    # Create model
     model = create_model((None, img_height, img_width, 3), dropout)
-
     context.log.info(f"Model summary: {model.summary()}")
 
     # Save the model as .h5 file
