@@ -17,6 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/dagster/workspace.yaml /opt/dagster/app/
 COPY src/dagster/definitions.py /opt/dagster/app/
 COPY src/dagster/assets/. /opt/dagster/app/assets/
+COPY src/dagster/jobs/. /opt/dagster/app/jobs/
 # 2: Helpers
 COPY src/helpers/. /opt/dagster/app/helpers/
 # 3: MySQL Tables
