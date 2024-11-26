@@ -1,11 +1,7 @@
-from helpers.s3 import download_dataset
-import numpy as np
-from io import BytesIO
-from PIL import Image
 import json
 import os
 from dagster import AssetExecutionContext, MetadataValue
-from dagster import asset, Config, MaterializeResult, Failure
+from dagster import asset, Config, MaterializeResult
 from model.import_dataset import import_dataset  # type: ignore
 
 
