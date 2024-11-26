@@ -2,7 +2,7 @@ import json
 import os
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
-from create_dataset import create_dataset  # type: ignore
+from create_dataset import create_dataset_from_measurements  # type: ignore
 
 
 class DatasetCreateConfig(Config):
@@ -19,7 +19,10 @@ def new_dataset(
     config: DatasetCreateConfig
 ) -> MaterializeResult:
 
-    dataset_uid, num_records = create_dataset(config.measurements, context)
+    dataset_uid, num_records = create_dataset_from_measurements(
+        config.measurements,
+        context
+    )
 
     new_dataset_json = {
         "size": num_records,
