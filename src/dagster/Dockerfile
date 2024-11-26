@@ -23,7 +23,7 @@ COPY src/helpers/. /opt/dagster/app/helpers/
 COPY src/model/tables/. /opt/dagster/app/tables/
 # 4: Model Scripts
 COPY src/model/create_dataset.py /opt/dagster/app/
-COPY src/model/components/create_model.py /opt/dagster/app/
+COPY src/model/components/. /opt/dagster/app/model/
 
 # Directory structure
 # /opt/dagster/
@@ -36,6 +36,8 @@ COPY src/model/components/create_model.py /opt/dagster/app/
 #     │   └── ...                  
 #     ├── tables/                  # MySQL Table definitions
 #     │   └── ...                  
+#     ├── model/                   # Model scripts
+#     │   └── ...          
 #     └── create_dataset.py        # Python script to create datasets
 
 ENV DAGSTER_HOME=/opt/dagster/dagster_home/

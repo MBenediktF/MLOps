@@ -1,6 +1,6 @@
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
-from create_model import create_model  # type: ignore
+from model.create_model import create_model  # type: ignore
 import os
 
 
