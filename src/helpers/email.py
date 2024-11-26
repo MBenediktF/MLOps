@@ -2,7 +2,7 @@ import smtplib
 import ssl
 from dotenv import load_dotenv
 import os
-from helpers.logs import log, ERROR
+from helpers.logs import Log, ERROR, INFO
 from email.utils import formatdate
 
 load_dotenv()
@@ -19,6 +19,8 @@ receiver = os.getenv('EMAIL_RECIPIENT')
 
 
 def send_email(subject: str, content: str) -> bool:
+    log = Log()
+
     context = ssl.create_default_context()
     server = None
 
@@ -34,9 +36,9 @@ def send_email(subject: str, content: str) -> bool:
         server = smtplib.SMTP_SSL(smtp_server, smtp_port, context=context)
         server.login(sender, smtp_password)
         server.sendmail(sender, receiver, message)
-        log(f"Email successfully sent to {receiver}")
+        log.log(f"Email successfully sent to {receiver}", INFO)
     except Exception as e:
-        log(f"Failed to send email: {e}", ERROR)
+        log.log(f"Failed to send email: {e}", ERROR)
         return False
     finally:
         if server:

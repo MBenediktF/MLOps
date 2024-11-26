@@ -4,7 +4,7 @@
 import cv2
 from uuid import uuid4
 import os
-from helpers.logs import log
+from helpers.logs import Log, WARNING
 from helpers.influx import fetch_records
 from helpers.s3 import upload_image_from_bytefile
 from helpers.s3 import fetch_image
@@ -14,7 +14,9 @@ IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75
 
 
-def create_dataset_from_measurements(measurements):
+def create_dataset_from_measurements(measurements, context=False):
+    log = Log(context)
+
     # create dataset uid
     dataset_uid = str(uuid4())
     num_records = 0
@@ -33,7 +35,8 @@ def create_dataset_from_measurements(measurements):
                 image = fetch_image(image_file_url)
                 image = cv2.imdecode(image, cv2.IMREAD_COLOR)
             except Exception as e:
-                log(f"Could not read {image_file_url} from s3: {e}")
+                log.log(f"Could not read {image_file_url} from s3: {e}",
+                        WARNING)
                 continue
 
             # skip measurements without a valid reference measurement
@@ -45,7 +48,7 @@ def create_dataset_from_measurements(measurements):
                 image = cv2.resize(image, (IMAGE_WIDTH, IMAGE_HEIGHT))
             is_success, image_buffer = cv2.imencode('.jpg', image)
             if not is_success:
-                log("Could not encode image to JPEG format")
+                log.log("Could not encode image to JPEG format", WARNING)
                 continue
 
             # create image metadata string
@@ -56,7 +59,7 @@ def create_dataset_from_measurements(measurements):
             try:
                 upload_image_from_bytefile(image_buffer.tobytes(), filename)
             except Exception as e:
-                log(f"Could not upload image to s3: {e}")
+                log.log(f"Could not upload image to s3: {e}", WARNING)
                 continue
 
     # store dataset metadata in mysql table

@@ -1,4 +1,4 @@
-from helpers.logs import log  # noqa: F401
+from helpers.logs import Log  # noqa: F401
 from flask import Flask, request, jsonify, send_file
 import shutil
 import os
@@ -9,6 +9,7 @@ from create_dataset import create_dataset_from_measurements
 from tables.datasets import list_datasets
 from flask_cors import CORS
 
+log = Log()
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
