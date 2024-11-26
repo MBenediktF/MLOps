@@ -33,7 +33,7 @@ def new_dataset(
         json.dump(new_dataset_json, f)
 
     return MaterializeResult(
-        {
+        metadata={
             "size": MetadataValue.int(num_records),
             "uid": MetadataValue.text(dataset_uid)
         }
