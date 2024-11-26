@@ -18,6 +18,8 @@ COPY src/dagster/workspace.yaml /opt/dagster/app/
 COPY src/dagster/definitions.py /opt/dagster/app/
 COPY src/dagster/assets/. /opt/dagster/app/assets/
 COPY src/dagster/jobs/. /opt/dagster/app/jobs/
+COPY src/dagster/sensors/. /opt/dagster/app/sensors/
+COPY src/dagster/schedules/. /opt/dagster/app/schedules/
 # 2: Helpers
 COPY src/helpers/. /opt/dagster/app/helpers/
 # 3: MySQL Tables
@@ -32,6 +34,12 @@ COPY src/model/components/. /opt/dagster/app/model/
 #     ├── workspace.yaml           # Dagster workspace configuration
 #     ├── definitions.py           # Dagster pipeline definitions
 #     ├── assets/                  # Asset files for Dagster
+#     │   └── ...                  
+#     ├── jobs/                    # Job files for Dagster
+#     │   └── ...               
+#     ├── schedules/               # Schedule files for Dagster
+#     │   └── ...                     
+#     ├── sensors/                 # Sensor files for Dagster
 #     │   └── ...                  
 #     ├── helpers/                 # Helper files
 #     │   └── ...                  
