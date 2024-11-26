@@ -6,6 +6,9 @@ import numpy as np
 import os
 from dotenv import load_dotenv
 import mlflow
+from model.fit_model import fit_model  # type: ignore
+from model.evaluate_model import evaluate_model  # type: ignore
+from helpers.logs import Log
 
 load_dotenv()
 
@@ -42,16 +45,20 @@ def mlflow_run(
         # Set dropouts
         update_dropout_layers(model, dropout)
 
-        # Modell trainieren
-        model.compile(optimizer=optimizer, loss=loss, metrics=metrics)
-        model.fit(train_x,
-                  train_y,
-                  epochs=epochs,
-                  batch_size=batch_size,
-                  verbose=0)
+        # Model training
+        fit_model(
+            model,
+            train_x,
+            train_y,
+            optimizer,
+            loss,
+            metrics,
+            epochs,
+            batch_size
+        )
 
         # Modell evaluieren
-        test_loss, test_mae = model.evaluate(test_x, test_y, verbose=0)
+        test_loss, test_mae = evaluate_model(model, test_x, test_y)
 
         # Metriken loggen
         mlflow.tensorflow.mlflow.log_metric("test_loss", test_loss)
@@ -86,6 +93,9 @@ def experiment(
     context: AssetExecutionContext,
     config: ExperimentConfig
 ) -> MaterializeResult:
+    
+    log = Log(context)
+
     # get preprocessed dataset from dataset_preprocessed
     with open("data/dataset_preprocessed.json", "r") as f:
         dataset = json.load(f)
@@ -102,9 +112,13 @@ def experiment(
     experiment_id = experiment.experiment_id
 
     # Iterate over all combinations of hyperparameters
+    iter = len(config.dropout) * len(config.epochs) * len(config.batch_size)
+    log.log(f"Experiment started, {iter} iterations to go")
     for dropout in config.dropout:
         for epochs in config.epochs:
             for batch_size in config.batch_size:
+                log.log(f"Running experiment with dropout: {dropout},\
+                         epochs: {epochs}, batch_size: {batch_size}")
                 mlflow_run(
                     train_x, train_y, test_x, test_y,
                     dropout, epochs, batch_size,
@@ -113,6 +127,7 @@ def experiment(
                     config.loss,
                     config.metrics
                 )
+    log.log("Experiment finished")
 
     # store experiment metadata
     experiment_json = {
@@ -123,7 +138,6 @@ def experiment(
     with open("data/experiment.json", "w") as f:
         json.dump(experiment_json, f)
 
-    iter = len(config.dropout) * len(config.epochs) * len(config.batch_size)
     experiment_url = f"{mlflow_url}/experiments/{experiment_id}"
     return MaterializeResult(
         metadata={
