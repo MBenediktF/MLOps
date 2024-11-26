@@ -1,9 +1,9 @@
 import numpy as np
-from sklearn.utils import shuffle
 from dagster import AssetExecutionContext, MetadataValue
-from dagster import asset, Config, MaterializeResult, Failure
+from dagster import asset, Config, MaterializeResult
 import json
 import os
+from model.preprocess_data import preprocess_data  # type: ignore
 
 
 class DatasetPreprocessingConfig(Config):
@@ -33,27 +33,8 @@ def dataset_preprocessed(
     uids = np.array(dataset["uids"])
     dataset_uid = dataset["dataset_uid"]
 
-    # Check input data
-    if np.any(images < 0) or np.any(images > 255):
-        raise Failure("Input data must be between 0 and 255")
-
-    if uids is None:
-        uids = np.arange(images.shape[0])
-
-    # Normalize features
-    images = images / 255.0
-
-    # Normalize labels
-    labels = np.clip(labels, 0, 250)
-    labels = np.round(labels / 250.0, 2)
-
-    # shuffle dataset
-    images, labels, uids = shuffle(images, labels, uids, random_state=seed)
-
-    # split dataset
-    index = round(images.shape[0] * test_split)
-    test_x, test_y, test_uids = images[0:index], labels[0:index], uids[0:index]
-    train_x, train_y, train_uids = images[index:], labels[index:], uids[index:]
+    train_x, train_y, train_uids, test_x, test_y, test_uids = \
+        preprocess_data(images, labels, uids, test_split, seed)
 
     dataset_json = {
         "train_x": train_x.tolist(),
