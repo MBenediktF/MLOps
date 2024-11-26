@@ -116,8 +116,8 @@ def experiment(
     for dropout in config.dropout:
         for epochs in config.epochs:
             for batch_size in config.batch_size:
-                log.log(f"Running experiment with dropout: {dropout},\
-                         epochs: {epochs}, batch_size: {batch_size}")
+                log.log(f"Running experiment with dropout: {dropout}, " +
+                        f"epochs: {epochs}, batch_size: {batch_size}")
                 mlflow_run(
                     train_x, train_y, test_x, test_y,
                     dropout, epochs, batch_size,
