@@ -10,6 +10,7 @@ write_record(create_record("Not selected").field("placeholder", 0))
 
 log = Log()
 
+
 def log_run(
         client_uid,
         feature_file,
