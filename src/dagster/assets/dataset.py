@@ -9,10 +9,12 @@ from dagster import asset, Config, MaterializeResult, Failure
 
 
 class DatasetImportConfig(Config):
+    use_latest: bool = False
     dataset_uid: str = ""
 
 
 @asset(
+    deps=["new_dataset"],
     group_name="Training",
     kinds={"s3"},
     description="Raw dataset from S3"
@@ -22,7 +24,15 @@ def dataset(
     config: DatasetImportConfig
 ) -> MaterializeResult:
 
-    dataset = download_dataset(config.dataset_uid)
+    if config.use_latest:
+        # get dataset uid from new_dataset json
+        with open("data/new_dataset.json", "r") as f:
+            new_dataset_metadata = json.load(f)
+            dataset_uid = new_dataset_metadata["uid"]
+    else:
+        dataset_uid = config.dataset_uid
+
+    dataset = download_dataset(dataset_uid)
     if not dataset:
         raise Failure("Could not download dataset")
 
