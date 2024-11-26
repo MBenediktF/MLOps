@@ -7,6 +7,7 @@ training_register_job = define_asset_job(
         "dataset_preprocessed",
         "model",
         "experiment",
+        "best_run",
         "registered_model"
     ],
     config={

@@ -2,7 +2,13 @@ from dagster import define_asset_job
 
 training_job = define_asset_job(
     name="Training",
-    selection=["dataset", "dataset_preprocessed", "model", "experiment"],
+    selection=[
+        "dataset",
+        "dataset_preprocessed",
+        "model",
+        "experiment",
+        "best_run"
+    ],
     config={
         "ops": {
             "dataset": {
