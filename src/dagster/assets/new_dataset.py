@@ -11,7 +11,7 @@ class DatasetCreateConfig(Config):
 
 @asset(
     group_name="Dataset",
-    kinds={"s3"},
+    kinds={"s3", "numpy"},
     description="Create new dataset from measurements"
 )
 def new_dataset(
