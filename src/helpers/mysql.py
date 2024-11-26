@@ -1,13 +1,15 @@
 import mysql.connector.pooling
 from dotenv import load_dotenv
 import os
-from helpers.logs import log, ERROR
+from helpers.logs import Log, ERROR
 
 load_dotenv()
 
 mysql_user = os.getenv('MYSQL_USER')
 mysql_password = os.getenv('MYSQL_USER_PASSWORD')
 mysql_database = os.getenv('MYSQL_DATABASE')
+
+log = Log()
 
 try:
     pool = mysql.connector.pooling.MySQLConnectionPool(
@@ -19,7 +21,7 @@ try:
         database=mysql_database
     )
 except mysql.connector.Error as e:
-    log(f"Failed to create pool to MySQL database: {e}", ERROR)
+    log.log(f"Failed to create pool to MySQL database: {e}", ERROR)
     raise e
 
 

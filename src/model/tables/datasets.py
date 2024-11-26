@@ -1,6 +1,8 @@
-from helpers.logs import log, ERROR
+from helpers.logs import Log, ERROR
 from helpers.mysql import init_table, insert_record
 from helpers.mysql import get_records
+
+log = Log()
 
 # Create deployments table
 init_table(
@@ -23,7 +25,7 @@ def store_dataset(uid: str, measurements: str, size: str) -> None:
             (uid, measurements, size)
         )
     except Exception as e:
-        log(f"Could not store dataset: {e}", ERROR)
+        log.log(f"Could not store dataset: {e}", ERROR)
     return
 
 

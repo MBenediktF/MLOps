@@ -1,10 +1,12 @@
-from helpers.logs import log, ERROR
+from helpers.logs import Log, ERROR
 from log_run import log_run
 from load_model import load_registered_model
 from tables.deployments import get_active_deployment
 import threading
 import numpy as np
 import cv2
+
+log = Log()
 
 
 class InferencePipeline():
@@ -22,7 +24,7 @@ class InferencePipeline():
         if active_deployment[0] == self.measurement:
             return
 
-        log(f"New active deployment: {active_deployment}")
+        log.log(f"New active deployment: {active_deployment}")
         self.measurement = active_deployment[0]
         self.model_name = active_deployment[1]
         self.model_version = active_deployment[2]
@@ -31,7 +33,7 @@ class InferencePipeline():
             not self.model_name or
             not self.model_version
         ):
-            log("No active deployment found", ERROR)
+            log.log("No active deployment found", ERROR)
             self.model = None
             return
 
@@ -42,12 +44,12 @@ class InferencePipeline():
                 self.model_version
                 )
         except Exception as e:
-            log(f"Error loading model: {str(e)}", ERROR)
+            log.log(f"Error loading model: {str(e)}", ERROR)
             self.model = None
             return
         self.image_width = self.model.input_shape[2]
         self.image_height = self.model.input_shape[1]
-        log(f"Model loaded: {self.model_name} - {self.model_version}")
+        log.log(f"Model loaded: {self.model_name} - {self.model_version}")
 
     def run(self, client_uid: str, image_file, sensor_value: int = 0) -> int:
         self.setup_deployment()
@@ -61,7 +63,7 @@ class InferencePipeline():
             image = np.frombuffer(image_data, np.uint8)
             image = cv2.imdecode(image, cv2.IMREAD_COLOR)
         except Exception as e:
-            log(f"Error reading image: {str(e)}", ERROR)
+            log.log(f"Error reading image: {str(e)}", ERROR)
             return None
 
         # 2: Preprocess and normalize image
@@ -74,7 +76,7 @@ class InferencePipeline():
             prediction = self.model.predict(image)
             prediction_mm = int(prediction[0][0] * 250)
         except Exception as e:
-            log(f"Error predicting image: {str(e)}", ERROR)
+            log.log(f"Error predicting image: {str(e)}", ERROR)
             return None
 
         # 4: Start log data thread

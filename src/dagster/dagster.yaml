@@ -1,0 +1,23 @@
+storage:
+  mysql:
+    mysql_db:
+      username:
+        env: MYSQL_USER
+      password:
+        env: MYSQL_USER_PASSWORD
+      hostname: mysql
+      db_name:
+        env: MYSQL_DATABASE
+      port: 3306
+
+compute_logs:
+  module: dagster.core.storage.local_compute_log_manager
+  class: LocalComputeLogManager
+  config:
+    base_dir: "/opt/dagster/logs"
+
+local_artifact_storage:
+  module: dagster.core.storage.root
+  class: LocalArtifactStorage
+  config:
+    base_dir: "/opt/dagster/local/"

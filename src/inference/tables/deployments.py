@@ -1,8 +1,10 @@
-from helpers.logs import log, ERROR
+from helpers.logs import Log, ERROR
 from helpers.mysql import init_table, insert_record
 from helpers.mysql import get_records, update_record, delete_record
 from helpers.influx import count_records
 from uuid import uuid4
+
+log = Log()
 
 # Create deployments table
 init_table(
@@ -28,7 +30,7 @@ def create_deployment(name: str, model_name: str, model_version: str) -> str:
             (uid, name, model_name, model_version, False)
         )
     except Exception as e:
-        log(f"Could not create deployment: {e}", ERROR)
+        log.log(f"Could not create deployment: {e}", ERROR)
         return None
     return uid
 
@@ -36,7 +38,7 @@ def create_deployment(name: str, model_name: str, model_version: str) -> str:
 def get_deployment(id: str) -> tuple:
     deployment = get_records("deployments", f"id='{id}'")
     if not deployment:
-        log(f"Deployment with id {id} not found", ERROR)
+        log.log(f"Deployment with id {id} not found", ERROR)
         return None, None, None, None
     name = deployment[0][2]
     model = deployment[0][3]
@@ -48,7 +50,7 @@ def get_deployment(id: str) -> tuple:
 def get_active_deployment() -> tuple:
     deployment = get_records("deployments", "active='1'")
     if not deployment:
-        log("No active deployment found", ERROR)
+        log.log("No active deployment found", ERROR)
         return None, None, None, None
     name = deployment[0][2]
     model = deployment[0][3]
