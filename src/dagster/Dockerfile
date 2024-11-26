@@ -23,6 +23,7 @@ COPY src/helpers/. /opt/dagster/app/helpers/
 COPY src/model/tables/. /opt/dagster/app/tables/
 # 4: Model Scripts
 COPY src/model/create_dataset.py /opt/dagster/app/
+COPY src/model/components/create_model.py /opt/dagster/app/
 
 # Directory structure
 # /opt/dagster/
