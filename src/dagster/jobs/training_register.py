@@ -14,8 +14,10 @@ training_register_job = define_asset_job(
         "ops": {
             "dataset": {
                 "config": {
-                    "dataset_uid": "",
-                    "use_latest": False
+                    "measurements":
+                        - "",
+                    "img_width": 100,
+                    "img_height": 75
                 }
             },
             "dataset_preprocessed": {
