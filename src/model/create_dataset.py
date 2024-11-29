@@ -8,7 +8,6 @@ from helpers.logs import Log, WARNING
 from helpers.influx import fetch_records
 from helpers.s3 import upload_image_from_bytefile
 from helpers.s3 import fetch_image
-from tables.datasets import store_dataset
 
 IMAGE_WIDTH = 100
 IMAGE_HEIGHT = 75
@@ -61,8 +60,5 @@ def create_dataset_from_measurements(measurements, context=False):
             except Exception as e:
                 log.log(f"Could not upload image to s3: {e}", WARNING)
                 continue
-
-    # store dataset metadata in mysql table
-    store_dataset(dataset_uid, str(measurements), str(num_records))
 
     return dataset_uid, num_records
