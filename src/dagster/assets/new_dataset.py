@@ -2,11 +2,13 @@ import json
 import os
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
-from create_dataset import create_dataset_from_measurements  # type: ignore
+from create_dataset import create_dataset  # type: ignore
 
 
 class DatasetCreateConfig(Config):
     measurements: list = [""]
+    img_width: int = 100
+    img_height: int = 75
 
 
 @asset(
@@ -19,14 +21,15 @@ def new_dataset(
     config: DatasetCreateConfig
 ) -> MaterializeResult:
 
-    dataset_uid, num_records = create_dataset_from_measurements(
-        config.measurements,
-        context
+    # Run create dataset function from model code
+    images, labels, uids = create_dataset(
+        measurements=config.measurements,
+        img_size=(None, config.img_height, config.img_width, 3),
+        context=context
     )
 
     new_dataset_json = {
-        "size": num_records,
-        "uid": dataset_uid
+        "size": len(images)
     }
     os.makedirs("data", exist_ok=True)
     with open("data/new_dataset.json", "w") as f:
@@ -34,7 +37,6 @@ def new_dataset(
 
     return MaterializeResult(
         metadata={
-            "size": MetadataValue.int(num_records),
-            "uid": MetadataValue.text(dataset_uid)
+            "size": MetadataValue.int(len(images))
         }
     )
