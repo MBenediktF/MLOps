@@ -60,7 +60,6 @@ services:
       - MODEL_TRAINING_PORT=${MODEL_TRAINING_PORT}
     depends_on:
       - inference
-      - model_services
 
   mlflow:
     build:
