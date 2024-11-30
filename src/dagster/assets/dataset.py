@@ -16,7 +16,7 @@ class DatasetCreateConfig(Config):
     kinds={"s3", "numpy"},
     description="Create dataset from measurements"
 )
-def new_dataset(
+def dataset(
     context: AssetExecutionContext,
     config: DatasetCreateConfig
 ) -> MaterializeResult:
