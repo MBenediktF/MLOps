@@ -22,9 +22,7 @@ COPY src/dagster/sensors/. /opt/dagster/app/sensors/
 COPY src/dagster/schedules/. /opt/dagster/app/schedules/
 # 2: Helpers
 COPY src/helpers/. /opt/dagster/app/helpers/
-# 3: MySQL Tables
-COPY src/model/tables/. /opt/dagster/app/tables/
-# 4: Model Scripts
+# 3: Model Scripts
 COPY src/model/create_dataset.py /opt/dagster/app/
 COPY src/model/. /opt/dagster/app/model/
 
@@ -42,8 +40,6 @@ COPY src/model/. /opt/dagster/app/model/
 #     ├── sensors/                 # Sensor files for Dagster
 #     │   └── ...                  
 #     ├── helpers/                 # Helper files
-#     │   └── ...                  
-#     ├── tables/                  # MySQL Table definitions
 #     │   └── ...                  
 #     ├── model/                   # Model scripts
 #     │   └── ...          
