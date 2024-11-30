@@ -28,13 +28,12 @@ def mlflow_run(
         model_path,
         train_x, train_y, test_x, test_y,
         dropout, epochs, batch_size, test_split,
-        dataset_id, optimizer, loss, metrics
+        optimizer, loss, metrics
         ):
     with mlflow.start_run():
         mlflow.tensorflow.autolog()
 
         # Log inputs
-        mlflow.tensorflow.mlflow.log_param("dataset_id", dataset_id)
         mlflow.log_input(mlflow.data.from_numpy(
             features=train_x, targets=train_y), context="train")
         mlflow.log_input(mlflow.data.from_numpy(
@@ -83,7 +82,7 @@ class ExperimentConfig(Config):
     batch_size: list = [32]
     dropout: list = [0.2]
     model_from_run: str = None
-    preprocessed_dataset_from_run = None
+    preprocessed_dataset_from_run: str = None
 
 
 @asset(
@@ -112,7 +111,6 @@ def experiment(
     train_y = np.array(dataset["train_y"])
     test_x = np.array(dataset["test_x"])
     test_y = np.array(dataset["test_y"])
-    dataset_uid = dataset["dataset_uid"]
     test_split = dataset["test_split"]
 
     # Config experiment
@@ -134,7 +132,7 @@ def experiment(
                     model_path,
                     train_x, train_y, test_x, test_y,
                     dropout, epochs, batch_size,
-                    dataset_uid, test_split,
+                    test_split,
                     config.optimizer,
                     config.loss,
                     config.metrics
