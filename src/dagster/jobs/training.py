@@ -13,8 +13,7 @@ training_job = define_asset_job(
         "ops": {
             "dataset": {
                 "config": {
-                    "measurements":
-                        - "",
+                    "measurements": [""],
                     "img_width": 100,
                     "img_height": 75
                 }
