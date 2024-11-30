@@ -9,6 +9,7 @@ from model.preprocess_data import preprocess_data  # type: ignore
 class DatasetPreprocessingConfig(Config):
     test_split: float = 0.2
     seed: int = 0
+    dataset_from_run: str = None
 
 
 @asset(
@@ -25,14 +26,20 @@ def dataset_preprocessed(
     # get config values
     test_split = config.test_split if config else 0.2
     seed = config.seed if config else 0
+    run = config.dataset_from_run if config else None
 
-    # get dataset from import_dataset
-    with open("data/dataset.json", "r") as f:
+    if not run:
+        run = context.run_id
+
+    # get dataset from json file
+    with open(f"data/runs/{run}/dataset.json", "r") as f:
         dataset = json.load(f)
     images = np.array(dataset["images"])
     labels = np.array(dataset["labels"])
     uids = np.array(dataset["uids"])
-    dataset_uid = dataset["dataset_uid"]
+
+    if len(images) == 0:
+        raise ValueError("Dataset is empty")
 
     # run preprocess data script
     train_x, train_y, train_uids, test_x, test_y, test_uids = \
@@ -46,11 +53,11 @@ def dataset_preprocessed(
         "test_x": test_x.tolist(),
         "test_y": test_y.tolist(),
         "test_uids": test_uids.tolist(),
-        "dataset_uid": dataset_uid,
         "test_split": test_split,
     }
-    os.makedirs("data", exist_ok=True)
-    with open("data/dataset_preprocessed.json", "w") as f:
+    dir = f"data/runs/{context.run_id}"
+    os.makedirs(dir, exist_ok=True)
+    with open(f"{dir}/dataset_preprocessed.json", "w") as f:
         json.dump(dataset_json, f)
 
     return MaterializeResult(

@@ -16,6 +16,7 @@ mlflow_url = f"{host}:{mlflow_port}/#"
 
 class RegisterConfig(Config):
     model_name: str = ""
+    best_run_from_run: str = None
 
 
 @asset(
@@ -29,8 +30,12 @@ def registered_model(
     config: RegisterConfig
 ) -> MaterializeResult:
 
+    run = config.best_run_from_run
+    if not run:
+        run = context.run_id
+
     # get run metadata
-    with open("data/best_run.json", "r") as f:
+    with open(f"data/rund/{run}/best_run.json", "r") as f:
         run_metadata = json.load(f)
     run_id = run_metadata["id"]
 

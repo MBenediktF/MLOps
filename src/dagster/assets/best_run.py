@@ -15,6 +15,7 @@ mlflow_url = f"{host}:{mlflow_port}/#"
 
 class BestRunConfig(Config):
     compare_metric: str = "test_mae"
+    experiment_from_run: str = None
 
 
 @asset(
@@ -27,8 +28,13 @@ def best_run(
     context: AssetExecutionContext,
     config: BestRunConfig
 ) -> MaterializeResult:
+
+    run = config.experiment_from_run if config else None
+    if not run:
+        run = context.run_id
+
     # get experiment and runs
-    with open("data/experiment.json", "r") as f:
+    with open(f"data/runs/{run}/experiment.json", "r") as f:
         experiment_metadata = json.load(f)
     experiment_id = experiment_metadata["id"]
     runs = mlflow.search_runs(experiment_id)
@@ -42,8 +48,9 @@ def best_run(
     run_json = {
         "id": best_run_id
     }
-    os.makedirs("data", exist_ok=True)
-    with open("data/best_run.json", "w") as f:
+    dir = f"data/runs/{context.run_id}"
+    os.makedirs(dir, exist_ok=True)
+    with open(f"{dir}/best_run.json", "w") as f:
         json.dump(run_json, f)
 
     run_url = f"{mlflow_url}/experiments/{experiment_id}/runs/{best_run_id}"

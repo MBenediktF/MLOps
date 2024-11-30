@@ -34,8 +34,9 @@ def new_dataset(
         "labels": labels.tolist(),
         "uids": uids.tolist()
     }
-    os.makedirs("data", exist_ok=True)
-    with open("data/dataset.json", "w") as f:
+    dir = f"data/runs/{context.run_id}"
+    os.makedirs(dir, exist_ok=True)
+    with open(f"{dir}/dataset.json", "w") as f:
         json.dump(dataset_json, f)
 
     return MaterializeResult(

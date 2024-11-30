@@ -25,6 +25,7 @@ def update_dropout_layers(model, dropout):
 
 
 def mlflow_run(
+        model_path,
         train_x, train_y, test_x, test_y,
         dropout, epochs, batch_size, test_split,
         dataset_id, optimizer, loss, metrics
@@ -40,7 +41,7 @@ def mlflow_run(
             features=test_x, targets=test_y), context="test")
 
         # Load model
-        model = tf.keras.models.load_model("data/model.h5")
+        model = tf.keras.models.load_model(model_path)
 
         # Set dropouts
         update_dropout_layers(model, dropout)
@@ -81,6 +82,8 @@ class ExperimentConfig(Config):
     epochs: list = [10]
     batch_size: list = [32]
     dropout: list = [0.2]
+    model_from_run: str = None
+    preprocessed_dataset_from_run = None
 
 
 @asset(
@@ -95,8 +98,15 @@ def experiment(
 ) -> MaterializeResult:
     log = Log(context)
 
+    dataset_run = config.preprocessed_dataset_from_run if config else None
+    if not dataset_run:
+        dataset_run = context.run_id
+    model_run = config.model_from_run if config else None
+    if not model_run:
+        model_run = context.run_id
+
     # get preprocessed dataset from dataset_preprocessed
-    with open("data/dataset_preprocessed.json", "r") as f:
+    with open(f"data/runs/{dataset_run}/dataset_preprocessed.json", "r") as f:
         dataset = json.load(f)
     train_x = np.array(dataset["train_x"])
     train_y = np.array(dataset["train_y"])
@@ -110,6 +120,8 @@ def experiment(
     experiment = mlflow.get_experiment_by_name(config.name)
     experiment_id = experiment.experiment_id
 
+    model_path = f'data/runs/{model_run}/model.h5'
+
     # Iterate over all combinations of hyperparameters
     iter = len(config.dropout) * len(config.epochs) * len(config.batch_size)
     log.log(f"Experiment started, {iter} iterations to go")
@@ -119,6 +131,7 @@ def experiment(
                 log.log(f"Running experiment with dropout: {dropout}, " +
                         f"epochs: {epochs}, batch_size: {batch_size}")
                 mlflow_run(
+                    model_path,
                     train_x, train_y, test_x, test_y,
                     dropout, epochs, batch_size,
                     dataset_uid, test_split,
@@ -133,8 +146,9 @@ def experiment(
         "name": config.name,
         "id": experiment_id
     }
-    os.makedirs("data", exist_ok=True)
-    with open("data/experiment.json", "w") as f:
+    dir = f"data/runs/{context.run_id}"
+    os.makedirs(dir, exist_ok=True)
+    with open(f"{dir}/experiment.json", "w") as f:
         json.dump(experiment_json, f)
 
     experiment_url = f"{mlflow_url}/experiments/{experiment_id}"

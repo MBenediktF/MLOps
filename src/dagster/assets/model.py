@@ -29,8 +29,9 @@ def model(
     context.log.info(f"Model summary: {model.summary()}")
 
     # Save the model as .h5 file
-    os.makedirs("data", exist_ok=True)
-    model_path = "data/model.h5"
+    dir = f"data/runs/{context.run_id}"
+    os.makedirs(dir, exist_ok=True)
+    model_path = f"{dir}/model.h5"
     model.save(model_path)
 
     return MaterializeResult(
