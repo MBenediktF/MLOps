@@ -9,6 +9,7 @@ from model.fit_model import fit_model  # type: ignore
 from model.evaluate_model import evaluate_model  # type: ignore
 from helpers.logs import Log
 from helpers.s3 import load_json_file, load_model_file, save_json_file
+from helpers.s3 import get_minio_filebrowser_url
 import tempfile
 
 INPUT_MODEL = "model.h5"
@@ -155,10 +156,12 @@ def experiment(
     save_json_file(output_data, filename)
 
     experiment_url = f"{mlflow_url}/experiments/{experiment_id}"
+    file_url = file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
             "iterations": MetadataValue.int(iter),
             "experiment": MetadataValue.url(experiment_url),
-            "id": MetadataValue.text(experiment_id)
+            "id": MetadataValue.text(experiment_id),
+            "file": MetadataValue.url(file_url)
         }
     )

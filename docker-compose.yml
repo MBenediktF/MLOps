@@ -98,6 +98,7 @@ services:
       - DAGSTER_PORT=${DAGSTER_PORT}
       - MLFLOW_PORT=${MLFLOW_PORT}
       - HOST=${HOST}
+      - MINIO_UI_PORT=${MINIO_UI_PORT}
     depends_on:
       - mysql
       - minio

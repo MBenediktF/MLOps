@@ -2,6 +2,7 @@ from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
 from create_dataset import create_dataset  # type: ignore
 from helpers.s3 import save_json_file
+from helpers.s3 import get_minio_filebrowser_url
 
 OUTPUT_FILE = "dataset.json"
 
@@ -38,8 +39,10 @@ def dataset(
     filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
     save_json_file(output_data, filename)
 
+    file_url = file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
-            "size": MetadataValue.int(len(images))
+            "size": MetadataValue.int(len(images)),
+            "file": MetadataValue.url(file_url)
         }
     )

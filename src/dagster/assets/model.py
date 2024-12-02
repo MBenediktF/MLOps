@@ -3,6 +3,7 @@ from dagster import asset, Config, MaterializeResult
 from model.create_model import create_model  # type: ignore
 from helpers.s3 import save_model_file
 import tempfile
+from helpers.s3 import get_minio_filebrowser_url
 
 OUTPUT_FILE = "model.h5"
 
@@ -38,9 +39,11 @@ def model(
         filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
         save_model_file(temp_file_path, filename)
 
+    file_url = file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
             "num_layers": MetadataValue.int(len(model.layers)),
-            "num_parameters": MetadataValue.int(model.count_params())
+            "num_parameters": MetadataValue.int(model.count_params()),
+            "file": MetadataValue.url(file_url)
         }
     )

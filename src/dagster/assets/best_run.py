@@ -4,6 +4,7 @@ import os
 from dotenv import load_dotenv
 import mlflow
 from helpers.s3 import save_json_file, load_json_file
+from helpers.s3 import get_minio_filebrowser_url
 
 INPUT_FILE = "experiment.json"
 OUTPUT_FILE = "best_run.json"
@@ -54,9 +55,11 @@ def best_run(
     save_json_file(output_data, filename)
 
     run_url = f"{mlflow_url}/experiments/{experiment_id}/runs/{best_run_id}"
+    file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
             "run": MetadataValue.url(run_url),
             "id": MetadataValue.text(best_run_id),
+            "file": MetadataValue.url(file_url)
         }
     )

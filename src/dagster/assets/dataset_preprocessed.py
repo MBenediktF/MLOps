@@ -3,6 +3,7 @@ from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
 from model.preprocess_data import preprocess_data  # type: ignore
 from helpers.s3 import save_json_file, load_json_file
+from helpers.s3 import get_minio_filebrowser_url
 
 INPUT_FILE = "dataset.json"
 OUTPUT_FILE = "dataset_preprocessed.json"
@@ -59,9 +60,11 @@ def dataset_preprocessed(
     filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
     save_json_file(output_data, filename)
 
+    file_url = file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
             "size_train": MetadataValue.int(len(train_x)),
-            "size_test": MetadataValue.int(len(test_x))
+            "size_test": MetadataValue.int(len(test_x)),
+            "file": MetadataValue.url(file_url)
         }
     )
