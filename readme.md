@@ -1,6 +1,6 @@
 # Sandbox to implement MLOps practices
 
-![Systemarchitektur](src/system_architecture.jpg)
+![Systemarchitektur](src/system_architecture.png)
 
 # THIS IS NOT UP TO DATE!
 
