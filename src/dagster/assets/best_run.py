@@ -1,9 +1,12 @@
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
 import os
-import json
 from dotenv import load_dotenv
 import mlflow
+from helpers.s3 import save_json_file, load_json_file
+
+INPUT_FILE = "experiment.json"
+OUTPUT_FILE = "best_run.json"
 
 load_dotenv()
 
@@ -34,9 +37,8 @@ def best_run(
         run = context.run_id
 
     # get experiment and runs
-    with open(f"data/runs/{run}/experiment.json", "r") as f:
-        experiment_metadata = json.load(f)
-    experiment_id = experiment_metadata["id"]
+    input_data = load_json_file(f"dagster/runs/{run}/{INPUT_FILE}")
+    experiment_id = input_data["id"]
     runs = mlflow.search_runs(experiment_id)
 
     # select best run by metric
@@ -45,13 +47,11 @@ def best_run(
     best_run_id = best_run["run_id"]
 
     # store run metadata
-    run_json = {
+    output_data = {
         "id": best_run_id
     }
-    dir = f"data/runs/{context.run_id}"
-    os.makedirs(dir, exist_ok=True)
-    with open(f"{dir}/best_run.json", "w") as f:
-        json.dump(run_json, f)
+    filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
+    save_json_file(output_data, filename)
 
     run_url = f"{mlflow_url}/experiments/{experiment_id}/runs/{best_run_id}"
     return MaterializeResult(

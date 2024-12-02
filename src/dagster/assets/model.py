@@ -1,7 +1,10 @@
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
 from model.create_model import create_model  # type: ignore
-import os
+from helpers.s3 import save_model_file
+import tempfile
+
+OUTPUT_FILE = "model.h5"
 
 
 class ModelConfig(Config):
@@ -29,10 +32,11 @@ def model(
     context.log.info(f"Model summary: {model.summary()}")
 
     # Save the model as .h5 file
-    dir = f"data/runs/{context.run_id}"
-    os.makedirs(dir, exist_ok=True)
-    model_path = f"{dir}/model.h5"
-    model.save(model_path)
+    with tempfile.TemporaryDirectory() as tempdir:
+        temp_file_path = f"{tempdir}/{OUTPUT_FILE}"
+        model.save(temp_file_path)
+        filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
+        save_model_file(temp_file_path, filename)
 
     return MaterializeResult(
         metadata={

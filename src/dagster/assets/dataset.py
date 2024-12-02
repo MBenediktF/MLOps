@@ -1,8 +1,9 @@
-import json
-import os
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
 from create_dataset import create_dataset  # type: ignore
+from helpers.s3 import save_json_file
+
+OUTPUT_FILE = "dataset.json"
 
 
 class DatasetCreateConfig(Config):
@@ -29,15 +30,13 @@ def dataset(
     )
 
     # store the dataset as json
-    dataset_json = {
+    output_data = {
         "images": images.tolist(),
         "labels": labels.tolist(),
         "uids": uids.tolist()
     }
-    dir = f"data/runs/{context.run_id}"
-    os.makedirs(dir, exist_ok=True)
-    with open(f"{dir}/dataset.json", "w") as f:
-        json.dump(dataset_json, f)
+    filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
+    save_json_file(output_data, filename)
 
     return MaterializeResult(
         metadata={

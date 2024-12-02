@@ -1,7 +1,6 @@
 import tensorflow as tf
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
-import json
 import numpy as np
 import os
 from dotenv import load_dotenv
@@ -9,6 +8,12 @@ import mlflow
 from model.fit_model import fit_model  # type: ignore
 from model.evaluate_model import evaluate_model  # type: ignore
 from helpers.logs import Log
+from helpers.s3 import load_json_file, load_model_file, save_json_file
+import tempfile
+
+INPUT_MODEL = "model.h5"
+INPUT_FILE = "dataset_preprocessed.json"
+OUTPUT_FILE = "experiment.json"
 
 load_dotenv()
 
@@ -105,20 +110,22 @@ def experiment(
         model_run = context.run_id
 
     # get preprocessed dataset from dataset_preprocessed
-    with open(f"data/runs/{dataset_run}/dataset_preprocessed.json", "r") as f:
-        dataset = json.load(f)
-    train_x = np.array(dataset["train_x"])
-    train_y = np.array(dataset["train_y"])
-    test_x = np.array(dataset["test_x"])
-    test_y = np.array(dataset["test_y"])
-    test_split = dataset["test_split"]
+    input_data = load_json_file(f"dagster/runs/{dataset_run}/{INPUT_FILE}")
+    train_x = np.array(input_data["train_x"])
+    train_y = np.array(input_data["train_y"])
+    test_x = np.array(input_data["test_x"])
+    test_y = np.array(input_data["test_y"])
+    test_split = input_data["test_split"]
 
     # Config experiment
     mlflow.set_experiment(config.name)
     experiment = mlflow.get_experiment_by_name(config.name)
     experiment_id = experiment.experiment_id
 
-    model_path = f'data/runs/{model_run}/model.h5'
+    tempdir = tempfile.TemporaryDirectory()
+    model_path = f'{tempdir.name}/{INPUT_MODEL}'
+    context.log.info(f"Model path: {model_path}")
+    load_model_file(f'dagster/runs/{model_run}/{INPUT_MODEL}', model_path)
 
     # Iterate over all combinations of hyperparameters
     iter = len(config.dropout) * len(config.epochs) * len(config.batch_size)
@@ -140,14 +147,12 @@ def experiment(
     log.log("Experiment finished")
 
     # store experiment metadata
-    experiment_json = {
+    output_data = {
         "name": config.name,
         "id": experiment_id
     }
-    dir = f"data/runs/{context.run_id}"
-    os.makedirs(dir, exist_ok=True)
-    with open(f"{dir}/experiment.json", "w") as f:
-        json.dump(experiment_json, f)
+    filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
+    save_json_file(output_data, filename)
 
     experiment_url = f"{mlflow_url}/experiments/{experiment_id}"
     return MaterializeResult(

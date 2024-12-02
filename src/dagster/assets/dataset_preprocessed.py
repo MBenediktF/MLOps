@@ -1,9 +1,11 @@
 import numpy as np
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
-import json
-import os
 from model.preprocess_data import preprocess_data  # type: ignore
+from helpers.s3 import save_json_file, load_json_file
+
+INPUT_FILE = "dataset.json"
+OUTPUT_FILE = "dataset_preprocessed.json"
 
 
 class DatasetPreprocessingConfig(Config):
@@ -32,11 +34,10 @@ def dataset_preprocessed(
         run = context.run_id
 
     # get dataset from json file
-    with open(f"data/runs/{run}/dataset.json", "r") as f:
-        dataset = json.load(f)
-    images = np.array(dataset["images"])
-    labels = np.array(dataset["labels"])
-    uids = np.array(dataset["uids"])
+    input_data = load_json_file(f"dagster/runs/{run}/{INPUT_FILE}")
+    images = np.array(input_data["images"])
+    labels = np.array(input_data["labels"])
+    uids = np.array(input_data["uids"])
 
     if len(images) == 0:
         raise ValueError("Dataset is empty")
@@ -46,7 +47,7 @@ def dataset_preprocessed(
         preprocess_data(images, labels, uids, test_split, seed)
 
     # save new dataset
-    dataset_json = {
+    output_data = {
         "train_x": train_x.tolist(),
         "train_y": train_y.tolist(),
         "train_uids": train_uids.tolist(),
@@ -55,10 +56,8 @@ def dataset_preprocessed(
         "test_uids": test_uids.tolist(),
         "test_split": test_split,
     }
-    dir = f"data/runs/{context.run_id}"
-    os.makedirs(dir, exist_ok=True)
-    with open(f"{dir}/dataset_preprocessed.json", "w") as f:
-        json.dump(dataset_json, f)
+    filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
+    save_json_file(output_data, filename)
 
     return MaterializeResult(
         metadata={

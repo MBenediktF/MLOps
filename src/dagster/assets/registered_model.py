@@ -1,10 +1,12 @@
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
 import os
-import json
 from dotenv import load_dotenv
 import mlflow
 from mlflow.tracking import MlflowClient
+from helpers.s3 import load_json_file
+
+INPUT_FILE = "experiment.json"
 
 load_dotenv()
 
@@ -35,21 +37,19 @@ def registered_model(
         run = context.run_id
 
     # get run metadata
-    with open(f"data/runs/{run}/best_run.json", "r") as f:
-        run_metadata = json.load(f)
-    run_id = run_metadata["id"]
+    input_data = load_json_file(f"dagster/runs/{run}/{INPUT_FILE}")
+    run_id = input_data["id"]
 
     # register model
     model_version = None
-    if config.auto:
-        model_uri = f"runs:/{run_id}/model"
-        client = MlflowClient()
-        model_version = client.create_model_version(
-            name=config.model_name,
-            source=model_uri,
-            run_id=run_id,
-            tags={"auto": ""}
-        )
+    model_uri = f"runs:/{run_id}/model"
+    client = MlflowClient()
+    model_version = client.create_model_version(
+        name=config.model_name,
+        source=model_uri,
+        run_id=run_id,
+        tags={"auto": ""}
+    )
 
     model_url = f"{mlflow_url}/models/{config.model_name}"
     version = model_version.version if model_version else "Not registered"
