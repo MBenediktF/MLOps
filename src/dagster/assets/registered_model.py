@@ -16,7 +16,7 @@ mlflow_url = f"{host}:{mlflow_port}/#"
 
 class RegisterConfig(Config):
     model_name: str = ""
-    best_run_from_run: str = None
+    best_run_from_run: str = ''
 
 
 @asset(

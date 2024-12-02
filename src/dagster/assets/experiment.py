@@ -81,8 +81,8 @@ class ExperimentConfig(Config):
     epochs: list = [10]
     batch_size: list = [32]
     dropout: list = [0.2]
-    model_from_run: str = None
-    preprocessed_dataset_from_run: str = None
+    model_from_run: str = ''
+    preprocessed_dataset_from_run: str = ''
 
 
 @asset(

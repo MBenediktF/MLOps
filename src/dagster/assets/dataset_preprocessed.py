@@ -9,7 +9,7 @@ from model.preprocess_data import preprocess_data  # type: ignore
 class DatasetPreprocessingConfig(Config):
     test_split: float = 0.2
     seed: int = 0
-    dataset_from_run: str = None
+    dataset_from_run: str = ''
 
 
 @asset(

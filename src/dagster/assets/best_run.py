@@ -15,7 +15,7 @@ mlflow_url = f"{host}:{mlflow_port}/#"
 
 class BestRunConfig(Config):
     compare_metric: str = "test_mae"
-    experiment_from_run: str = None
+    experiment_from_run: str = ''
 
 
 @asset(
