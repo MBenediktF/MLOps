@@ -50,21 +50,3 @@ def fetch_image(image_file_url):
     if image.size == 0:
         raise Exception("Could not read image from s3")
     return image
-
-
-def download_dataset(dataset_uid):
-    if len(dataset_uid) < 16:
-        return False
-    response = s3_client.list_objects_v2(
-        Bucket=bucket_name,
-        Prefix=f"datasets/{dataset_uid}/"
-    )
-    if 'Contents' not in response:
-        return False
-    dataset = {}
-    for obj in response['Contents']:
-        key = obj['Key']
-        if key.endswith(".jpg"):
-            image = fetch_image(key)
-            dataset[key] = image
-    return dataset
