@@ -35,7 +35,7 @@ def registered_model(
         run = context.run_id
 
     # get run metadata
-    with open(f"data/rund/{run}/best_run.json", "r") as f:
+    with open(f"data/runs/{run}/best_run.json", "r") as f:
         run_metadata = json.load(f)
     run_id = run_metadata["id"]
 
