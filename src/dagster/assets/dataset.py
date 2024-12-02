@@ -1,51 +1,48 @@
-import json
-import os
 from dagster import AssetExecutionContext, MetadataValue
 from dagster import asset, Config, MaterializeResult
-from model.import_dataset import import_dataset  # type: ignore
+from create_dataset import create_dataset  # type: ignore
+from helpers.s3 import save_json_file
+from helpers.s3 import get_minio_filebrowser_url
+
+OUTPUT_FILE = "dataset.json"
 
 
-class DatasetImportConfig(Config):
-    use_latest: bool = False
-    dataset_uid: str = ""
+class DatasetCreateConfig(Config):
+    measurements: list = [""]
+    img_width: int = 100
+    img_height: int = 75
 
 
 @asset(
-    deps=["new_dataset"],
     group_name="Training",
-    kinds={"s3"},
-    description="Raw dataset from S3"
+    kinds={"s3", "numpy"},
+    description="Create dataset from measurements"
 )
 def dataset(
     context: AssetExecutionContext,
-    config: DatasetImportConfig
+    config: DatasetCreateConfig
 ) -> MaterializeResult:
 
-    # check config options
-    if config.use_latest:
-        # get dataset uid from new_dataset json
-        with open("data/new_dataset.json", "r") as f:
-            new_dataset_metadata = json.load(f)
-            dataset_uid = new_dataset_metadata["uid"]
-    else:
-        dataset_uid = config.dataset_uid
-
-    # load and comvert dataset
-    images, labels, uids = import_dataset(dataset_uid)
+    # Run create dataset function from model code
+    images, labels, uids = create_dataset(
+        measurements=config.measurements,
+        img_size=(None, config.img_height, config.img_width, 3),
+        context=context
+    )
 
     # store the dataset as json
-    dataset_json = {
+    output_data = {
         "images": images.tolist(),
         "labels": labels.tolist(),
-        "uids": uids.tolist(),
-        "dataset_uid": config.dataset_uid
+        "uids": uids.tolist()
     }
-    os.makedirs("data", exist_ok=True)
-    with open("data/dataset.json", "w") as f:
-        json.dump(dataset_json, f)
+    filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
+    save_json_file(output_data, filename)
 
+    file_url = file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
-            "size": MetadataValue.int(len(images))
+            "size": MetadataValue.int(len(images)),
+            "file": MetadataValue.url(file_url)
         }
     )

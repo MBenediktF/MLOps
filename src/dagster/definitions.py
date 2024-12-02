@@ -4,10 +4,8 @@ from assets.model import model
 from assets.experiment import experiment
 from assets.best_run import best_run
 from assets.registered_model import registered_model
-from assets.new_dataset import new_dataset
 from jobs.training import training_job
 from jobs.training_register import training_register_job
-from jobs.full_retraining import full_retraining_job
 from dagster import Definitions
 
 
@@ -18,12 +16,10 @@ defs = Definitions(
         model,
         experiment,
         best_run,
-        registered_model,
-        new_dataset
+        registered_model
     ],
     jobs=[
         training_job,
-        training_register_job,
-        full_retraining_job
+        training_register_job
     ]
 )

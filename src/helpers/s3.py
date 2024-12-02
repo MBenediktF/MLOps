@@ -2,6 +2,7 @@ import boto3
 import numpy as np
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
@@ -11,6 +12,8 @@ s3_endpoint_local = f"http://localhost:{s3_port}"
 s3_access_key_id = os.getenv('S3_ACCESS_KEY_ID')
 s3_secret_access_key = os.getenv('S3_SECRET_ACCESS_KEY')
 bucket_name = os.getenv('BUCKET_NAME')
+minio_ui_port = os.getenv('MINIO_UI_PORT')
+host = os.getenv('HOST')
 
 s3_client = boto3.client(
     's3',
@@ -52,19 +55,52 @@ def fetch_image(image_file_url):
     return image
 
 
-def download_dataset(dataset_uid):
-    if len(dataset_uid) < 16:
-        return False
-    response = s3_client.list_objects_v2(
-        Bucket=bucket_name,
-        Prefix=f"datasets/{dataset_uid}/"
-    )
-    if 'Contents' not in response:
-        return False
-    dataset = {}
-    for obj in response['Contents']:
-        key = obj['Key']
-        if key.endswith(".jpg"):
-            image = fetch_image(key)
-            dataset[key] = image
-    return dataset
+def save_json_file(data, filename):
+    try:
+        json_data = json.dumps(data)
+        s3_client.put_object(
+            Bucket=bucket_name,
+            Key=filename,
+            Body=json_data
+        )
+    except Exception as e:
+        raise e
+    return True
+
+
+def load_json_file(filename):
+    try:
+        file = s3_client.get_object(Bucket=bucket_name, Key=filename)
+        json_data = file['Body'].read().decode('utf-8')
+        data = json.loads(json_data)
+    except Exception as e:
+        raise e
+    return data
+
+
+def save_model_file(filepath, filename):
+    try:
+        s3_client.upload_file(
+            Filename=filepath,
+            Bucket=bucket_name,
+            Key=filename
+        )
+    except Exception as e:
+        raise e
+    return True
+
+
+def load_model_file(filename, filepath):
+    try:
+        s3_client.download_file(
+            Filename=filepath,
+            Bucket=bucket_name,
+            Key=filename
+        )
+    except Exception as e:
+        raise e
+    return True
+
+
+def get_minio_filebrowser_url(filename):
+    return f"{host}:{minio_ui_port}/browser/{bucket_name}/{filename}"
