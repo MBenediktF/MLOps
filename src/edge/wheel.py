@@ -13,7 +13,7 @@ K_i = 0.01
 K_d = 0.005
 
 
-class WHEEL:
+class Wheel:
     def __init__(self, pwm_channel: int, dir_pin: int, int_pin: int) -> None:
         """
         Configures a wheel.
@@ -132,8 +132,8 @@ class WHEEL:
             self.direction = +1
 
 
-wheel_left = WHEEL(0, DIR_LEFT_PIN, INT_LEFT_PIN)
-wheel_right = WHEEL(1, DIR_RIGHT_PIN, INT_RIGHT_PIN)
+wheel_left = Wheel(0, DIR_LEFT_PIN, INT_LEFT_PIN)
+wheel_right = Wheel(1, DIR_RIGHT_PIN, INT_RIGHT_PIN)
 
 
 def main():
