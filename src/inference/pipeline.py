@@ -53,9 +53,6 @@ class InferencePipeline():
 
     def run(self, client_uid: str, image_file, sensor_value: int = 0) -> int:
         self.setup_deployment()
-        # 0: Check if model is available
-        if not self.model:
-            return None
 
         # 1: Get and check input image
         try:
@@ -71,13 +68,16 @@ class InferencePipeline():
         image = image / 255.0
         image = np.expand_dims(image, axis=0)
 
-        # 3: Predict and transform
-        try:
-            prediction = self.model.predict(image)
-            prediction_mm = int(prediction[0][0] * 250)
-        except Exception as e:
-            log.log(f"Error predicting image: {str(e)}", ERROR)
-            return None
+        # 3: Predict and transform if there's a model
+        if self.model:
+            try:
+                prediction = self.model.predict(image)
+                prediction_mm = int(prediction[0][0] * 250)
+            except Exception as e:
+                log.log(f"Error predicting image: {str(e)}", ERROR)
+                return None
+        else:
+            prediction_mm = None
 
         # 4: Start log data thread
         log_thread = threading.Thread(

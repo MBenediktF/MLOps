@@ -119,6 +119,9 @@
                     data.message.forEach(deployment => {
                         const status = deployment.active ? 'Active' : 'Inactive';
                         const row = document.createElement('tr');
+                        if(deployment.model_name == "None"){
+                            deployment.model_version = "";
+                        }
                         row.innerHTML = `
                             <td>${deployment.name}</td>
                             <td>${deployment.uid}</td>
@@ -193,6 +196,10 @@
             }
             if (model_name.length < 3) {
                 console.error('Model name is too short');
+                return;
+            }
+            if (model_version == 0) {
+                console.error('Model version not specified');
                 return;
             }
 
