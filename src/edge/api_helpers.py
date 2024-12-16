@@ -2,8 +2,8 @@ import requests
 import threading
 
 api_url = "http://192.168.178.147:5001/predict"
-client_uid = "c04bc4d0-f6c0-4166-ae1a-c25b64e14044"
-auth_token = "b77d9a12-1f98-4297-8c6e-01f3758ead85"
+client_uid = "13ff9425-ed7a-419f-a62d-c84eb7f79897"
+auth_token = "ddb29c94-99a8-47a6-b924-d6bc8687caf4"
 
 
 def send_measurement_to_api_thread(image, sensor_value):
