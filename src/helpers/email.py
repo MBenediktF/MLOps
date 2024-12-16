@@ -7,10 +7,6 @@ from email.utils import formatdate
 
 load_dotenv()
 
-mysql_user = os.getenv('MYSQL_USER')
-mysql_password = os.getenv('MYSQL_USER_PASSWORD')
-mysql_database = os.getenv('MYSQL_DATABASE')
-
 smtp_server = os.getenv('EMAIL_SMTP_SERVER')
 smtp_port = os.getenv('EMAIL_SMTP_PORT')
 sender = os.getenv('EMAIL_SMTP_USER')
