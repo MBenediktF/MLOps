@@ -37,7 +37,7 @@ services:
       - MODEL_TRAINING_PORT=${MODEL_TRAINING_PORT}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - CONFIG_DATABASE=${CONFIG_DATABASE}
       - LOGFILE_NAME=${INFERENCE_LOGFILE_NAME}
       - EMAIL_SMTP_SERVER=${EMAIL_SMTP_SERVER}
       - EMAIL_SMTP_PORT=${EMAIL_SMTP_PORT}
@@ -69,7 +69,7 @@ services:
       - "${MLFLOW_PORT}:${MLFLOW_PORT}"
     environment:
       MLFLOW_PORT: ${MLFLOW_PORT}
-      MLFLOW_TRACKING_URI: mysql+pymysql://${MYSQL_USER}:${MYSQL_USER_PASSWORD}@mysql:3306/${MYSQL_DATABASE}
+      MLFLOW_TRACKING_URI: mysql+pymysql://${MYSQL_USER}:${MYSQL_USER_PASSWORD}@mysql:3306/${MLFLOW_DATABASE}
       MLFLOW_S3_ENDPOINT_URL: http://minio:${S3_PORT}
       AWS_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
       AWS_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
@@ -94,7 +94,7 @@ services:
       - INFLUX_TOKEN=${INFLUX_TOKEN}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_USER_PASSWORD=${MYSQL_USER_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - DAGSTER_DATABASE=${DAGSTER_DATABASE}
       - DAGSTER_PORT=${DAGSTER_PORT}
       - MLFLOW_PORT=${MLFLOW_PORT}
       - HOST=${HOST}
@@ -110,11 +110,14 @@ services:
       - 3306:3306
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
+      DAGSTER_DATABASE: ${DAGSTER_DATABASE}
+      MLFLOW_DATABASE: ${MLFLOW_DATABASE}
+      CONFIG_DATABASE: ${CONFIG_DATABASE}
     volumes:
       - mysql_data:/var/lib/mysql
+      - ./src/mysql/init_databases.sh:/docker-entrypoint-initdb.d/init_databases.sh
 
   minio:
     image: minio/minio:latest
