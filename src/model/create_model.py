@@ -6,12 +6,19 @@ from keras.initializers import TruncatedNormal  # type: ignore
 from keras import backend as K
 
 
-def create_model(img_size, dropout=0.2):
+def create_model(img_size, dropout: float = 0.2, variation: int = None):
     K.backend()
     K.clear_session()
     seed = TruncatedNormal(stddev=0.1)
     img_width, img_height = img_size[2], img_size[1]
 
+    if not variation:
+        return defaultModel(img_width, img_height, dropout, seed)
+    elif variation == 1:
+        return variation1Model(img_width, img_height, dropout, seed)
+
+
+def defaultModel(img_width, img_height, dropout, seed):
     # Input layer
     input = Input(shape=(img_height, img_width, 3))
 
@@ -52,6 +59,55 @@ def create_model(img_size, dropout=0.2):
               kernel_initializer=seed, bias_initializer=seed)(x)
     x = Dropout(dropout)(x)
     x = Dense(32, name="dense_position_4", activation='relu',
+              kernel_initializer=seed, bias_initializer=seed)(x)
+    x = Dropout(dropout)(x)
+    output = Dense(1,  name="position_output", activation='sigmoid',
+                   kernel_initializer=seed, bias_initializer=seed)(x)
+
+    # Model definition
+    model = Model(inputs=input, outputs=output, name="DistanceEstimationModel")
+
+    return model
+
+
+def variation1Model(img_width, img_height, dropout, seed):
+    # Input layer
+    input = Input(shape=(img_height, img_width, 3))
+
+    # Convolutional layers
+    x = Conv2D(8, name="conv_1_1", kernel_size=3,
+               activation='relu', strides=2, padding='same')(input)
+    x = Conv2D(16, name="conv_1_2", kernel_size=3,
+               activation='relu', strides=2, padding='same')(x)
+    x = Conv2D(32, name="conv_1_3", kernel_size=3,
+               activation='relu', strides=1, padding='same')(x)
+    x = MaxPooling2D((3, 3), strides=1, padding='same')(x)
+    x = inceptionModule(x, 8, 16, 8, 16, 8, 8, "1")
+    x = Conv2D(32, name="conv_2_1", kernel_size=3,
+               activation='relu', strides=2, padding='same')(x)
+    x = Conv2D(64, name="conv_2_2", kernel_size=3,
+               activation='relu', strides=2, padding='same')(x)
+    x = Conv2D(128, name="conv_2_3", kernel_size=3,
+               activation='relu', strides=1, padding='same')(x)
+    x = MaxPooling2D((3, 3), strides=1, padding='same')(x)
+    x = inceptionModule(x, 32, 64, 32, 64, 32, 32, "2")
+    x = Conv2D(128, name="conv_3_1", kernel_size=3,
+               activation='relu', strides=2, padding='same')(x)
+    x = Conv2D(256, name="conv_3_2", kernel_size=3,
+               activation='relu', strides=2, padding='same')(x)
+    x = Conv2D(512, name="conv_3_3", kernel_size=3,
+               activation='relu', strides=1, padding='same')(x)
+    x = AveragePooling2D((3, 3), strides=2, padding='same')(x)
+    x = Flatten()(x)
+
+    # Fully connected dense layers
+    x = Dense(256, name="dense_position_1", activation='relu',
+              kernel_initializer=seed, bias_initializer=seed)(x)
+    x = Dropout(dropout)(x)
+    x = Dense(64, name="dense_position_3", activation='relu',
+              kernel_initializer=seed, bias_initializer=seed)(x)
+    x = Dropout(dropout)(x)
+    x = Dense(16, name="dense_position_4", activation='relu',
               kernel_initializer=seed, bias_initializer=seed)(x)
     x = Dropout(dropout)(x)
     output = Dense(1,  name="position_output", activation='sigmoid',
