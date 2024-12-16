@@ -1,10 +1,10 @@
 from api_helpers import send_measurement_to_api
-from capture_image import capture_image_jpg
-from take_lidar_measurement import take_lidar_measurement
+from camera import capture_image_jpg
+from edge.lidar import take_lidar_measurement
 from buzzer_output import set_beep_interval
-from led_output import set_led_output
+from edge.led import set_led_output
 from drive_helpers import drive, enable_controller
-from controller_input import event_actions
+from edge.gamepad import event_actions
 # from button_input import wait_for_button_press_release
 import time
 
