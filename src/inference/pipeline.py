@@ -17,6 +17,9 @@ class InferencePipeline():
         self.model_version = ""
         self.model = None
         self.setup_deployment()
+        # placeholders, will be overwritten by model
+        self.image_width = 100
+        self.image_height = 75
 
     def setup_deployment(self):
         active_deployment = get_active_deployment()
