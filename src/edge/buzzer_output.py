@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import threading
-from take_lidar_measurement import take_lidar_measurement
+from edge.lidar import take_lidar_measurement
 import atexit
 
 BUZZER_PIN = 23

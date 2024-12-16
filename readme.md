@@ -6,7 +6,7 @@
 
 ## Service overview
 
-The environment consists of the following services:
+The environment consists of the following services: *test
 
 - Mlflow, port 5003, manage experiments and models
 - Grafana, port 3000, visualize inference data

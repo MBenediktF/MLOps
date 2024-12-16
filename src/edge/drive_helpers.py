@@ -1,5 +1,5 @@
 from wheel import wheel_left, wheel_right
-from controller_input import event_actions
+from edge.gamepad import event_actions
 
 DRIVE_SPEED = 25
 ROTATE_SPEED = 15
