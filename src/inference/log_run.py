@@ -26,7 +26,7 @@ def log_run(
         if not feature_file_name:
             raise ValueError("Invalid file type: Only .jpg files are allowed")
         # 2: Collect image characteristics
-        image_characteristics = collect_image_characteristics(feature_file)
+        characteristics = collect_image_characteristics(feature_file)
         # 3: Write data to InfluxDB
         write_inference_data_to_influx(
             client_uid,
@@ -36,7 +36,7 @@ def log_run(
             measurement,
             model_name,
             model_version,
-            image_characteristics
+            characteristics
             )
     except Exception as e:
         log.log(f"Error logging features prediction: {str(e)}", ERROR)
@@ -50,7 +50,7 @@ def write_inference_data_to_influx(
         measurement,
         model_name,
         model_version,
-        image_characteristics
+        characteristics
         ):
     if not isinstance(image_url, str):
         log.log("image_url has to be a str", ERROR)
@@ -58,32 +58,33 @@ def write_inference_data_to_influx(
     record = create_record(measurement) \
         .field("client_uid", client_uid) \
         .field("feature_file_url", image_url) \
-        .field("prediction", prediction) \
-        .field("sensor_value", sensor_value) \
+        .field("prediction", int(prediction)) \
+        .field("sensor_value", int(sensor_value)) \
         .field("model_name", model_name) \
         .field("model_version", model_version) \
-        .field("brightness_mean", image_characteristics['brightness_mean']) \
-        .field("brightness_std", image_characteristics['brightness_std']) \
-        .field("red_mean", image_characteristics['red_mean']) \
-        .field("green_mean", image_characteristics['green_mean']) \
-        .field("blue_mean", image_characteristics['blue_mean']) \
-        .field("red_std", image_characteristics['red_std']) \
-        .field("green_std", image_characteristics['green_std']) \
-        .field("blue_std", image_characteristics['blue_std']) \
-        .field("lab_L", image_characteristics['lab_L']) \
-        .field("lab_A", image_characteristics['lab_A']) \
-        .field("lab_B", image_characteristics['lab_B']) \
-        .field("hsv_H", image_characteristics['hsv_H']) \
-        .field("hsv_S", image_characteristics['hsv_S']) \
-        .field("hsv_V", image_characteristics['hsv_V']) \
-        .field("edge_count", image_characteristics['edge_count']) \
-        .field("contrast", image_characteristics['contrast']) \
-        .field("dissimilarity", image_characteristics['dissimilarity']) \
-        .field("homogeneity", image_characteristics['homogeneity']) \
-        .field("ASM", image_characteristics['ASM']) \
-        .field("energy", image_characteristics['energy']) \
-        .field("correlation", image_characteristics['correlation']) \
-        .field("keypoint_count", image_characteristics['keypoint_count'])
+        .field("brightness_mean", float(characteristics['brightness_mean'])) \
+        .field("brightness_std", float(characteristics['brightness_std'])) \
+        .field("red_mean", float(characteristics['red_mean'])) \
+        .field("green_mean", float(characteristics['green_mean'])) \
+        .field("blue_mean", float(characteristics['blue_mean'])) \
+        .field("red_std", float(characteristics['red_std'])) \
+        .field("green_std", float(characteristics['green_std'])) \
+        .field("blue_std", float(characteristics['blue_std'])) \
+        .field("lab_L", float(characteristics['lab_L'])) \
+        .field("lab_A", float(characteristics['lab_A'])) \
+        .field("lab_B", float(characteristics['lab_B'])) \
+        .field("hsv_H", float(characteristics['hsv_H'])) \
+        .field("hsv_S", float(characteristics['hsv_S'])) \
+        .field("hsv_V", float(characteristics['hsv_V'])) \
+        .field("edge_count", int(characteristics['edge_count'])) \
+        .field("contrast", float(characteristics['contrast'])) \
+        .field("dissimilarity", float(characteristics['dissimilarity'])) \
+        .field("homogeneity", float(characteristics['homogeneity'])) \
+        .field("ASM", float(characteristics['ASM'])) \
+        .field("energy", float(characteristics['energy'])) \
+        .field("correlation", float(characteristics['correlation'])) \
+        .field("keypoint_count", float(characteristics['keypoint_count'])) \
+        .field("error", abs(int(prediction) - int(sensor_value)))
     write_record(record)
 
 
