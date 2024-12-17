@@ -8,6 +8,8 @@ import cv2
 
 log = Log()
 
+max_input_value = 350
+
 
 class InferencePipeline():
     def __init__(self) -> None:
@@ -75,7 +77,7 @@ class InferencePipeline():
         if self.model:
             try:
                 prediction = self.model.predict(image)
-                prediction_mm = int(prediction[0][0] * 250)
+                prediction_mm = int(prediction[0][0] * max_input_value)
             except Exception as e:
                 log.log(f"Error predicting image: {str(e)}", ERROR)
                 return None
