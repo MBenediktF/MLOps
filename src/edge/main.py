@@ -18,9 +18,9 @@ def park():
             print("Could not get measurement")
             break
         distance = sensor_value - 35
-        print(f"Distance: {distance}")
+        # print(f"Distance: {distance}")
 
-        set_led_output(distance <= 350)
+        set_led_output(distance <= 250)
         set_beep_interval(distance)
 
         # set motor speed
@@ -42,7 +42,7 @@ def park():
                 continue
 
             # api call
-            send_measurement_to_api(image, sensor_value)
+            send_measurement_to_api(image, distance)
 
         # stop if distance to small
         if target_speed == 0:
