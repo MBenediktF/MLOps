@@ -9,6 +9,9 @@ from gamepad import event_actions
 import time
 
 
+start_distance = 250
+
+
 def park():
     # drive to wall and take images
     while True:
@@ -20,7 +23,7 @@ def park():
         distance = sensor_value - 35
         # print(f"Distance: {distance}")
 
-        set_led_output(distance <= 250)
+        set_led_output(distance <= start_distance)
         set_beep_interval(distance)
 
         # set motor speed
@@ -28,13 +31,13 @@ def park():
             target_speed = 0
         elif distance <= 100:
             target_speed = 3
-        elif distance <= 350:
+        elif distance <= start_distance:
             target_speed = 5
         else:
             target_speed = 15
         drive(target_speed)
 
-        if distance < 350:
+        if distance < start_distance:
             # take image
             image = capture_image_jpg()
             if image is None:
