@@ -3187,7 +3187,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 0,
         "y": 36
@@ -3295,7 +3295,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 6,
         "y": 36
@@ -3403,7 +3403,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 12,
         "y": 36
@@ -3511,7 +3511,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 18,
         "y": 36
@@ -3602,7 +3602,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 40
       },
       "id": 16,
       "panels": [],
@@ -3650,7 +3650,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 41
       },
       "id": 32,
       "options": {
@@ -3747,8 +3747,8 @@
       {
         "current": {
           "selected": true,
-          "text": "env_beige_wide",
-          "value": "env_beige_wide"
+          "text": "env_beige_default",
+          "value": "env_beige_default"
         },
         "datasource": {
           "type": "influxdb",
@@ -3806,6 +3806,6 @@
   "timezone": "browser",
   "title": "Compare Measurements",
   "uid": "de2thifvsesjkc",
-  "version": 5,
+  "version": 6,
   "weekStart": ""
 }
