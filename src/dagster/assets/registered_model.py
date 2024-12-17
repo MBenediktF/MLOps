@@ -6,7 +6,7 @@ import mlflow
 from mlflow.tracking import MlflowClient
 from helpers.s3 import load_json_file
 
-INPUT_FILE = "experiment.json"
+INPUT_FILE = "best_run.json"
 
 load_dotenv()
 
