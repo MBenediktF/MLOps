@@ -55,6 +55,7 @@ def write_inference_data_to_influx(
     if not isinstance(image_url, str):
         log.log("image_url has to be a str", ERROR)
         raise ValueError(f"image_url has to be a str, got {type(image_url)}")
+    prediction = prediction if prediction is not None else 0
     record = create_record(measurement) \
         .field("client_uid", client_uid) \
         .field("feature_file_url", image_url) \
