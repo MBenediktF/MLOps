@@ -383,7 +383,7 @@
             "mode": "palette-classic"
           },
           "custom": {
-            "fillOpacity": 80,
+            "fillOpacity": 35,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -3747,8 +3747,8 @@
       {
         "current": {
           "selected": true,
-          "text": "env_beige_default",
-          "value": "env_beige_default"
+          "text": "val_env_beige_default",
+          "value": "val_env_beige_default"
         },
         "datasource": {
           "type": "influxdb",
@@ -3773,8 +3773,8 @@
       {
         "current": {
           "selected": true,
-          "text": "env_beige_wide",
-          "value": "env_beige_wide"
+          "text": "env_beige_distant",
+          "value": "env_beige_distant"
         },
         "datasource": {
           "type": "influxdb",
@@ -3806,6 +3806,6 @@
   "timezone": "browser",
   "title": "Compare Measurements",
   "uid": "de2thifvsesjkc",
-  "version": 6,
+  "version": 7,
   "weekStart": ""
 }
