@@ -120,7 +120,7 @@
                         const status = deployment.active ? 'Active' : 'Inactive';
                         const row = document.createElement('tr');
                         if(deployment.model_name == "None"){
-                            deployment.model_version = "";
+                            deployment.model_version = "-";
                         }
                         row.innerHTML = `
                             <td>${deployment.name}</td>
