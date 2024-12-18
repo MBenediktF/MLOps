@@ -1763,7 +1763,11 @@
       "type": "stat"
     },
     {
-      "datasource": {},
+      "datasource": {
+        "default": true,
+        "type": "influxdb",
+        "uid": "ee778zn7m6ebkc"
+      },
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1822,7 +1826,7 @@
             [
               {
                 "params": [
-                  "red_mean"
+                  "red_std"
                 ],
                 "type": "field"
               },
@@ -1851,7 +1855,7 @@
             [
               {
                 "params": [
-                  "red_mean"
+                  "red_std"
                 ],
                 "type": "field"
               },
@@ -1864,7 +1868,7 @@
           "tags": []
         }
       ],
-      "title": "Red Mean(Mean)",
+      "title": "Red Mean(Std)",
       "type": "stat"
     },
     {
@@ -3747,8 +3751,8 @@
       {
         "current": {
           "selected": false,
-          "text": "val_env_green_default",
-          "value": "val_env_green_default"
+          "text": "Not selected",
+          "value": "Not selected"
         },
         "datasource": {
           "type": "influxdb",
@@ -3772,9 +3776,9 @@
       },
       {
         "current": {
-          "selected": true,
-          "text": "env_green_angle",
-          "value": "env_green_angle"
+          "selected": false,
+          "text": "Not selected",
+          "value": "Not selected"
         },
         "datasource": {
           "type": "influxdb",
@@ -3806,6 +3810,6 @@
   "timezone": "browser",
   "title": "Compare Measurements",
   "uid": "de2thifvsesjkc",
-  "version": 8,
+  "version": 9,
   "weekStart": ""
 }
