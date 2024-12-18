@@ -166,7 +166,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -275,7 +275,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -503,7 +503,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -612,7 +612,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -721,7 +721,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -830,7 +830,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -939,7 +939,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -1048,7 +1048,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -1157,7 +1157,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -1276,7 +1276,7 @@
         "defaults": {
           "color": {
             "fixedColor": "red",
-            "mode": "shades"
+            "mode": "palette-classic"
           },
           "custom": {
             "fillOpacity": 35,
@@ -1405,7 +1405,7 @@
         "defaults": {
           "color": {
             "fixedColor": "green",
-            "mode": "shades"
+            "mode": "palette-classic"
           },
           "custom": {
             "fillOpacity": 35,
@@ -1534,7 +1534,7 @@
         "defaults": {
           "color": {
             "fixedColor": "blue",
-            "mode": "shades"
+            "mode": "palette-classic"
           },
           "custom": {
             "fillOpacity": 35,
@@ -2292,7 +2292,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2397,7 +2397,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2502,7 +2502,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2607,7 +2607,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2712,7 +2712,7 @@
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -3746,9 +3746,9 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "val_env_beige_default",
-          "value": "val_env_beige_default"
+          "selected": false,
+          "text": "val_env_green_default",
+          "value": "val_env_green_default"
         },
         "datasource": {
           "type": "influxdb",
@@ -3773,8 +3773,8 @@
       {
         "current": {
           "selected": true,
-          "text": "env_beige_distant",
-          "value": "env_beige_distant"
+          "text": "env_green_angle",
+          "value": "env_green_angle"
         },
         "datasource": {
           "type": "influxdb",
@@ -3806,6 +3806,6 @@
   "timezone": "browser",
   "title": "Compare Measurements",
   "uid": "de2thifvsesjkc",
-  "version": 7,
+  "version": 8,
   "weekStart": ""
 }
