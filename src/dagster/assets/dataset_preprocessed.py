@@ -36,8 +36,8 @@ def dataset_preprocessed(
 
     # get dataset from json file
     input_data = load_json_file(f"dagster/runs/{run}/{INPUT_FILE}")
-    images = np.array(input_data["images"])
-    labels = np.array(input_data["labels"])
+    images = np.array(input_data["images"], dtype=np.float16)
+    labels = np.array(input_data["labels"], dtype=np.float16)
     uids = np.array(input_data["uids"])
 
     if len(images) == 0:
