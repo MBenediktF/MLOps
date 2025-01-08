@@ -45,6 +45,7 @@ services:
       - EMAIL_SMTP_USER=${EMAIL_SMTP_USER}
       - EMAIL_SMTP_PASSWORD=${EMAIL_SMTP_PASSWORD}
       - EMAIL_RECIPIENT=${EMAIL_RECIPIENT}
+      - DAGSTER_PORT=${DAGSTER_PORT}
     depends_on:
       - minio
       - influxdb
