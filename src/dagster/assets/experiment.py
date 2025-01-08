@@ -19,9 +19,14 @@ OUTPUT_FILE = "experiment.json"
 load_dotenv()
 
 mlflow_port = os.getenv('MLFLOW_PORT')
+mlflow_artifact_root = os.getenv('MLFLOW_ARTIFACT_ROOT')
 host = os.getenv('HOST')
 mlflow.set_tracking_uri(f"http://mlflow:{mlflow_port}")
 mlflow_url = f"{host}:{mlflow_port}/#"
+
+# copy AWS credentials for mlflow
+os.environ["AWS_ACCESS_KEY_ID"] = os.getenv("S3_ACCESS_KEY_ID")
+os.environ["AWS_SECRET_ACCESS_KEY"] = os.getenv("S3_SECRET_ACCESS_KEY")
 
 
 def update_dropout_layers(model, dropout):
@@ -119,6 +124,10 @@ def experiment(
     test_split = input_data["test_split"]
 
     # Config experiment
+    try:
+        mlflow.create_experiment(config.name, mlflow_artifact_root)
+    except Exception:
+        pass
     mlflow.set_experiment(config.name)
     experiment = mlflow.get_experiment_by_name(config.name)
     experiment_id = experiment.experiment_id

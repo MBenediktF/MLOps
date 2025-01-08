@@ -9,9 +9,15 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import shutil
 import os
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
+
+# copy AWS credentials for mlflow
+load_dotenv()
+os.environ["AWS_ACCESS_KEY_ID"] = os.getenv("S3_ACCESS_KEY_ID")
+os.environ["AWS_SECRET_ACCESS_KEY"] = os.getenv("S3_SECRET_ACCESS_KEY")
 
 inference_pipeline = InferencePipeline()
 

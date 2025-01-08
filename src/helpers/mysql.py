@@ -7,7 +7,7 @@ load_dotenv()
 
 mysql_user = os.getenv('MYSQL_USER')
 mysql_password = os.getenv('MYSQL_USER_PASSWORD')
-mysql_database = os.getenv('MYSQL_DATABASE')
+mysql_database = os.getenv('CONFIG_DATABASE')
 
 log = Log()
 

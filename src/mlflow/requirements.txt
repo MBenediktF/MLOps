@@ -1,1 +1,3 @@
 mlflow
+pymysql
+boto3

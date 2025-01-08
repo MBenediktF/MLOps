@@ -7,7 +7,7 @@ storage:
         env: MYSQL_USER_PASSWORD
       hostname: mysql
       db_name:
-        env: MYSQL_DATABASE
+        env: DAGSTER_DATABASE
       port: 3306
 
 compute_logs:
