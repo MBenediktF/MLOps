@@ -5,6 +5,7 @@ from tables.deployments import create_deployment, list_deployments
 from tables.deployments import set_active_deployment, get_active_deployment
 from tables.deployments import delete_deployment
 from helpers.email import send_email
+from trigger_retraining import trigger_retraining
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 import shutil
@@ -89,6 +90,17 @@ def predict_route():
     prediction = inference_pipeline.run(client_uid, file, sensor_value)
 
     return {'prediction': prediction}, 200
+
+
+@app.route("/retrain", methods=["POST"])
+def retrain_route():
+    trigger_retraining()
+    send_email(
+        "Retraining Trigger",
+        "Die Retraining-Pipeline wurde automatisiert gestartet, " +
+        "da Differenzen im Farbraum erkannt wurden."
+    )
+    return {'message': 'Success'}, 200
 
 
 @app.route("/create_client", methods=["POST"])

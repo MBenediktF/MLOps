@@ -1,6 +1,8 @@
 import numpy as np
 from sklearn.utils import shuffle
 
+max_input_value = 350
+
 
 def preprocess_data(images, labels, uids, test_split=0.2, seed=0):
     # Check input data
@@ -14,8 +16,8 @@ def preprocess_data(images, labels, uids, test_split=0.2, seed=0):
     images = images / 255.0
 
     # Normalize labels
-    labels = np.clip(labels, 0, 250)
-    labels = np.round(labels / 250.0, 2)
+    labels = np.clip(labels, 0, max_input_value)
+    labels = np.round(labels / float(max_input_value), 2)
 
     # shuffle dataset
     images, labels, uids = shuffle(images, labels, uids, random_state=seed)

@@ -33,11 +33,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -166,15 +162,11 @@
       "type": "histogram"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -279,15 +271,11 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -388,18 +376,14 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "palette-classic"
           },
           "custom": {
-            "fillOpacity": 80,
+            "fillOpacity": 35,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -515,15 +499,11 @@
       "type": "histogram"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -627,12 +607,12 @@
       "datasource": {
         "default": true,
         "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
+        "uid": "ee778zn7m6ebkc"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -649,21 +629,19 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
+        "w": 4,
         "x": 0,
         "y": 13
       },
-      "id": 28,
+      "id": 25,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "min"
-          ],
+          "calcs": [],
           "fields": "/^ $/",
           "values": false
         },
@@ -692,6 +670,10 @@
                   "sensor_value"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "min"
               }
             ]
           ],
@@ -717,39 +699,29 @@
                   "sensor_value"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "min"
               }
             ]
           ],
           "tags": []
         }
       ],
-      "title": "Min Measurement",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": " "
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
+      "title": "Sensor Value Min",
       "type": "stat"
     },
     {
       "datasource": {
         "default": true,
         "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
+        "uid": "ee778zn7m6ebkc"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -766,21 +738,19 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 6,
+        "w": 4,
+        "x": 4,
         "y": 13
       },
       "id": 34,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "max"
-          ],
+          "calcs": [],
           "fields": "/^ $/",
           "values": false
         },
@@ -809,6 +779,10 @@
                   "sensor_value"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
               }
             ]
           ],
@@ -834,39 +808,29 @@
                   "sensor_value"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
               }
             ]
           ],
           "tags": []
         }
       ],
-      "title": "Max Measurement",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": " "
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
+      "title": "Sensor Value Max",
       "type": "stat"
     },
     {
       "datasource": {
         "default": true,
         "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
+        "uid": "ee778zn7m6ebkc"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -883,21 +847,19 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 12,
+        "w": 4,
+        "x": 8,
         "y": 13
       },
       "id": 36,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "max"
-          ],
+          "calcs": [],
           "fields": "/^ $/",
           "values": false
         },
@@ -923,9 +885,13 @@
             [
               {
                 "params": [
-                  "sensor_value"
+                  "prediction"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "min"
               }
             ]
           ],
@@ -948,42 +914,32 @@
             [
               {
                 "params": [
-                  "sensor_value"
+                  "prediction"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "min"
               }
             ]
           ],
           "tags": []
         }
       ],
-      "title": "Min Prediction",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
-              {
-                "destinationType": "number",
-                "targetField": " "
-              }
-            ],
-            "fields": {}
-          }
-        }
-      ],
+      "title": "Prediction Min",
       "type": "stat"
     },
     {
       "datasource": {
         "default": true,
         "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
+        "uid": "ee778zn7m6ebkc"
       },
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -1000,21 +956,19 @@
       },
       "gridPos": {
         "h": 3,
-        "w": 6,
-        "x": 18,
+        "w": 4,
+        "x": 12,
         "y": 13
       },
       "id": 35,
       "options": {
         "colorMode": "value",
-        "graphMode": "none",
+        "graphMode": "area",
         "justifyMode": "auto",
         "orientation": "auto",
         "percentChangeColorMode": "standard",
         "reduceOptions": {
-          "calcs": [
-            "min"
-          ],
+          "calcs": [],
           "fields": "/^ $/",
           "values": false
         },
@@ -1040,9 +994,13 @@
             [
               {
                 "params": [
-                  "sensor_value"
+                  "prediction"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
               }
             ]
           ],
@@ -1065,30 +1023,238 @@
             [
               {
                 "params": [
-                  "sensor_value"
+                  "prediction"
                 ],
                 "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
               }
             ]
           ],
           "tags": []
         }
       ],
-      "title": "Max Prediction",
-      "transformations": [
-        {
-          "id": "convertFieldType",
-          "options": {
-            "conversions": [
+      "title": "Prediction Max",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "influxdb",
+        "uid": "ee778zn7m6ebkc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
               {
-                "destinationType": "number",
-                "targetField": " "
+                "color": "text",
+                "value": null
               }
-            ],
-            "fields": {}
+            ]
           }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 16,
+        "y": 13
+      },
+      "id": 37,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "/^ $/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "alias": " ",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ae2tfwvyqwtmob"
+          },
+          "groupBy": [],
+          "measurement": "/^$Deployment$/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "error"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": " ",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ae2tfwvyqwtmob"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "/^$Compare$/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "error"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
       ],
+      "title": "Mean Average Prediction Error",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "default": true,
+        "type": "influxdb",
+        "uid": "ee778zn7m6ebkc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "text",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 4,
+        "x": 20,
+        "y": 13
+      },
+      "id": 38,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "percentChangeColorMode": "standard",
+        "reduceOptions": {
+          "calcs": [],
+          "fields": "/^ $/",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "11.2.0",
+      "targets": [
+        {
+          "alias": " ",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ae2tfwvyqwtmob"
+          },
+          "groupBy": [],
+          "measurement": "/^$Deployment$/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "error"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "alias": " ",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ae2tfwvyqwtmob"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "/^$Compare$/",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "error"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "max"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "title": "Max Prediction Error",
       "type": "stat"
     },
     {
@@ -1105,16 +1271,12 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
             "fixedColor": "red",
-            "mode": "shades"
+            "mode": "palette-classic"
           },
           "custom": {
             "fillOpacity": 35,
@@ -1238,16 +1400,12 @@
       "type": "histogram"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
             "fixedColor": "green",
-            "mode": "shades"
+            "mode": "palette-classic"
           },
           "custom": {
             "fillOpacity": 35,
@@ -1371,16 +1529,12 @@
       "type": "histogram"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
             "fixedColor": "blue",
-            "mode": "shades"
+            "mode": "palette-classic"
           },
           "custom": {
             "fillOpacity": 35,
@@ -1504,11 +1658,7 @@
       "type": "histogram"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1616,7 +1766,7 @@
       "datasource": {
         "default": true,
         "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
+        "uid": "ee778zn7m6ebkc"
       },
       "fieldConfig": {
         "defaults": {
@@ -1642,7 +1792,7 @@
         "x": 4,
         "y": 23
       },
-      "id": 33,
+      "id": 28,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -1676,7 +1826,7 @@
             [
               {
                 "params": [
-                  "red_mean"
+                  "red_std"
                 ],
                 "type": "field"
               },
@@ -1705,7 +1855,7 @@
             [
               {
                 "params": [
-                  "red_mean"
+                  "red_std"
                 ],
                 "type": "field"
               },
@@ -1718,15 +1868,11 @@
           "tags": []
         }
       ],
-      "title": "Red Mean(Mean)",
+      "title": "Red Mean(Std)",
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1831,11 +1977,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -1940,11 +2082,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2049,11 +2187,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2158,15 +2292,11 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2267,15 +2397,11 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2296,7 +2422,7 @@
         "x": 6,
         "y": 26
       },
-      "id": 25,
+      "id": 33,
       "options": {
         "colorMode": "value",
         "graphMode": "area",
@@ -2376,15 +2502,11 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2485,15 +2607,11 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2594,15 +2712,11 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "thresholds"
+            "mode": "palette-classic"
           },
           "mappings": [],
           "thresholds": {
@@ -2716,11 +2830,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2825,11 +2935,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -2958,11 +3064,7 @@
       "type": "histogram"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3067,11 +3169,7 @@
       "type": "stat"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3093,7 +3191,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 0,
         "y": 36
@@ -3179,11 +3277,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3205,7 +3299,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 6,
         "y": 36
@@ -3291,11 +3385,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3317,7 +3407,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 12,
         "y": 36
@@ -3403,11 +3493,7 @@
       "type": "bargauge"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -3429,7 +3515,7 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 6,
         "x": 18,
         "y": 36
@@ -3520,7 +3606,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 39
+        "y": 40
       },
       "id": 16,
       "panels": [],
@@ -3528,11 +3614,7 @@
       "type": "row"
     },
     {
-      "datasource": {
-        "default": true,
-        "type": "influxdb",
-        "uid": "ae2tfwvyqwtmob"
-      },
+      "datasource": {},
       "description": "",
       "fieldConfig": {
         "defaults": {
@@ -3572,7 +3654,7 @@
         "h": 8,
         "w": 24,
         "x": 0,
-        "y": 40
+        "y": 41
       },
       "id": 32,
       "options": {
@@ -3668,13 +3750,13 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "env_beige_clean",
-          "value": "env_beige_clean"
+          "selected": false,
+          "text": "Not selected",
+          "value": "Not selected"
         },
         "datasource": {
           "type": "influxdb",
-          "uid": "ae2tfwvyqwtmob"
+          "uid": "ee778zn7m6ebkc"
         },
         "definition": "SHOW MEASUREMENTS",
         "hide": 0,
@@ -3695,17 +3777,16 @@
       {
         "current": {
           "selected": false,
-          "text": "env_beige_clean",
-          "value": "env_beige_clean"
+          "text": "Not selected",
+          "value": "Not selected"
         },
         "datasource": {
           "type": "influxdb",
-          "uid": "ae2tfwvyqwtmob"
+          "uid": "ee778zn7m6ebkc"
         },
         "definition": "SHOW MEASUREMENTS",
         "hide": 0,
         "includeAll": false,
-        "label": "Compare to",
         "multi": false,
         "name": "Compare",
         "options": [],
@@ -3713,7 +3794,7 @@
           "query": "SHOW MEASUREMENTS",
           "refId": "InfluxVariableQueryEditor-VariableQuery"
         },
-        "refresh": 2,
+        "refresh": 1,
         "regex": "",
         "skipUrlSync": false,
         "sort": 0,
@@ -3729,6 +3810,6 @@
   "timezone": "browser",
   "title": "Compare Measurements",
   "uid": "de2thifvsesjkc",
-  "version": 21,
+  "version": 9,
   "weekStart": ""
 }
