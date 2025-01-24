@@ -6,7 +6,7 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 from model.create_dataset import create_dataset  # noqa: E402
 from helpers.s3 import enable_local_dev as s3_enable_local_dev  # noqa: E402
-from helpers.influx import enable_local_dev as influx_enable_local_dev  # noqa: E402
+from helpers.influx import enable_local_dev as influx_enable_local_dev  # noqa: E402 E501
 
 
 measurement = "env_beige_default"
