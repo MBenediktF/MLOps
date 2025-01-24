@@ -53,7 +53,7 @@ print("Sending measurements...")
 max_send = min(max_send, len(images))
 for i in range(max_send):
     print(f"Sending image {i+1}/{max_send}")
-    _, encoded_image = cv2.imencode('.jpg', images[0])
+    _, encoded_image = cv2.imencode('.jpg', images[i])
     image_file = ("image.jpg", encoded_image, 'image/jpeg')
     send_measurement_to_api(image_file, labels[i])
     time.sleep(send_interval)
