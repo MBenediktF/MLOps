@@ -6,7 +6,6 @@ services:
     ports:
       - ${GRAFANA_PORT}:${GRAFANA_PORT}
     volumes:
-      - grafana_data:/var/lib/grafana
       - log_data:/var/lib/grafana/logs
       - ./src/grafana//grafana.db:/var/lib/grafana/grafana.db
     environment:
