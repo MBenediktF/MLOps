@@ -6,14 +6,15 @@ import json
 
 load_dotenv()
 
+host = os.getenv('HOST')
 s3_port = os.getenv('S3_PORT')
 s3_endpoint = f"http://minio:{s3_port}"
-s3_endpoint_local = f"http://localhost:{s3_port}"
+s3_endpoint_local = f"{host}:{s3_port}"
 s3_access_key_id = os.getenv('S3_ACCESS_KEY_ID')
 s3_secret_access_key = os.getenv('S3_SECRET_ACCESS_KEY')
 bucket_name = os.getenv('BUCKET_NAME')
 minio_ui_port = os.getenv('MINIO_UI_PORT')
-host = os.getenv('HOST')
+
 
 s3_client = boto3.client(
     's3',
