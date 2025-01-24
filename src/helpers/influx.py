@@ -18,8 +18,6 @@ influx_client = InfluxDBClient(
 )
 influx_api = influx_client.write_api(write_options=SYNCHRONOUS)
 
-print(influx_endpoint_local)
-
 DEFAULT_COLUMNS = ["feature_file_url", "sensor_value", "prediction"]
 
 
