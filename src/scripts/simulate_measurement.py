@@ -11,8 +11,8 @@ measurement = "env_beige_default"
 send_interval = 0.2  # seconds
 max_send = 1000  # maximum number of measurements to send
 api_url = "http://localhost:5001/predict"
-client_uid = "d1c03ea4-b770-4675-87d5-9cdd9386beb8"
-auth_token = "9e9ecc6e-7154-4e65-bed2-4533fbd78926"
+client_uid = "d1c03ea4-b770-4675-87d5-9cdd9386beb8"  # change!
+auth_token = "9e9ecc6e-7154-4e65-bed2-4533fbd78926"  # change!
 
 
 def send_measurement_to_api_thread(image, sensor_value):
