@@ -50,6 +50,7 @@ services:
       - minio
       - influxdb
       - mysql
+    restart: on-failure
 
   config_ui:
     build:
@@ -78,6 +79,7 @@ services:
     depends_on:
       - mysql
       - minio
+    restart: on-failure
 
   dagster:
     build:
@@ -107,6 +109,7 @@ services:
       - mysql
       - minio
       - mlflow
+    restart: on-failure
 
   mysql:
     image: mysql:latest
