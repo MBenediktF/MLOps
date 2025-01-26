@@ -7,7 +7,7 @@ import threading
 import cv2
 
 
-measurement = "env_beige_default"
+measurement = "env_beige_default"  # download from mbenediktf.de/end-to-end-mlops/simdata
 send_interval = 0.2  # seconds
 max_send = 1000  # maximum number of measurements to send
 api_url = "http://localhost:5001/predict"
