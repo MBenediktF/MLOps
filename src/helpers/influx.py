@@ -4,8 +4,9 @@ from dotenv import load_dotenv
 import os
 
 load_dotenv()
-
+host = os.getenv('HOST')
 influx_endpoint = "http://influxdb:8086"
+influx_endpoint_local = f"{host}:8086"
 influx_org = os.getenv('INFLUX_ORG')
 influx_database = os.getenv('INFLUX_DATABASE')
 influx_token = os.getenv('INFLUX_TOKEN')
@@ -20,7 +21,7 @@ influx_api = influx_client.write_api(write_options=SYNCHRONOUS)
 DEFAULT_COLUMNS = ["feature_file_url", "sensor_value", "prediction"]
 
 
-def enable_local_dev(influx_endpoint_local):
+def enable_local_dev():
     global influx_client
     global influx_api
     influx_client.close()

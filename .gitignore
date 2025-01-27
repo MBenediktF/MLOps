@@ -6,3 +6,6 @@ __pycache__
 backup
 src/edge/venv
 .DS_Store
+src/model/logs
+logs/None
+src/scripts/simdata
