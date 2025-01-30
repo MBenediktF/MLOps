@@ -1,3 +1,3 @@
 # End-to-End MLOps
 
-![Systemarchitektur](src/system_architecture.pdf)
+![Systemarchitektur](src/system_architecture.jpg)
