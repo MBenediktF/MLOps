@@ -15,6 +15,8 @@ The thesis explores the concept of MLOps
 and its practical implementation.
 You can find the full thesis [here](https://www.mbenediktf.de/end-to-end-mlops/).
 
+I welcome any feedback, suggestions for improvement, or discussions regarding the thesis. This work is intended to serve as a foundation and knowledge base for the practical application of MLOps.
+
 ## System architecture
 
 ![Systemarchitektur](src/system_architecture.jpg)
