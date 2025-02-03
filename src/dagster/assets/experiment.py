@@ -165,7 +165,7 @@ def experiment(
     save_json_file(output_data, filename)
 
     experiment_url = f"{mlflow_url}/experiments/{experiment_id}"
-    file_url = file_url = get_minio_filebrowser_url(filename)
+    file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
             "iterations": MetadataValue.int(iter),

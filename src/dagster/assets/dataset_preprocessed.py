@@ -60,7 +60,7 @@ def dataset_preprocessed(
     filename = f"dagster/runs/{context.run_id}/{OUTPUT_FILE}"
     save_json_file(output_data, filename)
 
-    file_url = file_url = get_minio_filebrowser_url(filename)
+    file_url = get_minio_filebrowser_url(filename)
     return MaterializeResult(
         metadata={
             "size_train": MetadataValue.int(len(train_x)),
