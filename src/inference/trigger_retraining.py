@@ -85,7 +85,7 @@ def send_api_request():
                 }
             }
         }
-    """
+    """  # noqa: E501
 
     requests.post(
         dagster_api_url,
