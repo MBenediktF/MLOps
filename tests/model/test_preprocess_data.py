@@ -1,27 +1,50 @@
-from src.model.components.preprocess_data import preprocess_data
 import pytest
+import numpy as np
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))  # noqa: E501
+from src.model.preprocess_data import preprocess_data  # noqa: E402
 
 
-@pytest.mark.parametrize("x_train, x_test", [(0, 255), (127, 127), (255, 0)])
-def test_preprocess_data_valid(x_train, x_test):
-    x_train, x_test = preprocess_data(x_train, x_test)
-    assert isinstance(x_train, float), \
-        "The returned x_train value is not a float"
-    assert isinstance(x_test, float), \
-        "The returned x_test value is not a float"
-    assert x_train >= 0 and x_train <= 1, \
-        "The returned x_train value is not between 0 and 1"
-    assert x_test >= 0 and x_test <= 1, \
-        "The returned x_test value is not between 0 and 1"
+@pytest.mark.parametrize("test_split", [0.1, 0.2])
+def test_preprocess_data(test_split):
+    # Create random data (100 images, 75x100 pixels, 3 channels)
+    images = np.random.randint(0, 256, (100, 100, 75, 3), dtype=np.uint8)
+    labels = np.random.randint(0, 350, 100)
+    uids = np.arange(100)
+
+    # Run preprocess_data
+    train_x, train_y, train_uids, test_x, test_y, test_uids = \
+        preprocess_data(images, labels, uids, test_split=test_split)
+
+    # Validate results
+    assert train_x.shape[0] > test_x.shape[0], \
+        "Test data smaller than training data"
+    assert train_y.shape[0] == train_x.shape[0], \
+        "Train data and labels must have the same length"
+    assert test_y.shape[0] == test_x.shape[0], \
+        "Test data and labels must have the same length"
+    assert train_x.shape[1:] == (100, 75, 3), \
+        "Images must have the correct shape"
+    assert test_x.shape[1:] == (100, 75, 3), \
+        "Images must have the correct shape"
+    assert np.all(train_y <= 1) and np.all(train_y >= 0), \
+        "Labels must be normalized"
+    assert np.all(test_y <= 1) and np.all(test_y >= 0), \
+        "Labels must be normalized"
+    assert np.all(train_x <= 1) and np.all(train_x >= 0), \
+        "Images must be normalized"
+    assert np.all(test_x <= 1) and np.all(test_x >= 0), \
+        "Images must be normalized"
+    assert set(train_uids).isdisjoint(set(test_uids)), \
+        "Train and test uids must be unique"
 
 
-@pytest.mark.parametrize("x_train, x_test", [(-5, 0), (0, -0.1), (24, 256)])
-def test_preprocess_data_valueerr(x_train, x_test):
-    with pytest.raises(ValueError):
-        x_train, x_test = preprocess_data(x_train, x_test)
+def test_preprocess_data_invalid_input():
+    # Create invalid images and labels
+    images_invalid = np.array([[[[300, -10, 500]]]], dtype=np.int32)
+    labels_invalid = np.array([10])
 
-
-@pytest.mark.parametrize("x_train, x_test", [("", 0), (0, ()), (None, 0)])
-def test_preprocess_data_typeerr(x_train, x_test):
-    with pytest.raises(TypeError):
-        x_train, x_test = preprocess_data(x_train, x_test)
+    with pytest.raises(
+            ValueError, match="Input data must be between 0 and 255"):
+        preprocess_data(images_invalid, labels_invalid, None)
