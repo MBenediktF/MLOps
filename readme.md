@@ -11,7 +11,7 @@ making it suitable for a wide range of ML use cases.
 
 This project is closely related to my Bachelor's thesis,
 which was developed in collaboration with Bosch Engineering GmbH and Hochschule Heilbronn.
-The thesis explores the concept of Machine Learning Operations (MLOps)
+The thesis explores the concept of MLOps
 and its practical implementation.
 You can find the full thesis [here](https://www.mbenediktf.de/end-to-end-mlops/).
 
