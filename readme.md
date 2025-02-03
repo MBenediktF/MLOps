@@ -19,6 +19,21 @@ You can find the full thesis [here](https://www.mbenediktf.de/end-to-end-mlops/)
 
 ![Systemarchitektur](src/system_architecture.jpg)
 
+## Quick setup for local test and dev
+
+- Clone repo: `git clone -bare https://github.com/MBenediktF/MLOps.git`
+- Navigate to cloned repo: `cd MLOps`
+- (Update config in `.env`)
+- Start system: `docker-compose up`
+
+A detailed guide for setting up and testing the system
+can be found in Appendix B of the thesis, on page 58.
+A detailed guide for setting up and testing the system
+is provided in Appendix B (Page 58) of the
+[thesis](https://www.mbenediktf.de/end-to-end-mlops/)
+Additionally, this section covers
+how to simulate the edge device and customize the services.
+
 ## Current Status and Functionality of Available Services
 
 ### Dynamic System
