@@ -1,5 +1,8 @@
-from src.model.components.evaluate_model import evaluate_model
 import tensorflow as tf
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))  # noqa: E501
+from src.model.evaluate_model import evaluate_model  # noqa: E402
 
 
 model = tf.keras.Sequential([
