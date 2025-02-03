@@ -2,8 +2,7 @@ tensorflow
 matplotlib
 mlflow
 boto3
-dvc
-dvc-s3
 sklearn.utils
 keras.utils
 python-dotenv
+pytest
