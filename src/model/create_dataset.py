@@ -47,9 +47,9 @@ def create_dataset(measurements, img_size, context=False):
             if image.shape[1] != img_width or image.shape[0] != img_height:
                 image = cv2.resize(image, (img_width, img_height))
 
-                images.append(image)
-                labels.append(label)
-                uids.append(uid)
+            images.append(image)
+            labels.append(label)
+            uids.append(uid)
 
     # convert to np arrays
     images = np.array(images, dtype=np.uint8)
