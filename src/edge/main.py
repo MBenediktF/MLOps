@@ -5,6 +5,7 @@ from buzzer_output import set_beep_interval
 from led import set_led_output
 from drive_helpers import drive, enable_controller
 from gamepad import event_actions
+import threading
 # from button_input import wait_for_button_press_release
 import time
 
@@ -13,10 +14,18 @@ start_distance = 350
 
 use_prediction = True
 
+parking = threading.Event()
+
+
+def stop():
+    parking.clear()
+
 
 def park():
     # drive to wall and take images
-    while True:
+    parking.set()
+
+    while parking.is_set():
         # read lidar sensor
         sensor_value = take_lidar_measurement()
         if sensor_value is None:
@@ -61,15 +70,23 @@ def park():
         if target_speed == 0:
             set_beep_interval(1)
             time.sleep(1)
-            set_beep_interval(300)
-            set_led_output(False)
             break
 
         time.sleep(0.25)
 
     print("Finished.")
+    target_speed = 0
+    drive(target_speed)
+    set_beep_interval(300)
+    set_led_output(False)
     time.sleep(1)
 
 
+def start_parking():
+    park_thread = threading.Thread(target=park)
+    park_thread.start()
+
+
 enable_controller()
-event_actions['x_pressed'] = park
+event_actions['x_pressed'] = start_parking
+event_actions['x_released'] = stop
