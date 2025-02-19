@@ -52,4 +52,4 @@ COPY src/dagster/dagster.yaml /opt/dagster/dagster_home/
 
 WORKDIR /opt/dagster/app
 
-ENTRYPOINT ["sh", "-c", "dagster-webserver -h 0.0.0.0 -p $DAGSTER_PORT"]
+ENTRYPOINT ["sh", "-c", "dagster dev -h 0.0.0.0 -p $DAGSTER_PORT"]
